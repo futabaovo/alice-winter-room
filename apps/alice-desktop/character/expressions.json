@@ -1,0 +1,356 @@
+[
+  {
+    "id": "neutral",
+    "name": "平静",
+    "icon": "◌",
+    "reference": "05be7506e691446cf7cfab1dea5ba8e3.jpg",
+    "description": "清醒地注视前方，眼线向内眼角收低，刘海遮住部分眼睛上缘。",
+    "caption": "约定的时间到了。",
+    "parameters": {}
+  },
+  {
+    "id": "smile",
+    "name": "淡笑",
+    "icon": "⌣",
+    "reference": "8b6b2bc0ae168c554a811b29351d11f2.jpg",
+    "description": "合目，嘴角只轻轻扬起，温暖保持克制。",
+    "caption": "这杯茶，还算合适。",
+    "parameters": {
+      "ParamEyeLOpen": 0,
+      "ParamEyeROpen": 0,
+      "ParamMouthForm": 0.2,
+      "ParamAngleX": 7,
+      "ParamAngleZ": 0.5,
+      "ParamBrowLY": -0.05,
+      "ParamBrowRY": -0.05
+    }
+  },
+  {
+    "id": "displeased",
+    "name": "不悦",
+    "icon": "≋",
+    "reference": "2f4928a75c49e187f16ec5bc4515a1ba.jpg",
+    "description": "压低眉眼，嘴唇收紧，以冷淡的目光表达不满。",
+    "caption": "请遵守我们说好的事。",
+    "parameters": {
+      "ParamEyeLOpen": 0.59,
+      "ParamEyeROpen": 0.59,
+      "ParamBrowLY": -0.65,
+      "ParamBrowRY": -0.65,
+      "ParamMouthForm": -0.35,
+      "ParamAngleY": -2,
+      "ParamEyeBallY": -0.08
+    }
+  },
+  {
+    "id": "surprised",
+    "name": "惊讶",
+    "icon": "◇",
+    "reference": "f1aa082ed57c4e6bf35d4c78dd4d30c7.jpg",
+    "description": "双眼睁圆，露出更多眼白；嘴唇仅小幅张开。",
+    "caption": "……原来如此。",
+    "parameters": {
+      "ParamEyeLOpen": 1,
+      "ParamEyeROpen": 1,
+      "ParamBrowLY": 0.28,
+      "ParamBrowRY": 0.28,
+      "ParamMouthOpenY": 0.25,
+      "ParamMouthForm": -0.05,
+      "ParamEyeBallForm": -0.5,
+      "ParamAngleY": 1
+    }
+  },
+  {
+    "id": "reserved",
+    "name": "敛容",
+    "icon": "⋮",
+    "reference": "1523e02f5b3b7628e2742161de84a6b6.jpg",
+    "description": "略微垂眼、避开正视，收起笑意，不使用撒娇式害羞。",
+    "caption": "不必特意说出来。",
+    "parameters": {
+      "ParamEyeLOpen": 0.88,
+      "ParamEyeROpen": 0.9,
+      "ParamEyeBallX": -0.22,
+      "ParamEyeBallY": -0.18,
+      "ParamAngleY": -3,
+      "ParamAngleZ": 1,
+      "ParamMouthForm": -0.12
+    }
+  },
+  {
+    "id": "thinking",
+    "name": "沉思",
+    "icon": "⋯",
+    "reference": "54feba2d441c7d9b7c31aad66c688624.jpg",
+    "description": "目光略偏，眉眼安静，先观察再作判断。",
+    "caption": "先把条件说清楚。",
+    "parameters": {
+      "ParamEyeLOpen": 0.96,
+      "ParamEyeROpen": 0.96,
+      "ParamEyeBallX": 0.24,
+      "ParamEyeBallY": 0.07,
+      "ParamBrowLY": -0.1,
+      "ParamBrowRY": -0.15,
+      "ParamMouthForm": -0.12,
+      "ParamAngleX": 3,
+      "ParamAngleZ": -0.6
+    }
+  },
+  {
+    "id": "rest",
+    "name": "闭目",
+    "icon": "☾",
+    "reference": "a82c6907518de02443a7fd81fcbe7c14.jpg",
+    "description": "自然合目，嘴角平直，保持安静的距离。",
+    "caption": "稍微安静一些。",
+    "parameters": {
+      "ParamEyeLOpen": 0,
+      "ParamEyeROpen": 0,
+      "ParamMouthForm": -0.06,
+      "ParamAngleY": -1.5
+    }
+  },
+  {
+    "id": "cold",
+    "name": "冷视",
+    "icon": "✧",
+    "reference": "904f7110ac265d7eb616d060702fb017.jpg",
+    "description": "半阖眼睑，面部上方压下阴影，冷冷地看向前方。",
+    "caption": "这不是可以敷衍的事。",
+    "faceShadow": 0.48,
+    "parameters": {
+      "ParamEyeLOpen": 0.55,
+      "ParamEyeROpen": 0.55,
+      "ParamBrowLY": -0.45,
+      "ParamBrowRY": -0.45,
+      "ParamMouthForm": -0.25,
+      "ParamAngleY": -2.5
+    }
+  },
+  {
+    "id": "downcast",
+    "name": "垂眸",
+    "icon": "⌄",
+    "reference": "b0028abe37b49bc78ce360b9d0286244.jpg",
+    "description": "轻转头，视线向下，眉眼流露审视与思量。",
+    "caption": "还需要再确认一次。",
+    "parameters": {
+      "ParamEyeLOpen": 0.53,
+      "ParamEyeROpen": 0.56,
+      "ParamEyeBallX": -0.16,
+      "ParamEyeBallY": -0.27,
+      "ParamAngleX": -8,
+      "ParamAngleY": -4,
+      "ParamMouthForm": -0.15
+    }
+  },
+  {
+    "id": "aside",
+    "name": "侧目",
+    "icon": "↗",
+    "reference": "ac39f7ff3372fe9b094bd006ccd83bc3.jpg",
+    "description": "以现有模型的小幅转头和侧向目光，表现安静的关注。",
+    "caption": "我在听。",
+    "parameters": {
+      "ParamAngleX": -14,
+      "ParamBodyAngleX": -2,
+      "ParamEyeBallX": 0.2,
+      "ParamEyeLOpen": 0.98,
+      "ParamEyeROpen": 0.98,
+      "ParamMouthForm": -0.1
+    }
+  },
+  {
+    "id": "bow",
+    "name": "致意",
+    "icon": "⌁",
+    "reference": "ccf5c47fb15240303a3a217398d8a955.jpg",
+    "description": "合目、低头与轻微前倾，表达守礼而克制的致意。",
+    "caption": "那么，依照约定。",
+    "parameters": {
+      "ParamEyeLOpen": 0,
+      "ParamEyeROpen": 0,
+      "ParamAngleY": -9,
+      "ParamAngleZ": -1.5,
+      "ParamBodyLean": 2.2,
+      "ParamMouthForm": 0.08
+    }
+  },
+  {
+    "id": "softSmile",
+    "name": "浅笑",
+    "icon": "⌣",
+    "category": "daily",
+    "reference": "expression-sheet.webp#13",
+    "description": "睁眼保持注视，只微提嘴角；与合目淡笑分开，适合轻声认可。",
+    "caption": "这份心意，我收到了。",
+    "gazeInfluence": 0.45,
+    "parameters": {
+      "ParamEyeLOpen": 0.86,
+      "ParamEyeROpen": 0.86,
+      "ParamBrowLY": 0.02,
+      "ParamBrowRY": 0.02,
+      "ParamMouthForm": 0.36,
+      "ParamAngleY": 0.5
+    }
+  },
+  {
+    "id": "stern",
+    "name": "认真",
+    "icon": "—",
+    "category": "reaction",
+    "reference": "expression-sheet.webp#2",
+    "description": "眼睑略收、眉压低而嘴角平直，强调认真，不附加冷视阴影。",
+    "caption": "这件事，请认真对待。",
+    "gazeInfluence": 0.16,
+    "parameters": {
+      "ParamEyeLOpen": 0.77,
+      "ParamEyeROpen": 0.77,
+      "ParamBrowLY": -0.52,
+      "ParamBrowRY": -0.52,
+      "ParamEyeBallY": -0.02,
+      "ParamMouthForm": -0.28,
+      "ParamAngleY": -1
+    }
+  },
+  {
+    "id": "speechless",
+    "name": "无语",
+    "icon": "…",
+    "category": "reaction",
+    "reference": "expression-sheet.webp#4",
+    "description": "半阖的平眼睑、低平眉和小横嘴；不靠夸大转头表现无语。",
+    "caption": "……你是认真的？",
+    "gazeInfluence": 0.12,
+    "parameters": {
+      "ParamEyeLOpen": 0.43,
+      "ParamEyeROpen": 0.43,
+      "ParamBrowLY": -0.12,
+      "ParamBrowRY": -0.12,
+      "ParamEyeBallY": 0.03,
+      "ParamMouthForm": -0.07,
+      "ParamAngleY": -0.8
+    }
+  },
+  {
+    "id": "skeptical",
+    "name": "怀疑",
+    "icon": "?",
+    "category": "reaction",
+    "reference": "expression-sheet.webp#8",
+    "description": "一侧眉稍抬，另一侧眼睑压低，目光偏向一边，嘴唇微收。",
+    "caption": "你的依据是什么？",
+    "gazeInfluence": 0.18,
+    "parameters": {
+      "ParamEyeLOpen": 0.62,
+      "ParamEyeROpen": 0.81,
+      "ParamBrowLY": 0.36,
+      "ParamBrowRY": -0.38,
+      "ParamEyeBallX": -0.2,
+      "ParamEyeBallY": 0.02,
+      "ParamMouthForm": -0.19,
+      "ParamAngleZ": -1.2
+    }
+  },
+  {
+    "id": "smug",
+    "name": "得意",
+    "icon": "⌁",
+    "category": "reaction",
+    "reference": "expression-sheet.webp#13-14",
+    "description": "眼睑稍垂、嘴角有克制的笑意，下巴轻抬；不放大成甜笑。",
+    "caption": "当然，我早就考虑到了。",
+    "gazeInfluence": 0.2,
+    "parameters": {
+      "ParamEyeLOpen": 0.58,
+      "ParamEyeROpen": 0.66,
+      "ParamBrowLY": 0.1,
+      "ParamBrowRY": -0.06,
+      "ParamMouthForm": 0.5,
+      "ParamAngleY": 2.2,
+      "ParamEyeBallY": -0.04
+    }
+  },
+  {
+    "id": "sigh",
+    "name": "轻叹",
+    "icon": "~",
+    "category": "closed",
+    "reference": "expression-sheet.webp#15",
+    "description": "合目时嘴唇微张，眉心放松；有声回复仍使用真实朗读口型。",
+    "caption": "……真是拿你没办法。",
+    "gazeInfluence": 0,
+    "parameters": {
+      "ParamEyeLOpen": 0,
+      "ParamEyeROpen": 0,
+      "ParamBrowLY": 0.08,
+      "ParamBrowRY": 0.08,
+      "ParamMouthOpenY": 0.16,
+      "ParamMouthForm": -0.18,
+      "ParamAngleY": -2.4
+    }
+  },
+  {
+    "id": "startled",
+    "name": "错愕",
+    "icon": "!",
+    "category": "reaction",
+    "reference": "expression-sheet.webp#9",
+    "description": "突然睁眼、眉毛抬起，嘴唇比轻微惊讶更明显地张开，保持头脸比例。",
+    "caption": "……等等。",
+    "gazeInfluence": 0.1,
+    "parameters": {
+      "ParamEyeLOpen": 1,
+      "ParamEyeROpen": 1,
+      "ParamEyeBallForm": -0.7,
+      "ParamBrowLY": 0.28,
+      "ParamBrowRY": 0.28,
+      "ParamMouthOpenY": 0.46,
+      "ParamMouthForm": -0.16,
+      "ParamAngleY": 1.8
+    }
+  },
+  {
+    "id": "puzzled",
+    "name": "疑惑",
+    "icon": "◇",
+    "category": "daily",
+    "reference": "expression-sheet.webp#10-11-20",
+    "description": "眼睛睁开，双眉轻微不对称，小幅侧倾与细小的开口表达不解。",
+    "caption": "这和刚才说的，有什么关联？",
+    "gazeInfluence": 0.25,
+    "parameters": {
+      "ParamEyeLOpen": 1,
+      "ParamEyeROpen": 0.96,
+      "ParamBrowLY": 0.26,
+      "ParamBrowRY": 0.28,
+      "ParamEyeBallX": 0.1,
+      "ParamEyeBallForm": -0.28,
+      "ParamMouthOpenY": 0.07,
+      "ParamMouthForm": -0.08,
+      "ParamAngleZ": 1.6
+    }
+  },
+  {
+    "id": "dizzy",
+    "name": "圈圈眼",
+    "icon": "◎",
+    "category": "special",
+    "reference": "expression-sheet.webp#19",
+    "description": "参考图中的旋涡瞳孔特殊差分，只在明确的诙谐慌乱情境短暂使用。",
+    "caption": "……让我先整理一下。",
+    "gazeInfluence": 0,
+    "effects": {
+      "spiral": 1
+    },
+    "parameters": {
+      "ParamEyeLOpen": 1,
+      "ParamEyeROpen": 1,
+      "ParamEyeBallForm": -0.45,
+      "ParamBrowLY": 0.28,
+      "ParamBrowRY": 0.28,
+      "ParamMouthForm": -0.16,
+      "ParamMouthOpenY": 0.05
+    }
+  }
+]

@@ -1,0 +1,9 @@
+.mood-filters{display:flex;gap:4px;margin:0 0 12px}
+.mood-filters button{flex:1;padding:6px 1px;border:1px solid transparent;border-radius:5px;background:transparent;color:#baac9f;font-size:10px}
+.mood-filters button[aria-pressed=true]{background:#cfb1801c;border-color:#cfb18060;color:#f0d6ad}
+.mood[hidden]{display:none}
+.mood.mood-preview{display:flex;flex-direction:column;gap:5px;padding:5px 4px 7px;overflow:hidden;text-align:center;font-size:10px}
+.mood-preview>img{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:3px;background:#201d27}
+.mood-preview>.mood-icon{display:none}
+.mood-preview .key{top:auto;bottom:7px;right:5px;color:#a28f79}
+.mood:focus-visible,.mood-filters button:focus-visible{outline:2px solid #e7c48c;outline-offset:2px}

@@ -1,0 +1,11 @@
+{
+  "mode": "built-in image_gen",
+  "file": "white-hair-v6.png",
+  "source": "exec-66692d7b-2e15-4361-8845-b432cbfca65c.png",
+  "prompt": "Use case: precise-object-edit / layer separation. Image 1 is the EDIT TARGET, the transparent white-hat and blue-black bob head layer. Image 2 is ONLY a reference for the rounded bare hair crown. Produce ONLY THE DARK HAIR from image 1 as a separate transparent animation layer. REMOVE ALL WHITE HAT AND BOW pixels. Fill in the missing rounded bob hair crown beneath the removed hat, using image 2's smooth compact natural skull shape and simple dark blue-violet painterly strands. Absolutely preserve image 1's existing bangs, central pointed bang tip, side locks, outline below the old brim, length, face-shaped transparent aperture and all their pixel locations and proportions; do not shorten, stretch, squash, recenter or enlarge the hairstyle. Keep the same original square canvas and layout, with a complete natural hair crown replacing the old hat area. The lower existing hair in image 1 is the exact target, not image 2's shorter bangs. No face, skin, eyes, jaw outline, neck, collar, scarf, hat, bow, shoulders, black backing or additional objects. The face opening and the space below the chin between side locks MUST be fully transparent and open to the outside. Avoid the black turtleneck from image 2 entirely. True alpha background, clean edges, no texture debris, text or watermark. This is an animation hair layer that will stay stationary while a separate hat layer is repositioned.",
+  "references": [
+    "white-head-v5.png",
+    "clean-bob-neck-v2.png"
+  ],
+  "status": "Unused draft: generated crown became wider than original and protruded around cap. Runtime retains white-head-v5 hair pixels with cap alpha erasure."
+}

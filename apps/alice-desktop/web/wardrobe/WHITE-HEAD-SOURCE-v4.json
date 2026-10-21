@@ -1,0 +1,11 @@
+{
+  "mode": "built-in image_gen",
+  "file": "white-head-v4.png",
+  "source": "exec-d213dcd8-91ff-477f-86c2-323157082d05.png",
+  "prompt": "Use case: precise-object-edit. Image 1 is the EDIT TARGET: a front-view game layer with a white cloche hat, blue-black bob hair and a transparent face aperture. Image 2 is the user's authoritative original costume reference. Correct ONLY the white hat's FRONT BRIM VOLUME to match the reference. The user points out that the reference's forehead section visibly PROTRUDES FORWARD; it is a thick, softly convex projecting cloth front, not a band flattened tightly against the skull. Give the broad forehead panel a clearly readable rounded outward bulge, a modest padded lower lip, and a narrow soft shaded underside/cast shadow onto the top of the bangs. The upper curved seam sits behind the projecting front panel, so the two surfaces have real depth. The brim projects most in front of the forehead and returns gently toward the temples and the viewer-right bow. Preserve a soft fabric construction, restrained folds and the original white winter-cloche design. Do not turn it into a baseball-cap visor, straw brim, huge rolled donut, peaked cap, flat shelf, or add a detached triangular flap. Use simple original visual-novel painterly shading rather than shiny satin. Keep the existing dome height, overall canvas layout, bow location and size, hair silhouette, bangs, hair strand placements and face-hole placement exactly unchanged. No head repositioning. The transparent face hole and the open space beneath the chin must stay transparent, with no face, skin, neck, collar, eyes, nose or mouth added. Preserve true alpha background and clean antialiased edges. The change should be visible but modest: outward thickness and underside depth at the front, without inflating the entire hat or lowering it over the eyes. No text, red annotation marks, watermark or background.",
+  "references": [
+    "white-head-v3.png",
+    "c6c1ecde13c6f31fe17099ef10de82a2.jpg"
+  ],
+  "change": "Front cloche panel projects forward with a rounded padded lip and shaded underside; preserves native face aperture, bob, crown, bow and collar integration."
+}

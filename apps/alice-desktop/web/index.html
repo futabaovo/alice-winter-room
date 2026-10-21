@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>有珠 · 冬日小室</title><link rel="icon" href="data:,"><link rel="stylesheet" href="app.css"><link rel="stylesheet" href="polish.css"><link rel="stylesheet" href="tool-rail.css"><link rel="stylesheet" href="expression-previews.css"><link rel="stylesheet" href="startup.css">
+  <script src="window-mode.js"></script>
+  <script src="core/live2dcubismcore.min.js" defer></script><script type="module" src="app.js"></script>
+</head>
+<body>
+  <main class="room" id="room">
+    <section class="stage" id="stage" aria-label="夜晚的玻璃花房与 Live2D 有珠">
+      <img class="room-background" src="scene/winter-room-restored.png" alt="夜晚亮着吊灯的玻璃花房，木质窗框、桌椅和地毯" draggable="false">
+      <div class="scene-shade" aria-hidden="true"></div><div class="actor-shadow" aria-hidden="true"></div>
+      <canvas id="robin-layer" aria-hidden="true"></canvas><canvas id="reaction-back" class="reaction-layer" aria-hidden="true"></canvas><canvas id="canvas" aria-label="可交互的久远寺有珠模型"></canvas><canvas id="reaction-front" class="reaction-layer" aria-hidden="true"></canvas><canvas id="feeding-layer" aria-hidden="true"></canvas><p id="feeding-note" class="feeding-note" role="status" aria-live="polite" hidden></p>
+      <canvas id="tea-layer" aria-hidden="true"></canvas><p id="tea-note" class="feeding-note" role="status" aria-live="polite" hidden></p>
+      <section id="sticker-bubble" class="sticker-bubble" aria-label="有珠发来的表情包" hidden><header><span id="sticker-label">有珠的表情包</span><button id="sticker-close" type="button" aria-label="收起表情包">×</button></header><img id="sticker-picture" alt="" draggable="false"></section>
+      <section id="pet-speech" class="pet-speech" hidden aria-label="有珠的头顶字幕"><header class="pet-caption-heading"><div><i class="caption-dot" aria-hidden="true"></i><span id="pet-speech-mode">有珠的回复</span><span id="pet-speech-count"></span></div><nav aria-label="字幕播放控制"><button id="pet-speech-toggle" type="button" aria-label="暂停朗读" hidden><svg class="ui-icon pause-icon" aria-hidden="true"><use href="#icon-pause"/></svg><svg class="ui-icon play-icon" aria-hidden="true"><use href="#icon-play"/></svg></button><button id="pet-speech-close" type="button" aria-label="收起字幕"><svg class="ui-icon" aria-hidden="true"><use href="#icon-close"/></svg></button></nav></header><div id="pet-speech-copy" role="status" aria-live="polite"><p id="pet-speech-zh"></p><p id="pet-speech-ja" lang="ja"></p></div><progress id="pet-speech-progress" max="1" value="0" aria-label="语音字幕播放进度" hidden></progress></section>
+      <div class="stage-top"><div><span class="edition">THE WINTER ROOM</span><p>冬日小室 <span>／</span> 久远寺有珠</p></div><span class="live"><i></i> Live2D</span></div>
+      <span class="sr-only" id="caption">一段安静的独处时光。</span>
+      <div class="loading startup-screen" id="loading" role="progressbar" aria-label="Robin 正在为你打开冬日小室" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><section class="startup-card"><span class="startup-eyebrow">THE WINTER ROOM</span><i class="startup-motif" aria-hidden="true"></i><h1 id="startup-title">冬日小室</h1><p class="startup-subtitle">久远寺有珠 · Robin 的来访</p><canvas id="startup-flight" aria-hidden="true"></canvas><strong id="load-detail" aria-live="polite">正在打开冬日小室</strong><span id="startup-note">窗边的灯已经点亮，请稍候片刻。</span></section></div>
+    </section>
+    <nav class="tool-rail" aria-label="侧边工具栏">
+      <button id="tools-toggle" aria-label="展开情态工具栏" aria-expanded="false" aria-controls="tools-panel"><span aria-hidden="true">◌</span><small>情态</small></button>
+      <button id="voice-tools" aria-label="展开语音工具栏" aria-expanded="false" aria-controls="tools-panel"><span aria-hidden="true">♫</span><small>语音</small></button>
+      <button id="companion-tools" aria-label="记忆、存档与主动交流"><span aria-hidden="true">▤</span><small>记忆</small></button>
+      <span class="rail-divider" aria-hidden="true"></span>
+      <button id="pet-enter" aria-label="切换桌宠模式"><span aria-hidden="true">♧</span><small>桌宠</small></button>
+      <button id="feed-sushi" aria-label="投喂寿司，可拖到有珠嘴边"><span aria-hidden="true">🍣</span><small>寿司</small></button>
+      <button id="tea-open" aria-label="泡红茶与品茗"><span aria-hidden="true">♨</span><small>红茶</small></button>
+      <button id="wardrobe-tools" aria-label="选择衣装和寿司"><span aria-hidden="true">♧</span><small>衣装</small></button>
+      <span class="rail-divider"></span>
+      <button id="pin" aria-label="窗口置顶" aria-pressed="false" title="窗口置顶"><span aria-hidden="true">⌖</span><small>置顶</small></button>
+      <button id="help" aria-label="操作说明"><span aria-hidden="true">?</span><small>说明</small></button>
+    </nav>
+    <aside id="rail-tooltip" class="rail-tooltip" role="tooltip" hidden><strong id="rail-tooltip-label"></strong><span id="rail-tooltip-detail"></span></aside>
+    <div class="pet-controls" aria-label="桌宠工具"><button id="pet-drag" title="按住拖动桌宠">⠿</button><button id="pet-chat" aria-expanded="false">对话</button><button id="pet-image" title="选择图片让她看看">看图</button><button id="pet-feed" aria-label="投喂寿司，可拖到有珠嘴边">寿司</button><button id="pet-tea" aria-label="泡红茶与品茗">红茶</button><button id="pet-robin" aria-label="Robin 陪伴与声音设置">Robin</button><button id="pet-wardrobe" aria-label="选择衣装和寿司">衣装</button><button id="pet-size" aria-expanded="false" aria-controls="pet-size-panel">大小</button><button id="pet-return">返回小室</button><button id="pet-menu" aria-label="更多桌宠选项">⋯</button></div><p id="pet-hint">轻轻抚摸头部 · 可把图片拖到人物上</p>
+    <dialog id="robin-dialog"><button id="close-robin" class="dialog-close" aria-label="关闭 Robin 设置">×</button><div class="eyebrow">A LITTLE COMPANION</div><h2>Robin 的来访</h2><label class="robin-option"><input id="robin-enabled" type="checkbox" checked><span>待机时飞来陪伴<small>首次空闲片刻后飞来，以后每隔约 2–4 分钟来访。</small></span></label><label class="robin-option"><input id="robin-voice" type="checkbox" checked><span>Robin 互动声音<small>飞来时打招呼，有珠会冷淡地回应；关闭后保留动作与台词。</small></span></label><button id="robin-call" type="button">请 Robin 过来</button><p id="robin-status" role="status">她在说话、看书、吃东西或泡茶时，Robin 会等一会儿。</p></dialog>
+    <section id="pet-size-panel" class="pet-size-panel" aria-label="桌宠大小与侧边" hidden>
+      <header><label for="pet-scale">桌宠大小 <output id="pet-scale-value" for="pet-scale">100%</output></label><button id="pet-size-close" aria-label="收起大小设置">×</button></header>
+      <input id="pet-scale" type="range" min="65" max="150" step="1" value="100" aria-label="桌宠大小百分比">
+      <div class="pet-dock-actions"><button id="pet-dock-left">‹ 藏到左侧</button><button id="pet-dock-right">藏到右侧 ›</button></div>
+      <p>拖到屏幕边缘也能收起。上下拖动侧边的「有珠」调整位置，点击即可唤回；她每隔约 3–5 分钟会从那里偷看一下。</p>
+    </section>
+    <button id="pet-edge-handle" class="pet-edge-handle" aria-label="唤回有珠，也可上下拖动调整位置" title="上下拖动调位置，点击唤回；方向键微调，Shift 加速，Home/End 到顶/底；右键打开菜单" hidden><span>有珠</span><span id="pet-edge-arrow" aria-hidden="true">›</span></button>
+    <aside class="panel" id="tools-panel" aria-label="角色工具" hidden inert>
+      <header class="tools-heading"><div><span class="eyebrow">A QUIET EXPRESSION</span><h2>此刻的有珠</h2></div><button id="tools-close" class="icon-button" aria-label="关闭工具栏">×</button></header>
+      <div class="tool-tabs" role="tablist" aria-label="工具分类"><button id="tab-moods" data-tool-tab="moods" role="tab" aria-controls="mood-tools" aria-selected="true">情态与动作</button><button id="tab-voice" data-tool-tab="voice" role="tab" aria-controls="voice-panel" aria-selected="false">语音与台词</button></div>
+      <div id="mood-tools" role="tabpanel" aria-labelledby="tab-moods">
+        <section class="mood-section"><div class="section-label"><h2>此刻的心情</h2><span id="mood-counter">01 / 20</span></div><nav class="mood-filters" aria-label="表情分类"><button data-mood-filter="all" aria-pressed="true">全部</button><button data-mood-filter="daily" aria-pressed="false">日常</button><button data-mood-filter="reaction" aria-pressed="false">情绪</button><button data-mood-filter="closed" aria-pressed="false">合目</button><button data-mood-filter="special" aria-pressed="false">特殊</button></nav><div class="moods" id="moods" role="group" aria-label="切换情态"></div><p class="mood-description" id="mood-description"></p></section>
+        <section class="gesture-section"><div class="section-label"><h2>一个小动作</h2></div><div class="gestures"><button data-gesture="nod">点头 <span>↓</span></button><button data-gesture="shake">摇头 <span>↔</span></button><button data-gesture="bow">致意 <span>↘</span></button></div></section>
+        <section class="settings"><div class="range-label"><label for="intensity">情绪强度</label><output id="intensity-value">80%</output></div><input id="intensity" type="range" min="20" max="100" value="80" step="1">
+          <div class="range-label second"><label for="zoom">人物大小</label><output id="zoom-value">100%</output></div><input id="zoom" type="range" min="80" max="135" value="100" step="1">
+          <div class="view-switch" aria-label="取景"><button data-view="room" class="active">场景</button><button data-view="portrait">半身</button><button data-view="full">全身</button><button data-view="face">面部</button></div>
+          <div class="toggles"><label><input id="idle" type="checkbox" checked><span>自然待机<small>呼吸、眨眼与轻微摆动</small></span></label><label><input id="tracking" type="checkbox" checked><span>视线跟随<small>看向舞台内的鼠标</small></span></label><label><input id="chat-auto-voice" type="checkbox" checked><span>日语朗读<small>用有珠的声音回答</small></span></label><label><input id="chat-expressions" type="checkbox" checked><span>回答时自然表情<small>以平静为主，适时流露情绪</small></span></label></div>
+        </section>
+      </div>
+      <section class="voice-section" id="voice-panel" role="tabpanel" aria-labelledby="tab-voice" hidden><div class="section-label"><h2>听她说一句</h2><span>语音 · 中文字幕</span></div>
+        <label class="sr-only" for="voice-select">选择台词</label><select id="voice-select"></select>
+        <div class="voice-actions"><button id="voice-play" class="primary">播放台词</button><button id="voice-pause" disabled>暂停语音</button><button id="voice-stop" disabled>停止</button></div>
+        <div class="voice-timeline"><label class="sr-only" for="voice-progress">播放进度</label><input id="voice-progress" type="range" min="0" max="1" value="0" step="0.01" disabled><output id="voice-time">0:00 / 0:00</output></div>
+        <div class="range-label"><label for="voice-volume">音量</label><output id="voice-volume-value">80%</output></div><input id="voice-volume" type="range" min="0" max="100" value="80">
+        <div class="voice-options"><label><input id="lip-sync" type="checkbox" checked> 语音口型</label><label><input id="voice-expression" type="checkbox" checked> 配合情态</label></div>
+        <p id="voice-message" role="status">选择一句台词，或听有珠轻声哼唱童谣。</p>
+        <details id="voice-custom"><summary>让她说新的日语台词</summary><p class="voice-hint">使用本机语音模型。输入日语，中文字幕可自行填写。</p>
+          <form id="voice-form"><label for="voice-ja">日语台词</label><textarea id="voice-ja" lang="ja" maxlength="120" rows="2" required>青子、これは私のものよ。</textarea><label for="voice-zh">中文字幕（选填）</label><input id="voice-zh" maxlength="240" value="青子，这是我的东西。"><button id="voice-generate" class="primary" type="submit">生成并播放</button></form>
+          <p id="voice-engine-status" role="status">正在检查本机语音环境…</p><div class="voice-engine-actions"><button id="voice-start">加载模型</button><button id="voice-choose">选择训练环境</button><button id="voice-unload" disabled>关闭模型</button></div>
+        </details>
+      </section>
+      <footer><div class="footer-actions"><button id="pause">暂停动态</button><button id="reset">恢复默认</button><button id="chat-persona">角色设定</button></div><span id="status" role="status">正在加载…</span><p>1–9、0、- 切换情态 · 空格暂停待机 · Esc 停止回答</p></footer>
+    </aside>
+    <section class="chat-section dialogue-dock" id="chat-panel" aria-label="和有珠对话">
+      <div class="dialogue-heading"><div class="speaker"><span>久远寺 有珠</span><small>ALICE KUONJI</small></div><div class="dialogue-actions">
+        <details id="chat-history"><summary>对话记录 <span id="history-count">0</span></summary><div class="history-popover"><div class="section-label"><h2>我们的对话</h2><button id="chat-clear" type="button" class="text-button">清空记录</button></div><div id="chat-messages" class="chat-messages" role="log" aria-live="polite"></div></div></details>
+        <button id="chat-settings" class="text-button">对话设置</button>
+        <button id="chat-appearance" type="button" class="text-button" aria-haspopup="dialog" aria-controls="dialogue-appearance" title="调节对话框透明度">外观</button>
+      </div></div>
+      <div class="dialogue-copy"><div id="reply-caption"><span id="reply-zh">有什么想说的，就说吧。</span><span id="reply-ja" lang="ja">話したいことがあるなら、どうぞ。</span></div><div class="speech-caption" id="speech-caption" hidden aria-live="polite"><span class="speech-label">VOICE · 语音字幕</span><span id="subtitle-zh"></span><span id="subtitle-ja" lang="ja"></span></div></div>
+      <div id="chat-attachments" class="image-attachments" aria-label="待发送的图片" hidden></div><input id="chat-image-input" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden>
+      <div class="pet-voice-option"><label><input id="pet-voice-reply" type="checkbox"> 语音回复</label><div class="pet-conversation-options"><button id="pet-caption-show" type="button" aria-controls="pet-speech" aria-expanded="false" title="重新显示当前字幕"><svg class="ui-icon" aria-hidden="true"><use href="#icon-caption"/></svg><span>字幕</span></button><small>日语朗读</small></div></div><form id="chat-form"><label class="sr-only" for="chat-input">给有珠的消息</label><textarea id="chat-input" rows="1" maxlength="1000" placeholder="和她说些什么…也可粘贴截图"></textarea><div class="chat-actions"><button id="chat-attach" type="button" title="选择图片，也可拖入或 Ctrl+V 粘贴截图">附图</button><button id="chat-cancel" type="button" disabled>停止</button><button id="chat-send" class="primary" type="submit">发送 <span aria-hidden="true">↵</span></button></div></form>
+      <div class="dialogue-foot"><p id="chat-status" role="status">正在检查对话设置…</p><span id="chat-source">对话来源</span><span class="keyboard-hint">Enter 发送 <i>·</i> Shift+Enter 换行</span></div>
+    </section>
+  </main>
+  <dialog id="dialogue-appearance" aria-labelledby="dialogue-appearance-title">
+    <button id="close-dialogue-appearance" type="button" class="dialog-close" aria-label="关闭对话框外观">×</button>
+    <div class="eyebrow">A LITTLE MORE LIGHT</div><h2 id="dialogue-appearance-title">对话框外观</h2>
+    <p>调节背景透明度，小室对话框和桌宠头顶字幕同步变化。文字与按钮保持清晰。</p>
+    <div class="range-label"><label for="dialogue-opacity">背景不透明度</label><output id="dialogue-opacity-value" for="dialogue-opacity">96%</output></div>
+    <input id="dialogue-opacity" type="range" min="0" max="100" step="1" value="96" aria-describedby="dialogue-opacity-hint">
+    <div id="dialogue-opacity-hint" class="opacity-endpoints"><span>全透明</span><span>不透明</span></div>
+    <div class="opacity-footer"><span id="dialogue-appearance-status" role="status">自动保存，下次打开时沿用。</span><button id="dialogue-opacity-reset" type="button">恢复默认</button></div>
+  </dialog>
+  <dialog id="help-dialog"><button id="close-help" class="dialog-close" aria-label="关闭说明">×</button><div class="eyebrow">A QUIET MOMENT</div><h2>和有珠相处片刻</h2><p>点击右侧“桌宠”，可进入透明桌面模式。在帽子与头顶轻柔地来回移动鼠标，或按住左键抚摸。原冬装会举书、垂眸；白大衣与企鹅装会轻轻垂眼侧首。拖动身体或底部手柄可移动；底部“对话”展开输入框，可勾选“语音回复”让她朗读新回答；关闭后只显示头顶文字，这个选择会记住。语音时头顶显示中日字幕，可暂停／继续，也可收起后点击输入区“字幕”重显。底部“Robin”可开关待机来访与互动声音，或手动请他过来。“返回小室”切回原界面。底部“大小”提供连续滑条，可实时调节并记住比例。点击“藏到左侧／右侧”，或拖到屏幕边缘，可将她收起；每隔约 3–5 分钟会探头偷看约 6 秒，再缩回去。点击边缘“有珠”或偷看时的人物可唤回。右键或 ⋯ 保留大小、侧边与置顶选项；“偷看一次”可立即预览，双击托盘图标也可返回小室。</p><p>点击“衣装”可切换冬日披肩、白色大衣和企鹅装，并选择六种寿司；右键“寿司”也可打开餐盘。轻点“寿司”自动送到嘴边，或按住拖到嘴边松手。握寿司分两口吃，中间把剩余部分移开、轻轻咀嚼；军舰和细卷一口吃下。她说话时会等这一句结束，举书时先把书放下。吃完会用日语道谢，并显示中文字幕。按 Esc 可取消。</p><p>在底部输入消息，Enter 发送，Shift+Enter 换行；中文输入法选字时按 Enter 不会发送。右侧“情态”和“语音”可展开工具栏，点击关闭按钮可收起。“对话记录”可查看日中双语历史。</p><p>选择台词后点击“播放台词”，模型会随真实音频开合嘴巴，舞台显示日中双语字幕。可暂停、停止、拖动进度与调节音量。“童谣 · 有珠哼唱”播放所选视频的原音，显示哼唱提示。</p><p>展开“让她说新的日语台词”，可调用已配置的本机语音模型；未找到环境时选择 live2d 项目文件夹。在“对话设置”中选择本机 Codex 或自己的 API，可让语言模型回答并自动生成中文字幕。“角色设定”显示程序实际使用的人设。</p><p>开启回答时自然表情后，她会在合适的语句处轻微变换表情，也允许整段保持平静。朗读时随语音进度同步，结束后回到原先情态。手动选择情态会接管本次回答；关闭开关可随时停止自动表情。</p><p>按 1–9、0、- 切换 11 种情态，也可点击按钮。鼠标移入舞台时视线跟随，点击角色可点头回应。空格仅暂停动态；Esc 停止语音与回答。</p><p class="fine">同人练习，原作角色：TYPE-MOON。模型为有限角度的自动绑定；侧目和致意使用小幅头身姿态，桌宠的举书和托手通过播放器分层与网格变形实现；抱臂和大角度侧身未绑定。冷视的上脸部阴影由播放器绘制。</p></dialog>
+  <dialog id="api-dialog"><button id="close-api" class="dialog-close" aria-label="关闭对话设置">×</button><div class="eyebrow">A THOUGHT OF HER OWN</div><h2>对话设置</h2><p id="provider-description">选择本机 Codex 或自己的 API。对话会联网发送输入、近期上下文与已启用的记忆摘要；语音合成在本机完成。看图需要所选模型支持图片输入。主动附上的图片只随本次请求发送，本地聊天和存档不保存原图；之后要再看请重新附图。</p>
+    <form id="api-form">
+      <label for="chat-provider">对话来源</label><select id="chat-provider"><option value="codex">本机 Codex · 使用已登录的账户</option><option value="api" selected>API 密钥 · OpenAI 或兼容接口</option></select>
+      <div id="codex-fields" class="provider-fields" hidden><label for="codex-model">Codex 模型</label><input id="codex-model" value="gpt-6.1-sol" maxlength="120" list="codex-models"><datalist id="codex-models"></datalist><button id="codex-check" type="button">检测本机登录</button><p id="codex-status" role="status">使用官方 Codex 登录状态，消耗对应账户额度。首次使用先检测，再测试回复。</p></div>
+      <div id="api-fields" class="provider-fields"><label for="api-key">API 密钥</label><input id="api-key" type="password" autocomplete="off" spellcheck="false" maxlength="512"><label for="api-model">模型 ID</label><input id="api-model" value="gpt-5.4-mini" maxlength="2000" required><label for="api-base-url">接口地址</label><input id="api-base-url" type="url" value="https://api.openai.com/v1" required><button id="api-forget-key" type="button">删除密钥</button></div>
+      <label for="api-reasoning">思考程度</label><select id="api-reasoning"><option value="low">简短思考</option><option value="medium">仔细思考</option><option value="high">深入思考</option></select><label class="remember-label"><input id="api-remember" type="checkbox" checked> 保留对话，允许记忆整理与存档</label><div class="chat-actions"><button id="api-save" class="primary" type="submit">保存设置</button><button id="api-test" type="button">保存并测试回复</button></div>
+    </form><p id="api-config-status" role="status"></p>
+  </dialog>
+  <dialog id="companion-dialog"><button id="close-companion" class="dialog-close" aria-label="关闭记忆与相处设置">×</button><div class="eyebrow">THINGS WE REMEMBER</div><h2>记忆与相处</h2>
+    <div class="companion-tabs" role="tablist" aria-label="记忆与相处分类"><button role="tab" id="companion-tab-memory" data-companion-tab="memory" aria-controls="companion-page-memory" aria-selected="true">记忆</button><button role="tab" id="companion-tab-saves" data-companion-tab="saves" aria-controls="companion-page-saves" aria-selected="false">存档</button><button role="tab" id="companion-tab-proactive" data-companion-tab="proactive" aria-controls="companion-page-proactive" aria-selected="false">主动交流</button></div>
+    <section id="companion-page-memory" role="tabpanel" aria-labelledby="companion-tab-memory">
+      <label class="companion-toggle"><input id="memory-enabled" type="checkbox">记住我们的交流</label><p>聊天记录保存在本机。积累一段对话后，她会在空闲时整理摘要。手动保存后，以你的修订为准，从后续交流继续整理。整理会调用当前对话模型。</p>
+      <form id="memory-form"><div class="memory-grid"><label>最近的话题<textarea id="memory-summary" maxlength="500" rows="3"></textarea></label><label>关于你<textarea id="memory-profile" maxlength="1200" rows="3"></textarea></label><label>共同经历<textarea id="memory-events" maxlength="2400" rows="4"></textarea></label><label>重要约定<textarea id="memory-promises" maxlength="1200" rows="4"></textarea></label></div><div class="companion-actions"><button type="submit">保存修改</button><button id="memory-organize" type="button">现在整理记忆</button></div></form>
+      <p id="memory-detail"></p><details class="companion-forget"><summary>清除当前记忆</summary><p>只清除当前摘要，聊天记录和已有存档保留。旧聊天不会自动重新整理；读取旧存档仍可恢复其中的记忆。</p><button id="memory-clear" type="button">清除当前四项记忆</button></details>
+    </section>
+    <section id="companion-page-saves" role="tabpanel" aria-labelledby="companion-tab-saves" hidden><p>每次回答后自动保存聊天与记忆。手动存档最多保留 20 份；读取前会保留一份回退进度。存档不包含密钥。</p><form id="save-form" class="companion-save-form"><label class="sr-only" for="save-title">存档名称</label><input id="save-title" maxlength="50" placeholder="给这段时光起个名字"><button type="submit">保存当前进度</button></form><div id="save-list"></div></section>
+    <section id="companion-page-proactive" role="tabpanel" aria-labelledby="companion-tab-proactive" hidden><form id="proactive-form"><label class="companion-toggle"><input id="proactive-enabled" type="checkbox">允许她偶尔主动说话</label><p>默认关闭。开启后，仅在本窗口处于前台、输入框为空且没有朗读时，偶尔延续话题。两次主动交流至少间隔一小时；不会读取屏幕。</p><div class="proactive-fields"><label>安静等待（分钟）<input id="proactive-idle" type="number" min="5" max="120" step="1" required></label><label>每天最多（次）<input id="proactive-limit" type="number" min="1" max="4" step="1" required></label></div><label class="companion-toggle"><input id="proactive-quiet" type="checkbox">23:00–08:00 保持安静</label><p>主动交流使用当前对话模型，也会消耗对应账户额度。</p><button type="submit">保存相处设置</button></form></section>
+    <p id="companion-status" role="status" aria-live="polite"></p>
+  </dialog>
+  <dialog id="persona-dialog"><button id="close-persona" class="dialog-close" aria-label="关闭角色设定">×</button><div class="eyebrow">THE QUIET WITCH</div><h2>有珠的角色设定</h2><pre id="persona-content"></pre><p class="fine">性格摘录来源：用户引用的萌娘百科《久远寺有珠》，按 CC BY-NC-SA 4.0 改写。背景另参考官方人物介绍；完整来源说明随程序提供。</p></dialog>
+  <dialog id="wardrobe-dialog"><button id="close-wardrobe" class="dialog-close" aria-label="关闭衣装与餐盘">×</button><div class="eyebrow">A CHANGE OF SCENE</div><h2>衣装与餐盘</h2><p class="wardrobe-intro">今日衣装 <span id="wardrobe-current">冬日披肩</span></p><div id="wardrobe-options" class="wardrobe-options" role="group" aria-label="选择衣装"></div><section id="sushi-section"><h3>给她尝哪一种？</h3><div id="sushi-options" class="sushi-options" role="group" aria-label="选择寿司种类"></div><p id="sushi-description"></p><button id="feed-selected" class="primary" type="button">投喂这一份</button><p class="fine">也可以关闭餐盘，点击“寿司”或按住拖到她嘴边。</p></section></dialog>
+  <dialog id="tea-dialog" aria-labelledby="tea-heading"><button id="close-tea" class="dialog-close" aria-label="关闭茶室">×</button><div class="eyebrow">A LITTLE TIME FOR TEA</div><h2 id="tea-heading">为她泡一杯红茶</h2>
+    <canvas id="tea-preview" width="840" height="350" aria-label="茶壶注水与红茶茶具"></canvas>
+    <div class="tea-recipe"><label for="tea-leaf">茶叶品质</label><select id="tea-leaf"></select><p id="tea-leaf-note"></p>
+      <div class="range-label"><label for="tea-temperature">水温</label><output id="tea-temperature-value">95℃</output></div><input id="tea-temperature" type="range" min="80" max="100" step="1" value="95">
+      <div class="range-label"><label for="tea-seconds">浸泡时间</label><output id="tea-seconds-value">180 秒</output></div><input id="tea-seconds" type="range" min="60" max="300" step="5" value="180">
+      <div class="tea-hint-row"><small id="tea-recipe-hint"></small><button id="tea-recommended" type="button">使用参考配方</button></div>
+    </div>
+    <progress id="tea-progress" max="1" value="0" aria-label="冲泡进度" hidden></progress><p id="tea-status" role="status" aria-live="polite">先选一份茶叶。冲泡演示约 4 秒。</p>
+    <section id="tea-result" class="tea-result" hidden><strong id="tea-grade"></strong><p id="tea-result-copy"></p></section>
+    <div class="tea-actions"><button id="tea-brew" class="primary" type="button">开始泡茶</button><button id="tea-serve" type="button" disabled>递给有珠</button><button id="tea-discard" type="button" disabled>收走这杯</button></div>
+    <section id="tea-last" class="tea-last" hidden><span class="eyebrow">品茗之后</span><h3 id="tea-feeling-name"></h3><p id="tea-feeling-copy"></p><button id="tea-read" type="button">日语朗读这句感想</button></section>
+    <details class="tea-history"><summary>最近的品茗记录</summary><ul id="tea-history"></ul></details><p class="fine">品质由茶叶与火候共同决定。这里的数值用于互动模拟。</p>
+  </dialog>
+</body>
+</html>
+

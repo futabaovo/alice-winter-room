@@ -1,0 +1,29 @@
+{
+  "white": "Use case: stylized-concept. Production transparent 2D character wardrobe asset for an animated Alice Kuonji (Witch on the Holy Night) desktop companion. Input image 1 is the official white coat and white soft cloche hat wardrobe reference, input image 2 the same wardrobe detail; input image 3 the existing character master, use its restrained painted anime style and FRONT-FACING neutral body posture only. Create ONLY the wearable white outfit, NO face, NO head skin, NO hair. Tall portrait canvas. Two disconnected assets naturally arranged as a single frontal paper-doll outfit: at the top a soft ivory white rounded cloche/beret with a folded side ribbon bow on viewer right, similar silhouette and size to the black hat in input 3; beneath this hat leave an EMPTY TRANSPARENT gap large enough for the character's head and bob haircut. Below the empty gap: a complete standing front view body from black turtleneck collar to the soles of the shoes, wearing a tailored ivory-white knee-length A-line coat, very large asymmetrical folded lapels, round covered white buttons, tied fabric waist belt with a bow and two hanging tails, long subtle puff-shoulder sleeves, fitted black gloves with hands relaxed down close to the sides, opaque black tights and dainty black low heel ankle shoes. Full length feet included, both legs close together. Hands anatomical, modest proportions. Soft mauve-gray shadow folds and delicate black painted outlines, matching the references, NOT photoreal, NOT flat icons. The body must be exactly front-facing and bilaterally balanced, no leaning, no three-quarter view, no scenery, no reference sheet text, no sketch panels, no human mannequin in the head gap, no old black fur coat, no furry hat. True transparent background outside the hat/body and THROUGH THE HEAD GAP. Large crisp production sprite.",
+  "penguin": "Use case: stylized-concept. Production transparent wardrobe sprite for an animated Alice Kuonji desktop companion. Reference images 1 and 2 are the requested black-and-white PENGUIN COSTUME. Reference image 3 is the existing model master, use matching detailed restrained painted-anime linework. Draw only the complete empty penguin costume, no human head, no human face, no human hair. Full-body front-facing very round tall soft plush penguin kigurumi/costume: dark charcoal/black outer hood and sides, large pearly white oval belly, long hanging black flipper sleeves on both sides with white inner edges, black soft bowtie on the upper white chest, two small cartoon white-ringed black oval penguin eyes high on hood, two warm golden yellow three-toed webbed feet at bottom. The hood contains a clean visibly EMPTY TRANSPARENT elongated oval/teardrop opening high at the center for the real animated character face and bob hair; the opening is modest about 22% of suit total width, 13% of suit height, tapered at chin. The face opening must be EMPTY with true alpha, not filled black, no face or hair or painted mannequin. A tiny curved loop of black fabric sticks up at the top as in the reference. Natural soft shaded cloth volume and seams, body symmetric, no arms or hands sticking out, entire costume and feet inside canvas with margins, no ground shadow, no scenery, no screenshot UI, no text. True transparent background.",
+  "mode": "built-in image_gen",
+  "references": [
+    "9eb073655e96e7e62534c608a26b19e5.jpg",
+    "c6c1ecde13c6f31fe17099ef10de82a2.jpg",
+    "12599ae13964cf84ee1d9a645e58d37c.jpg",
+    "c75185604edc928a9791a133aef1f3bd.jpg"
+  ],
+  "assets": {
+    "white-coat.png": {
+      "size": [
+        940,
+        1672
+      ],
+      "generatedFile": "exec-a724d921-4df7-46d2-aa1f-984a20878a20.png"
+    },
+    "penguin.png": {
+      "size": [
+        1024,
+        1536
+      ],
+      "generatedFile": "exec-c3a38580-b041-4eaf-bee4-d2df3016b41f.png"
+    }
+  },
+  "created": "2026-10-19",
+  "purpose": "Runtime wardrobe textures; original expressive face is retained."
+}

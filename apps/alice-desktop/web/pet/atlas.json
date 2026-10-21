@@ -1,0 +1,83 @@
+{
+  "image": "pet/book-reaction-atlas.png",
+  "size": [
+    1254,
+    1254
+  ],
+  "pairedBook": {
+    "image": "pet/paired-book-v320.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "origin": [
+      650,
+      485
+    ],
+    "width": 1100,
+    "wrists": [
+      [
+        275,
+        980
+      ],
+      [
+        1005,
+        980
+      ]
+    ],
+    "sleeveCutY": 995
+  },
+  "supportedBook": {
+    "image": "pet/supported-book-v312.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "bookBounds": [
+      100,
+      160,
+      1100,
+      650
+    ],
+    "origin": [
+      650,
+      485
+    ],
+    "palmContact": [
+      650,
+      800
+    ],
+    "forearmAttachment": [
+      300,
+      1090
+    ],
+    "sleeveCut": "y-x <= 790"
+  },
+  "parts": {
+    "book": [
+      59,
+      123,
+      730,
+      463
+    ],
+    "support": [
+      820,
+      37,
+      386,
+      590
+    ],
+    "thinking": [
+      231,
+      648,
+      248,
+      586
+    ],
+    "sleeve": [
+      880,
+      669,
+      260,
+      559
+    ]
+  },
+  "note": "Generated transparent artwork, independently animated parts. Precise bounds validated against alpha before shipping."
+}

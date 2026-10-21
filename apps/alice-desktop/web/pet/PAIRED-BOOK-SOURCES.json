@@ -1,0 +1,11 @@
+{
+  "asset": "paired-book-v320.png",
+  "mode": "built-in image_gen edit",
+  "references": [
+    "supported-book-v312.png",
+    "book-reaction-atlas.png"
+  ],
+  "prompt": "Use case: precise-object-edit\nAsset type: transparent painted sprite for an existing 2D anime desktop pet, anatomically correct two-hand book hold.\nInput images: Image 1 is the edit target (open plum grimoire with one supporting black glove); Image 2 is only a supporting style and clothing reference.\nPrimary request: replace the single large central palm in Image 1 with TWO refined slender feminine black leather gloved hands naturally holding this same open book from its lower LEFT and RIGHT outside corners. This is seen from in front of the reader, looking at the outside covers of the book. Each palm supports its respective lower corner, a relaxed thumb hooks above the cover edge and the remaining fingers curve around the outside cover, gravity supported. Wrists descend naturally beneath their corresponding corners, with a short charcoal fur cuff and short muted dark plum sleeve pointing downward and slightly outward. The two wrists should be separated, no crossed arms, no chin-touching fist. Make the hands small and proportionate to the book, each palm width about 12% of total open book width. All fingers coherent, exactly two hands, no disembodied or extra fingers.\nConstraints: preserve Image 1's book identity, symmetrical near frontal open spread, antique gold ornamentation, ivory page blocks, fine anime game painted lines, muted shading, dark plum gray palette. Keep the book approximately spanning x=100..1150, y=160..780 on a square canvas similar to Image 1. No change of viewpoint, no head, torso, face, or full arms; short sleeves end cleanly below the cuffs with plenty of transparent margin. Both hands connect firmly and visibly to book corners and to their own sleeves. Do not cover the middle spine with a giant hand. Book and both hands together form ONE connected sprite.\nScene/backdrop: genuinely transparent alpha background, no checkerboard painted into output, no shadows outside the objects, no text, no labels or watermarks.",
+  "date": "2026-10-20",
+  "purpose": "Coherent two-hand book hold with forearms attached at sleeve boundaries. Previous assets retained."
+}

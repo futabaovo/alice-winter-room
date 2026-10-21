@@ -1,0 +1,139 @@
+{
+  "Version": 3,
+  "FileReferences": {
+    "Moc": "AliceKuonjiWinter.moc3",
+    "Textures": [
+      "AliceKuonjiWinter.2048/texture_00.png",
+      "AliceKuonjiWinter.2048/texture_01.png",
+      "AliceKuonjiWinter.2048/texture_02.png",
+      "AliceKuonjiWinter.2048/texture_03.png",
+      "AliceKuonjiWinter.2048/texture_04.png",
+      "AliceKuonjiWinter.2048/texture_05.png",
+      "AliceKuonjiWinter.2048/texture_06.png",
+      "AliceKuonjiWinter.2048/texture_07.png"
+    ],
+    "Physics": "AliceKuonjiWinter.physics3.json",
+    "DisplayInfo": "AliceKuonjiWinter.cdi3.json",
+    "Motions": {
+      "Idle": [
+        {
+          "File": "AliceKuonjiWinter.idle.motion3.json"
+        }
+      ],
+      "Blink": [
+        {
+          "File": "AliceKuonjiWinter.blink.motion3.json"
+        }
+      ],
+      "Nod": [
+        {
+          "File": "AliceKuonjiWinter.nod.motion3.json"
+        }
+      ],
+      "Shake": [
+        {
+          "File": "AliceKuonjiWinter.shake.motion3.json"
+        }
+      ]
+    },
+    "Expressions": [
+      {
+        "Name": "平静",
+        "File": "expressions/neutral.exp3.json"
+      },
+      {
+        "Name": "淡笑",
+        "File": "expressions/smile.exp3.json"
+      },
+      {
+        "Name": "不悦",
+        "File": "expressions/displeased.exp3.json"
+      },
+      {
+        "Name": "惊讶",
+        "File": "expressions/surprised.exp3.json"
+      },
+      {
+        "Name": "敛容",
+        "File": "expressions/reserved.exp3.json"
+      },
+      {
+        "Name": "沉思",
+        "File": "expressions/thinking.exp3.json"
+      },
+      {
+        "Name": "闭目",
+        "File": "expressions/rest.exp3.json"
+      },
+      {
+        "Name": "冷视",
+        "File": "expressions/cold.exp3.json"
+      },
+      {
+        "Name": "垂眸",
+        "File": "expressions/downcast.exp3.json"
+      },
+      {
+        "Name": "侧目",
+        "File": "expressions/aside.exp3.json"
+      },
+      {
+        "Name": "致意",
+        "File": "expressions/bow.exp3.json"
+      },
+      {
+        "Name": "浅笑",
+        "File": "expressions/softSmile.exp3.json"
+      },
+      {
+        "Name": "认真",
+        "File": "expressions/stern.exp3.json"
+      },
+      {
+        "Name": "无语",
+        "File": "expressions/speechless.exp3.json"
+      },
+      {
+        "Name": "怀疑",
+        "File": "expressions/skeptical.exp3.json"
+      },
+      {
+        "Name": "得意",
+        "File": "expressions/smug.exp3.json"
+      },
+      {
+        "Name": "轻叹",
+        "File": "expressions/sigh.exp3.json"
+      },
+      {
+        "Name": "错愕",
+        "File": "expressions/startled.exp3.json"
+      },
+      {
+        "Name": "疑惑",
+        "File": "expressions/puzzled.exp3.json"
+      },
+      {
+        "Name": "圈圈眼",
+        "File": "expressions/dizzy.exp3.json"
+      }
+    ]
+  },
+  "Groups": [
+    {
+      "Target": "Parameter",
+      "Name": "EyeBlink",
+      "Ids": [
+        "ParamEyeLOpen",
+        "ParamEyeROpen"
+      ]
+    },
+    {
+      "Target": "Parameter",
+      "Name": "LipSync",
+      "Ids": [
+        "ParamMouthOpenY"
+      ]
+    }
+  ]
+}

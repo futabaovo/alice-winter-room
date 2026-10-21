@@ -1,0 +1,36 @@
+{
+  "selectedAsset": "white-cap-v8.png",
+  "mode": "existing generated bitmap + native mesh fit",
+  "final": {
+    "scaleByNativeFaceWidth": 1.9,
+    "brimLashGapByLashToVisibleJaw": 0.2,
+    "capUsesUniformScaleAndTranslation": true,
+    "nativeFaceAndHairUnchanged": true,
+    "previousScale": 2.15,
+    "previousGap": 0.09,
+    "scaleReductionPercent": 11.627906976744185
+  },
+  "review": "Keep the clean v8 bitmap; reduce size and wear it slightly farther back. Reject local side warping: a short transition folded the mesh; a smooth transition left an uneven lower edge. Neither experimental warp remains in runtime. The two new bitmap drafts also failed visual review and are not loaded by the app.",
+  "unusedDrafts": [
+    {
+      "file": "white-cap-v9-draft.png",
+      "source": "exec-e49b972c-16c0-434a-857c-3931a5411fe4.png",
+      "prompt": "Use case: precise-object-edit. Asset: transparent animation layer, only Alice Kuonji's original white winter dress hat with viewer-right bow. Image 1 is the EDIT TARGET, the current isolated white cap which encloses the head too tightly and reads as a soft wrapped bonnet. Image 2 is the authoritative colored original costume on the RIGHT of the sheet. Image 3 is the authoritative frontal reference, ONLY the RIGHT girl's white hat. Refine the original design to recover its poised, tailored, elegant appearance. Do not invent new ornaments. MOST IMPORTANT GEOMETRY CHANGE: OPEN THE TEMPLES. Redraw the lower edge so the central forehead remains low, but BOTH OUTER CORNERS TURN GENTLY UP and finish ABOVE that center edge. The center 60% of the lower rim is almost straight, with a restrained shallow downward center projection. No pointed V and no sharp scoop. No inverted U whose ends hang down beside the eyes. Shorten the side walls so no white fabric drops down beside the temple; remove the little curled hanging left flap. This hat sits on the crown and shades the forehead, it does not hug the cheeks or clamp the side locks. Maintain a modest forward overhang at the central front with a thin delicate underside shadow and a clean edge. Give the crown a slightly shallower, tailored, softly rounded profile with clear upper shoulders, a calm slightly flattened round top, and restrained fullness. Avoid a bulbous inflated dome or slouchy knitted/swim cap appearance. Remove gathered wrinkles and puckers at the sides. Material: fine matte ivory wool/felt with firm but soft structure, crisp quiet visual-novel line work and restrained cel/painterly volume matching the original costume; less airbrushed satin gloss and less gray fabric shading. Preserve the original identity of a simple white winter hat. Keep a small refined ivory bow on viewer-right, attached high at the hat edge, with TWO short clean lobes, very short tails and no long hanging ribbon; it is an ornament sewn to the cap, not a scarf knot. NO jewels, gold trim, pearls, flowers, lace, fur, new accessories or logos. Composition for the existing rig: square canvas; cap body horizontally centered x=.50, spans approximately x=.17 to .83. Top y=.06. CENTER lower edge y=.40; BOTH lower outer corners around y=.365 to .375, clearly HIGHER than the center. Hat body never extends below y=.405. Compact bow occupies approximately x=.79 to .91 and y=.32 to .43; no fabric below y=.45. Keep the large bottom half of canvas truly transparent. The app will uniformly scale this whole layer without deforming it. Only the hat and bow, no hair, skin, face, neck, collar, mannequin, scene, lettering or background. True clean transparent alpha, no checkerboard, watermark or detached pixels. Neutral ivory white; do not borrow cyan scene lighting from image 3.",
+      "references": [
+        "white-cap-v8.png",
+        "9eb073655e96e7e62534c608a26b19e5.jpg",
+        "codex-clipboard-1d469b1f-0b93-46a6-a42b-0ed0508c68ed.jpg"
+      ],
+      "reason": "Returned a cuff-like front seam and low side ends; rejected."
+    },
+    {
+      "source": "exec-9057ed0f-881d-48ac-95b5-ac18eb124424.png",
+      "prompt": "Use case: precise-object-edit / faithful asset reconstruction. Reconstruct ONLY Alice Kuonji's ORIGINAL WHITE WINTER HAT as a clean front-facing transparent game sprite. Image 1 is the original complete costume sheet: the COLORED full-length woman at the FAR RIGHT is the authoritative design for the entire hat and its crown proportions. Image 2 is the authoritative FRONT VIEW: copy the WHITE HAT worn by the woman on the RIGHT, including its distinctive understated central forehead volume, clean lower rim and tailored appearance. The previous app versions looked like a tight bonnet or beanie; recover the original elegant winter dress-hat design shown in these references. Keep a well-defined rounded crown, calm clean side walls, a subtle projecting front, and a thin sharp lower edge. The hat sits on top of the head with a little structure; it must not droop down and wrap the temples. Keep the front edge nearly straight through the center with sides that stop high, leaving space for side hair. No wavy rim, hanging left flap, elastic gathers, thick rolled cuff, full-width decorative seam, slouchy fabric, inflated helmet or chef cap. Keep the original small white bow at viewer-right, lightly attached near the side of the hat; short clean ribbon ends. Original 2D visual-novel linework and simple restrained matte white/light-gray shading, matching the reference costume, rather than glossy 3D airbrushing. Do not add jewelry, gold, fur, lace or any new decoration. Neutral ivory white without the cyan scene lighting. Strictly front-facing, centered on a square canvas, with generous true-alpha margin outside; the complete hat including top and bow must be visible, with no clipping. Only hat and bow; no head, hair, face, neck, collar, body, background, words, watermark or extra objects. The area under the rim must be empty alpha. Preserve the reference's actual fashion design rather than interpreting a generic cloche or headscarf.",
+      "references": [
+        "9eb073655e96e7e62534c608a26b19e5.jpg",
+        "codex-clipboard-1d469b1f-0b93-46a6-a42b-0ed0508c68ed.jpg"
+      ],
+      "reason": "Original-reference reconstruction still produced a low enveloping front and a full arc seam; rejected."
+    }
+  ]
+}

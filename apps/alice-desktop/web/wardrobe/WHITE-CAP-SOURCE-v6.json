@@ -1,0 +1,11 @@
+{
+  "mode": "built-in image_gen",
+  "file": "white-cap-v6.png",
+  "source": "exec-ffc258b2-5cbc-4f72-b1cf-3b615983dd77.png",
+  "prompt": "Use case: background-extraction / precise-object-edit. EDIT the supplied transparent game head image. Isolate ONLY THE EXISTING WHITE HAT AND ITS VIEWER-RIGHT WHITE BOW into a separate transparent layer. Remove EVERY dark hair pixel, all bangs and side locks, replacing them with true alpha. Preserve the white hat and bow exactly, with the same front-view shape, central forehead shadow, cloth highlights, crown, outlines, pixel locations, size and original square canvas. Do not redesign, move, recenter, enlarge, crop or rotate the hat. Keep the cap at its existing coordinates in the upper half of the original square canvas, including the same large transparent lower margin where the hair used to be. The space beneath the cap must be genuinely empty alpha. This is an animation layer extraction for an existing rig, so original layout and scale are essential. No mannequin, head, face, hair, collar, shadows painted outside the hat, checkerboard, lettering or extra objects. Clean true alpha edges. Do not add a black backing under the brim.",
+  "references": [
+    "white-head-v5.png",
+    "clean-bob-neck-v2.png"
+  ],
+  "runtime": "Independent cap mesh; rim positioned at 0.09 of native upper-lash-to-visible-jaw distance above the lash. Its original-coordinate alpha removes the old cap from white-head-v5 at draw time. No displacement or compression of hair or native face."
+}

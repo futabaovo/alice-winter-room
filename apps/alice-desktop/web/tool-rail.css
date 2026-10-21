@@ -1,0 +1,18 @@
+/* The room rail shares the pet controls' line icons and warm gold palette. */
+.tool-rail{right:20px;top:22px;width:62px;gap:4px;padding:8px;border:1px solid #d2b68a38;border-radius:20px;background:linear-gradient(165deg,#302938f2,#1d1925ed);box-shadow:0 10px 30px #0b071738,inset 0 1px #fff1d915;backdrop-filter:blur(20px);overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:#d0b48b55 transparent}
+.tool-rail button{position:relative;flex:0 0 auto;width:44px;height:var(--rail-item-height,48px);gap:5px;padding:4px 0;border:1px solid transparent;border-radius:12px;background:transparent;color:#b8abbc;transition:background .16s,border-color .16s,color .16s}
+.tool-rail .ui-icon{width:20px;height:20px;color:#dac29f;stroke-width:1.55;transition:color .16s}
+.tool-rail small{font-size:9px;line-height:11px;font-weight:400;letter-spacing:1px;color:inherit}
+.tool-rail button:hover{background:#dec39b13;border-color:#dec39b30;color:#f1dfc7}.tool-rail button:hover .ui-icon{color:#f0d3a7}
+.tool-rail button:focus-visible{outline:2px solid #debd8b;outline-offset:-2px;background:#dec39b17;color:#f1dfc7}
+.tool-rail button[aria-expanded=true],.tool-rail button[aria-pressed=true]{border-color:#d4b78c50;background:linear-gradient(140deg,#d4b48a27,#ac8c6612);color:#f1d8b1;box-shadow:inset 0 1px #fff1d90d}
+.tool-rail button[aria-expanded=true]::before,.tool-rail button[aria-pressed=true]::before{content:'';position:absolute;left:-5px;top:calc(50% - 8px);width:2px;height:16px;background:#e1c08c;border-radius:3px;box-shadow:0 0 7px #d7b98755}
+.tool-rail button[aria-expanded=true] .ui-icon,.tool-rail button[aria-pressed=true] .ui-icon{color:#efd0a0}.tool-rail #pin[aria-pressed=true] .ui-icon{fill:#dfbd8b22}
+.tool-rail .rail-divider{flex:none;width:24px;height:1px;margin:4px auto;background:linear-gradient(90deg,transparent,#d8bb8d4d,transparent)}
+.tool-rail #tea-open.tea-ready::after{content:'';position:absolute;right:7px;top:7px;width:4px;height:4px;border-radius:50%;background:#e2c18d;box-shadow:0 0 5px #dfbe8b66}
+.tool-rail[data-compact=true]{padding-top:7px;padding-bottom:7px}.tool-rail[data-compact=true] button{gap:3px;padding:2px 0}.tool-rail[data-compact=true] .ui-icon{width:18px;height:18px}.tool-rail[data-compact=true] small{font-size:8px;line-height:10px}
+.room .panel{bottom:var(--room-tools-bottom,238px)}
+.rail-tooltip{position:fixed;z-index:13;pointer-events:none;max-width:218px;display:grid;gap:5px;padding:11px 14px;border:1px solid #d7b78b46;border-radius:12px;background:linear-gradient(130deg,#302837f7,#211b2bf5);box-shadow:0 7px 22px #0805113d;color:#d6c5c0;backdrop-filter:blur(16px)}
+.rail-tooltip strong{font-size:12px;font-weight:500;letter-spacing:1px;color:#edcea1}.rail-tooltip span{font-size:10px;line-height:1.6;color:#c4b4c3}.pet-mode .rail-tooltip{display:none!important}
+@media(max-width:1050px){.tool-rail{right:14px;width:60px;padding-left:7px;padding-right:7px}}
+@media(prefers-reduced-motion:reduce){.tool-rail button,.tool-rail .ui-icon{transition:none}}

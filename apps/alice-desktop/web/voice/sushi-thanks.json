@@ -1,0 +1,18 @@
+{
+  "id": "alice-sushi-thanks",
+  "title": "投喂后轻声道谢",
+  "src": "voice/alice-sushi-thanks.wav",
+  "duration": 0.96,
+  "cues": [
+    {
+      "start": 0,
+      "end": 0.96,
+      "ja": "ありがとう。",
+      "zh": "……谢谢。"
+    }
+  ],
+  "sha256": "e6494c89d6081361853cba487467f079330336e27d11ba8498e3ae76bfdab8ff",
+  "sourceRequested": "ありがとう。おいしいわ。",
+  "sourceGeneratedOnlyFirstSentence": true,
+  "acceptedTranscript": "ありがとう。"
+}

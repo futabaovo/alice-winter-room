@@ -1,0 +1,224 @@
+{
+  "version": 1,
+  "clips": [
+    {
+      "id": "aoko-mine",
+      "title": "青子，这是我的东西",
+      "mood": 2,
+      "src": "voice/aoko-mine.wav",
+      "duration": 2.44,
+      "cues": [
+        {
+          "start": 0,
+          "end": 2.44,
+          "ja": "青子、これは私のものよ。",
+          "zh": "青子，这是我的东西。"
+        }
+      ],
+      "sha256": "9d092cd037ef9f59e4d932b54204bbf2e07defb236d74df8d7e173f6f23c5137"
+    },
+    {
+      "id": "pilot-1",
+      "title": "欢迎回来",
+      "mood": 0,
+      "src": "voice/pilot-1.wav",
+      "duration": 4.16,
+      "cues": [
+        {
+          "start": 0,
+          "end": 4.16,
+          "ja": "お帰りなさい。今日は、少し寒かったでしょう。",
+          "zh": "欢迎回来。今天有点冷吧。"
+        }
+      ],
+      "sha256": "cfdd03e10fcfa690df67933cce3501ac6a21d692e791d5fe3b3315db893daaff"
+    },
+    {
+      "id": "pilot-2",
+      "title": "已经很晚了",
+      "mood": 0,
+      "src": "voice/pilot-2.wav",
+      "duration": 3.72,
+      "cues": [
+        {
+          "start": 0,
+          "end": 3.72,
+          "ja": "もう遅いわ。残りは明日にしたら。",
+          "zh": "已经很晚了。剩下的，留到明天再做吧。"
+        }
+      ],
+      "sha256": "0b72178cee7069ac1cbb26d7abc2c162da29019b6b2af290333d95ab47c73f23"
+    },
+    {
+      "id": "pilot-3",
+      "title": "慢慢确认",
+      "mood": 5,
+      "src": "voice/pilot-3.wav",
+      "duration": 3.52,
+      "cues": [
+        {
+          "start": 0,
+          "end": 3.52,
+          "ja": "慌てなくていいわ。一つずつ確かめましょう。",
+          "zh": "不用着急。一项一项确认吧。"
+        }
+      ],
+      "sha256": "6335362d82a5bc18c92a2059b5fb44432df49d1b8de5c48c6a861c17915e4c84"
+    },
+    {
+      "id": "alice-tea",
+      "title": "茶已经泡好",
+      "mood": 1,
+      "src": "voice/alice-tea.wav",
+      "duration": 3.24,
+      "cues": [
+        {
+          "start": 0,
+          "end": 3.24,
+          "ja": "お茶を淹れたわ。冷める前に飲んで。",
+          "zh": "我泡好茶了。趁热喝吧。"
+        }
+      ],
+      "sha256": "282502416a5f3d9cef864b9a01372ea747f84cd1a916603d99f9871de63e505f"
+    },
+    {
+      "id": "alice-gaze",
+      "title": "别一直看着我",
+      "mood": 4,
+      "src": "voice/alice-gaze.wav",
+      "duration": 3.34,
+      "cues": [
+        {
+          "start": 0,
+          "end": 3.34,
+          "ja": "そんなに見つめないで。落ち着かないわ。",
+          "zh": "别一直盯着我看。让我有点不自在。"
+        }
+      ],
+      "sha256": "286f0fa25de04aa2dfd14e23302fc4d3e4f62624b54e143b4545d9890c3cca54"
+    },
+    {
+      "id": "alice-waiting",
+      "title": "并没有特意等你",
+      "mood": 0,
+      "src": "voice/alice-waiting.wav",
+      "duration": 2.32,
+      "cues": [
+        {
+          "start": 0,
+          "end": 2.32,
+          "ja": "別に、あなたを待っていたわけではないわ。",
+          "zh": "我倒也不是特意在等你。"
+        }
+      ],
+      "sha256": "8af58480dc2bb9da1c23992c275cfd9cc7c378ff9594c036d97986428b0ee1f4"
+    },
+    {
+      "id": "alice-rain",
+      "title": "记得带伞",
+      "mood": 0,
+      "src": "voice/alice-rain.wav",
+      "duration": 4.24,
+      "cues": [
+        {
+          "start": 0,
+          "end": 4.24,
+          "ja": "外は雨よ。出かけるなら、傘を持っていきなさい。",
+          "zh": "外面在下雨。要出门的话，带上伞。"
+        }
+      ],
+      "sha256": "602431f5c9296bf8e47f088cbf0172581dfaa34a3a7f8a4d54e293f7613fc6c5"
+    },
+    {
+      "id": "alice-quiet",
+      "title": "小声一点",
+      "mood": 2,
+      "src": "voice/alice-quiet.wav",
+      "duration": 3.4,
+      "cues": [
+        {
+          "start": 0,
+          "end": 3.4,
+          "ja": "聞こえているわ。大きな声を出さなくてもいいの。",
+          "zh": "我听得见。不必说那么大声。"
+        }
+      ],
+      "sha256": "28615e091c58e9d1e773b1f0b17d4e48deea65b9ed3523b2c907b74baf69914a"
+    },
+    {
+      "id": "alice-book",
+      "title": "窗边的书架",
+      "mood": 5,
+      "src": "voice/alice-book.wav",
+      "duration": 3.04,
+      "cues": [
+        {
+          "start": 0,
+          "end": 3.04,
+          "ja": "その本なら、窓際の棚にあるはずよ。",
+          "zh": "那本书应该在窗边的书架上。"
+        }
+      ],
+      "sha256": "af10efa2c23622f06aa0a3db0dad03de0d1c46e343de07de4cea12edf66c93d2"
+    },
+    {
+      "id": "alice-tomorrow",
+      "title": "明天继续",
+      "mood": 0,
+      "src": "voice/alice-tomorrow.wav",
+      "duration": 4.36,
+      "cues": [
+        {
+          "start": 0,
+          "end": 4.36,
+          "ja": "今日はここまでにしましょう。続きは、また明日。",
+          "zh": "今天就到这里吧。余下的，明天继续。"
+        }
+      ],
+      "sha256": "c77b40e565be6c0d7aa5118f9be8b0caf1c25c46f14448d5b246c8340c5268cc"
+    },
+    {
+      "id": "alice-sleepless",
+      "title": "睡不着的话",
+      "mood": 0,
+      "src": "voice/alice-sleepless.wav",
+      "duration": 4.96,
+      "cues": [
+        {
+          "start": 0,
+          "end": 4.96,
+          "ja": "眠れないの。それなら、少しだけ話をしましょう。",
+          "zh": "睡不着吗？那就聊一会儿吧。"
+        }
+      ],
+      "sha256": "44da44dd2a4b7ace6c8ff598497e38f6371d4790f367fb8e0918ac15102bd0de"
+    },
+    {
+      "id": "lullaby",
+      "title": "童谣 · 有珠哼唱",
+      "mood": 6,
+      "src": "voice/lullaby.wav",
+      "duration": 75.60417233560091,
+      "cues": [
+        {
+          "start": 0,
+          "end": 75.60417233560091,
+          "ja": "♪",
+          "zh": "有珠正在轻声哼唱童谣。"
+        }
+      ],
+      "sha256": "f778bb4cacdc6334c7dbbf9a864f4cb28e0022dc4ccf141602065879db67567e",
+      "kind": "source-recording",
+      "source": {
+        "url": "https://www.bilibili.com/video/BV1fv4y157tw/",
+        "id": "BV1fv4y157tw",
+        "title": "【有珠哼唱纯享】𝓑𝓾𝓲𝓵𝓭 𝓲𝓽 𝓾𝓹 𝔀𝓲𝓽𝓱 𝔀𝓸𝓸𝓭 𝓪𝓷𝓭 𝓬𝓵𝓪𝔂",
+        "uploader": "昕流涧",
+        "originalSha256": "4ef75323d55774afb42a7113b06b3c1f2c7c425a97f3aeeaa3c2b7b2d2c38bf4",
+        "processing": "AAC decoded to 44.1 kHz stereo PCM; 40 ms fade-in, 200 ms fade-out; no resynthesis, pitch, speed or gain changes.",
+        "subtitleNote": "Descriptive caption only; no lyrics transcription."
+      }
+    }
+  ],
+  "note": "Dialogue clips are experimental synthetic Japanese voice; the lullaby is the user-selected source recording, not synthesized."
+}

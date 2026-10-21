@@ -1,0 +1,2 @@
+Robin artwork: reused generated fan-art layers from the previously reviewed output/robin-preview-v3-voice study. Character: Lost Robin Rondo, TYPE-MOON WITCH ON THE HOLY NIGHT.
+The two short interaction clips are the previously produced local experimental synthetic fan dialogue, not newly extracted official recordings. No new training or model weights are added for this integration. Voice provenance remains in output/robin-preview-v3-voice/README.md and training/robin-ja.

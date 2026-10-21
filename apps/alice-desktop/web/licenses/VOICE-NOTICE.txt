@@ -1,0 +1,2 @@
+Dialogue clips: experimental voice synthesized locally with fine-tuned GPT-SoVITS v2; not official recordings. Character and source voice: Alice Kuonji, TYPE-MOON WITCH ON THE HOLY NIGHT. Dialogues are original fan text. No GPT-SoVITS runtime or neural model weights are embedded in this application.
+Lullaby: source recording imported at the user's request from https://www.bilibili.com/video/BV1fv4y157tw/ (uploader: 昕流涧). This clip was decoded with short boundary fades; it was not synthesized or used for training. Provenance is recorded in voice/lullaby-source.json.

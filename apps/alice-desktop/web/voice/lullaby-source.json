@@ -1,0 +1,26 @@
+{
+  "title": "童谣 · 有珠哼唱",
+  "file": "lullaby.wav",
+  "mood": 6,
+  "duration": 75.60417233560091,
+  "sampleRate": 44100,
+  "channels": 2,
+  "sha256": "f778bb4cacdc6334c7dbbf9a864f4cb28e0022dc4ccf141602065879db67567e",
+  "cues": [
+    {
+      "start": 0,
+      "end": 75.60417233560091,
+      "ja": "♪",
+      "zh": "有珠正在轻声哼唱童谣。"
+    }
+  ],
+  "source": {
+    "url": "https://www.bilibili.com/video/BV1fv4y157tw/",
+    "id": "BV1fv4y157tw",
+    "title": "【有珠哼唱纯享】𝓑𝓾𝓲𝓵𝓭 𝓲𝓽 𝓾𝓹 𝔀𝓲𝓽𝓱 𝔀𝓸𝓸𝓭 𝓪𝓷𝓭 𝓬𝓵𝓪𝔂",
+    "uploader": "昕流涧",
+    "originalSha256": "4ef75323d55774afb42a7113b06b3c1f2c7c425a97f3aeeaa3c2b7b2d2c38bf4",
+    "processing": "AAC decoded to 44.1 kHz stereo PCM; 40 ms fade-in, 200 ms fade-out; no resynthesis, pitch, speed or gain changes.",
+    "subtitleNote": "Descriptive caption only; no lyrics transcription."
+  }
+}

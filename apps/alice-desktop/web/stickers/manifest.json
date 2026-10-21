@@ -1,0 +1,41 @@
+{
+  "source": "本次用户提供的五张图片，原样复制",
+  "items": [
+    {
+      "sha256": "579BC6AEBC35CFF63E5F3ADA1AC943641C1B660FD06F91ABDEA39C644DB18429",
+      "id": "satisfied",
+      "trigger": "满意进食后",
+      "label": "心满意足",
+      "file": "satisfied.jpg"
+    },
+    {
+      "sha256": "9CA402503668471A85BC34A9EDD944EF63BE817DC9BDC2859BF213505F1BA786",
+      "id": "nope",
+      "trigger": "认为不行或不赞同",
+      "label": "这个不行",
+      "file": "nope.jpg"
+    },
+    {
+      "sha256": "AAC1B8A8B89432AB01D1E9605A4E68C12216B6D80CB9EC899FA94A0B1A462A3F",
+      "id": "smug",
+      "trigger": "得意时",
+      "label": "有一点得意",
+      "file": "smug.jpg"
+    },
+    {
+      "sha256": "E0784F3DEB5BE4EE2F08D12CEE770C6A6B6CD4DC8C0C7E5928E929F1F774A0A3",
+      "id": "speechless",
+      "trigger": "无语时",
+      "label": "……无语",
+      "file": "speechless.jpg"
+    },
+    {
+      "sha256": "1A37AE5BF43D2D13B36A5A5B6E2736C5CE90636625629E636D44009EC8B4EB50",
+      "id": "goodbye",
+      "trigger": "退出程序前",
+      "label": "下次再见",
+      "file": "goodbye.jpg"
+    }
+  ],
+  "version": 1
+}

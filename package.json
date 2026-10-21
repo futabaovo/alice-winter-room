@@ -1,0 +1,17 @@
+{
+  "name": "alice-winter-room",
+  "version": "3.3.0",
+  "private": true,
+  "description": "有珠 · 冬日小室 — private fan application",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "start": "electron apps/alice-desktop",
+    "test": "node --test apps/alice-desktop/test-*.cjs",
+    "package": "node apps/alice-desktop/package.cjs"
+  },
+  "devDependencies": {
+    "electron": "44.7.2"
+  }
+}

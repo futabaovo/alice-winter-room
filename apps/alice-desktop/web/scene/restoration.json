@@ -1,0 +1,16 @@
+{
+  "method": "built-in imagegen edit",
+  "source": "winter-room.jpg",
+  "sourceWidth": 1320,
+  "sourceHeight": 816,
+  "result": "winter-room-restored.png",
+  "width": 1594,
+  "height": 986,
+  "prompt": "Use case: precise-object-edit / lighting-weather.\nAsset type: high-resolution background for a Live2D visual novel desktop room, no character and no UI.\nInput image 1 is the EDIT TARGET, not a loose reference. Faithfully restore and upscale this exact illustrated nighttime glass conservatory. Preserve the camera, perspective, composition, placement/count/design of all furniture, potted plants, dark blue windows, wooden mullions, rug, red floor, roof and hanging central pendant lantern. Maintain original painted visual-novel/anime background style, warm dark wood and cozy nighttime palette. Do NOT redesign the room or move objects.\nPrimary change: produce a genuinely higher-resolution, cleanly resolved restoration, ideally about 3840x2376 pixels preserving the original roughly 1.62:1 aspect ratio. Resolve wood grain and crisp mullion edges, woven wicker, upholstery seams, fine rug border and motifs, and plant leaves, without harsh sharpening halos or artificial photographic texture.\nCritical local lighting correction: remove the large foggy gray/white bloom around the central pendant. Restore a clearly defined oval glass shade with dark metal cage/frame and its hanging chain; a small warm glowing source remains inside. Reduce the clipped solid-white hotspot so the glass/metal silhouette and adjacent roof beams are readable. Keep a restrained, small warm halo and believable warm light on nearby wood; no broad haze, blur, washed-out fog, rays, lens flare, cold blue light or giant glare blobs. The room remains warmly lit, not unlit or flat. Keep all nonlamp geometry identical.\nRemove only the tiny black letterbox borders by extending the same adjacent picture to the edges, without cropping away scenery. No people, text, watermark, branding, new objects, or UI. Preserve the composition needed for placing the character on the front-right rug.",
+  "changes": [
+    "higher-resolution AI detail reconstruction",
+    "reduced broad lamp bloom",
+    "restored glass shade, cage and chain",
+    "preserved room composition and warm nighttime atmosphere"
+  ]
+}

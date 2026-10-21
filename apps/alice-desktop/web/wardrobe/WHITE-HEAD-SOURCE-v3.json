@@ -1,0 +1,17 @@
+{
+  "mode": "built-in image_gen",
+  "file": "white-head-v3.png",
+  "source": "exec-57bc59d0-afaa-4da0-86c8-1bb9d2bec5e1.png",
+  "prompt": "Use case: precise-object-edit. Image 1 is the EDIT TARGET, an existing front-facing transparent blue-black bob hair game layer with a face-shaped transparent aperture and a separate black neck collar. Image 2 is the authoritative STYLE AND HAT REFERENCE of Alice Kuonji's white winter outfit. Produce ONE transparent front-facing game head layer. Preserve image 1's square canvas composition, exact hair/face-hole scale and placement as closely as possible: center x=.50, transparent face aperture spans roughly x=.31 to .68 and y=.52 to pointed chin y=.759, hair ends around y=.88. Keep the original restrained dark near-black blue-violet bob, simple painterly cel shading and pointed overlapping bangs. Add the reference's white soft winter cloche hat naturally fitted over the hair crown, with the white bow on the viewer's RIGHT. The cap must have a softly rounded cloth crown, subtle asymmetric fabric tension, a small curved sloping brim wrapping around the temples, and a clean softly tucked termination on the viewer's LEFT. Hair visibly emerges naturally below the brim. Avoid an oversized inflated dome, hard horizontal shelf, straight-cut white slab, detached triangular flap or ornamental piping. Integrate the cap and hair silhouette into one coherent drawing with no floating elements or rough alpha debris. IMPORTANT: REMOVE THE ENTIRE BLACK NECK COLLAR from image 1, so this asset contains ONLY HAT AND HAIR. No scarf, no turtleneck, no neck, no shoulders, no skin, no jaw outline, no drawn V under the chin; the space below the face hole between side hair locks must be fully transparent and OPEN to the outside background. The runtime supplies the original animated face and coat collar behind this layer. The FACE HOLE must remain genuinely transparent, with NO painted face, NO eyes, NO eyebrows, NO nose and NO mouth. Hair and cap completely visible with modest margins, centered, front view. Flat original visual novel game illustration style, crisp clean antialiased cutout alpha, no halos, no disconnected stray pixels, no text or watermark. Genuine alpha background also THROUGH the face opening and below the chin.",
+  "references": [
+    "clean-bob-neck-v2.png",
+    "c6c1ecde13c6f31fe17099ef10de82a2.jpg"
+  ],
+  "runtime": "Unified hat and hair; native face in front of lower hair; no separate neck/collar patch; coat's own black turtleneck remains continuous with lapels.",
+  "faceAnchor": {
+    "centerX": 0.5,
+    "virtualChinY": 0.839,
+    "width": 0.39,
+    "height": 0.39
+  }
+}

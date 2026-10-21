@@ -1,0 +1,28 @@
+{
+  "mode": "built-in image_gen",
+  "file": "white-cap-v12.png",
+  "source": "exec-3875457c-2f9e-4ce7-a273-8370f26140ef.png",
+  "prompt": "Use case: precise-object-edit. Image 1 is the EDIT TARGET: the newly rebuilt transparent tall white winter hat with a full viewer-right bow. Image 2 is its ACTUAL APP FIT on the existing character; use it ONLY to understand the bow's placement problem. Image 3 is the user's authoritative costume reference. Make ONE precise correction: shift the entire bow OUTWARD toward viewer-right by about 6 percent of image 1's canvas width, keeping its full generous volume and original two-lobe shape. The bow is currently too far inside the hat's face opening and intrudes over the character's outer eye in image 2. Mount it on the OUTER SIDE WALL of the hat instead, so the wide left lobe stays beside the temple/side hair and leaves the outer eye clear. Keep a short connecting fold at its original attachment so it still looks sewn to the hat. Do not shrink the bow into a small knot, and do not move the whole hat. Preserve image 1's entire tall crown silhouette, relatively straight side walls, subtle front projection, shallow forehead crease, central shadow, neutral ivory palette, and pixel scale exactly. Keep hat upright and front-facing. If required, add a little transparent margin at the RIGHT edge to accommodate the relocated bow without clipping; do not squeeze or warp the hat. Output ONLY the isolated hat and bow on true transparent alpha. No face, hair, body, skin, neck, collar, scene, lettering, detached pixels or watermark. Do not copy the black canvas background or any character features from image 2.",
+  "references": [
+    "white-cap-v11.png",
+    "before.png",
+    "white-winter-standing.webp"
+  ],
+  "initialRebuild": {
+    "file": "white-cap-v11.png",
+    "source": "exec-f3d464f8-6711-4bb3-bfb5-87ef207eff4a.png",
+    "prompt": "Use case: precise-object-edit, production game sprite. Rebuild the ORIGINAL WHITE HAT worn by Alice Kuonji in IMAGE 1, the new complete standing costume reference. IMAGE 2 shows the same hat FROM THE FRONT, on the woman at the RIGHT: use it to convert image 1's tilted three-quarter perspective into a straight-on view. Only the hat and its viewer-right white bow, clean true transparency everywhere else. Preserve this specific original design. Its crown is TALL AND SUPPORTED, rounded above with relatively straight, slightly gathered-in side walls; the crown height from top to central lower edge is roughly three quarters of the main hat body's width. The hat must have the tall, narrow, poised proportions of image 1, not a squat broad beanie, puffy bonnet, headwrap or helmet. The forehead front projects subtly outward with a thin lower edge and a restrained central gray volume as in image 2. One delicate short shallow fabric crease above the front, not a heavy outlined rolled cuff. Keep the lower edge shallow and calm; no drooping flaps wrapping beside the eyes. Restore the FULL, generously sized viewer-right bow from image 1, about one third of the main cap's width, with two clearly shaped broad lobes and short tails; do not shrink it into a tiny knot. Use original restrained 2D visual-novel linework and simple neutral ivory-white shading, matching image 1; avoid glossy satin and 3D airbrushing. No new decoration. Composition: front-facing, upright, square canvas. Main cap centered around x=.50, spanning approximately x=.19 to .81; top around y=.04 and central lower edge around y=.50. Keep the complete bow visible on the right and generous transparent margins. No hair, head, face, skin, neck, collar, body, mannequin, background, text or watermark. Empty alpha beneath the rim and outside the hat. Do not use image 2's cyan lighting.",
+    "references": [
+      "white-winter-standing.webp",
+      "white-winter-front-reference.jpg"
+    ],
+    "inspection": "Tall supported crown and restored full bow matched the new design direction; bow was too far inward over the outer eye. The second edit moved it outward while retaining volume."
+  },
+  "runtime": {
+    "fit": "Uniform scale in source pixel coordinates; main crown body width is 1.48 times the native face mesh width. Crown span and center are measured above the bow, so bow size and transparent canvas margins do not alter hat-body fit.",
+    "rim": "Median longest opaque run in nine columns through the measured crown center. Eye-to-brim gap stays 0.20 of upper-lash-to-visible-jaw distance, independent of blink.",
+    "layers": "Original native face and white-head-v5 hair unchanged; white-cap-v6 remains only the original-coordinate cap-erasure matte. Full texture is rendered so the restored bow is not clipped.",
+    "imageAspect": "Source image height/width is included in vertical scale to preserve pixel aspect."
+  },
+  "verification": "16 head/eye/mouth poses across two outfits, native/hair/fringe isolation, hat-depth width/height invariance, 12 outfit/food interactions and pet-mode checks; inspect saved images as well as numeric results."
+}

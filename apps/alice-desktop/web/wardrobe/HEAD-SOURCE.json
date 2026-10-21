@@ -1,0 +1,14 @@
+{
+  "mode": "built-in image_gen",
+  "file": "clean-bob-neck-v2.png",
+  "source": "exec-28e8c108-fece-42f9-bfb5-f4f67039107d.png",
+  "prompt": "Edit the first image, which is a transparent game head/hair/collar layer. Images 2, 3 and 4 are the user's authoritative Alice Kuonji NO-HAT hair references. Correct only the hair silhouette, hair strand design and collar finish to match those references: a smooth compact rounded skull, dark nearly black blue-purple jaw-length bob, less wide/fluffy at the sides, finer long tapered straight side locks, a restrained subtle crown part, asymmetric overlapping pointed bangs with a long central point, as in reference 2 and reference 4. Simpler broad painterly hair shadows like original Witch on the Holy Night art, not shiny ornate purple hair. Preserve front-facing symmetry for animation, and preserve the alpha face aperture and its oval pointed-chin shape approximately at the same location/size as input 1. The face aperture MUST be transparent: no painted face, no eyes, no eyebrows, no nose or mouth. This is only hair and a thin close-fitting smooth BLACK TURTLENECK UNDERLAYER beneath the chin, not a chunky knitted scarf and not a fur collar. The collar needs clean softly curved edges and joins a white coat below. No hat, no white hood, no black fur fragments anywhere, no coat shoulders. No skin pixels around the empty face aperture or on the neck. Complete hair crown included with margins. True alpha background outside the head and THROUGH the face aperture, square production asset. Use reference photos solely for hair design, don't import their clothes, jewelry, backgrounds, watermarks or text.",
+  "referencePurpose": "User's no-hat images: crown shape, fringe, bob ends, collar; no additional costumes requested.",
+  "preserves": "Original Cubism eyes, brows, nose, mouth and expression timing.",
+  "faceAperture": {
+    "centerX": 0.5,
+    "chinY": 0.759,
+    "width": 0.39,
+    "height": 0.39
+  }
+}

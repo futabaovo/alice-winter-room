@@ -1,0 +1,8 @@
+{
+  "mode": "built-in image_gen",
+  "file": "white-coat-v3.png",
+  "source": "exec-15f5ae10-8299-45c4-9e0e-250824ee59a0.png",
+  "prompt": "Use case: precise-object-edit. EDIT ONLY THE BLACK NECK TOP in this transparent game outfit texture. Preserve the ENTIRE canvas layout, dimensions, garment silhouette, every white coat lapel, belt, bow, sleeve, glove, button, stocking, shoe, standalone white hat above, shading and placements exactly as in the source. At about x=.46-.54, y=.167-.22 of the full canvas, the black turtleneck currently has a gray open oval cylinder top like an empty mannequin neck. Replace that gray ellipse and rim with a CLOSED, fitted near-black fabric turtleneck continuing smoothly upward to a simple subtly curved upper edge behind the eventual animated chin. The upper edge should be a shallow gentle inverted arch, front view, opaque black cloth beneath it, with no exposed top-facing gray disk, no tube hole, no metallic rim, no visible horizontal elliptical shelf, no separate neck ring, no fur/scarf. Keep the existing black fabric front continuous into the lapels. Only modify this small black neck area; do not resize, recenter, redraw the coat, alter the white cap, or add any skin/head/hair. No face. Genuine transparent background preserved. Clean antialiased alpha, no edge debris or text. This will be mapped into an existing animated game rig, so unchanged coordinates and crop are critical.",
+  "reference": "white-coat.png",
+  "change": "Replace empty gray neck cylinder/ellipse with continuous opaque black fabric; retain original coat geometry and layout."
+}
