@@ -1,7 +1,7 @@
 {
   "name": "alice-kuonji-desktop",
   "productName": "有珠 · 冬日小室",
-  "version": "3.3.0",
+  "version": "1.0.0",
   "private": true,
   "main": "main.cjs",
   "description": "Live2D character with Japanese speech, Chinese subtitles and audio-driven lip sync"
