@@ -1,6 +1,6 @@
 # 有珠 · 冬日小室
 
-Windows x64 小室与透明桌宠，同人私人定制版本 **1.0.0**。基于 Electron 与现有 Live2D 模型。
+Windows x64 小室与透明桌宠，同人应用 **1.0**（程序版本 **1.0.0**）。基于 Electron 与现有 Live2D 模型。
 
 ![冬日小室](docs/room.png)
 
@@ -8,7 +8,7 @@ Windows x64 小室与透明桌宠，同人私人定制版本 **1.0.0**。基于 
 
 ## 使用发布版
 
-在 Releases 下载单文件 EXE，或下载便携 ZIP 并解压后运行其中的 AliceKuonji.exe。无需 Node.js、Python 或 Live2D 编辑器。详情见 [使用说明](apps/alice-desktop/release-docs/使用说明.txt)。
+在 [1.0 发布页](https://github.com/futabaovo/alice-winter-room/releases/tag/v1.0.0) 下载单文件 EXE，或下载便携 ZIP 并解压后运行其中的 AliceKuonji.exe。仓库与下载公开访问，无需成为协作者。无需 Node.js、Python 或 Live2D 编辑器。详情见 [使用说明](apps/alice-desktop/release-docs/使用说明.txt)。
 
 ## 功能
 
@@ -42,4 +42,4 @@ npm test
 
 发布检查摘要见 [验证记录](docs/VALIDATION.md)。改动记录见 [RELEASE-NOTES](apps/alice-desktop/release-docs/RELEASE-NOTES.md)。
 
-[素材与第三方说明](apps/alice-desktop/release-docs/THIRD-PARTY-NOTICES.md)：非官方同人项目，第三方素材适用各自条件；人设改写文本另见所附 CC BY-NC-SA 4.0 说明。当前仓库为私人保存用途，未将所有混合素材声明为统一开源许可。
+[素材与第三方说明](apps/alice-desktop/release-docs/THIRD-PARTY-NOTICES.md)：非官方同人项目，第三方素材适用各自条件；人设改写文本另见所附 CC BY-NC-SA 4.0 说明。公开下载不替代各项素材的使用许可，未将所有混合素材声明为统一开源许可。
