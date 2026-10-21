@@ -1,7 +1,7 @@
 有珠 · 冬日小室 1.0 — Windows 10/11 x64
 
 如何运行
-双击 AliceKuonji-Winter-v1.0.0.exe。首次启动会将内置播放器整理到本机缓存，Robin 飞行时请稍候；后续直接复用缓存。无需安装 Node.js、Python、Live2D 编辑器或 LingChat。
+双击 AliceKuonji-Winter-v1.0.0.exe。首次启动会将内置播放器整理到本机缓存，Robin 飞行时请稍候；后续直接复用缓存。无需安装 Node.js、Python 或 Live2D 编辑器。
 也可以解压便携 ZIP 后运行 AliceKuonji.exe；请保留整个解压目录，不能单独拿走其中的 EXE。
 
 系统要求

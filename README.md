@@ -1,6 +1,6 @@
 # 有珠 · 冬日小室
 
-Windows x64 小室与透明桌宠，同人私人定制版本 **1.0.0**。基于 Electron 与现有 Live2D 模型，不依赖 LingChat。
+Windows x64 小室与透明桌宠，同人私人定制版本 **1.0.0**。基于 Electron 与现有 Live2D 模型。
 
 ![冬日小室](docs/room.png)
 
