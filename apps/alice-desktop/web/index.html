@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>有珠 · 冬日小室</title><link rel="icon" href="data:,"><link rel="stylesheet" href="app.css"><link rel="stylesheet" href="polish.css"><link rel="stylesheet" href="tool-rail.css"><link rel="stylesheet" href="expression-previews.css"><link rel="stylesheet" href="startup.css">
+  <title>有珠 · 冬日小室</title><link rel="icon" href="data:,"><link rel="stylesheet" href="app.css"><link rel="stylesheet" href="polish.css"><link rel="stylesheet" href="tool-rail.css"><link rel="stylesheet" href="expression-previews.css"><link rel="stylesheet" href="startup.css"><link rel="stylesheet" href="character-style.css">
   <script src="window-mode.js"></script>
   <script src="core/live2dcubismcore.min.js" defer></script><script type="module" src="app.js"></script>
 </head>
@@ -110,7 +110,7 @@
     <p id="companion-status" role="status" aria-live="polite"></p>
   </dialog>
   <dialog id="persona-dialog"><button id="close-persona" class="dialog-close" aria-label="关闭角色设定">×</button><div class="eyebrow">THE QUIET WITCH</div><h2>有珠的角色设定</h2><pre id="persona-content"></pre><p class="fine">性格摘录来源：用户引用的萌娘百科《久远寺有珠》，按 CC BY-NC-SA 4.0 改写。背景另参考官方人物介绍；完整来源说明随程序提供。</p></dialog>
-  <dialog id="wardrobe-dialog"><button id="close-wardrobe" class="dialog-close" aria-label="关闭衣装与餐盘">×</button><div class="eyebrow">A CHANGE OF SCENE</div><h2>衣装与餐盘</h2><p class="wardrobe-intro">今日衣装 <span id="wardrobe-current">冬日披肩</span></p><div id="wardrobe-options" class="wardrobe-options" role="group" aria-label="选择衣装"></div><section id="sushi-section"><h3>给她尝哪一种？</h3><div id="sushi-options" class="sushi-options" role="group" aria-label="选择寿司种类"></div><p id="sushi-description"></p><button id="feed-selected" class="primary" type="button">投喂这一份</button><p class="fine">也可以关闭餐盘，点击“寿司”或按住拖到她嘴边。</p></section></dialog>
+  <dialog id="wardrobe-dialog"><button id="close-wardrobe" class="dialog-close" aria-label="关闭衣装与餐盘">×</button><div class="eyebrow">A CHANGE OF SCENE</div><h2>衣装与餐盘</h2><p class="wardrobe-intro">人物形象 <span id="character-style-current">立绘</span></p><div class="character-style-options" role="group" aria-label="选择立绘或Q版"><button type="button" class="character-style-card" data-character-style="illustration" aria-pressed="true"><img src="wardrobe/winter-preview.png" alt=""><strong>立绘</strong><small>原有形象</small></button><button type="button" class="character-style-card" data-character-style="chibi" aria-pressed="false"><canvas id="character-chibi-preview" width="120" height="150" aria-hidden="true"></canvas><strong>Q 版</strong><small>小小的有珠</small></button></div><p class="wardrobe-intro">今日衣装 <span id="wardrobe-current">冬日披肩</span></p><div id="wardrobe-options" class="wardrobe-options" role="group" aria-label="选择衣装"></div><section id="sushi-section"><h3>给她尝哪一种？</h3><div id="sushi-options" class="sushi-options" role="group" aria-label="选择寿司种类"></div><p id="sushi-description"></p><button id="feed-selected" class="primary" type="button">投喂这一份</button><p class="fine">也可以关闭餐盘，点击“寿司”或按住拖到她嘴边。</p></section></dialog>
   <dialog id="tea-dialog" aria-labelledby="tea-heading"><button id="close-tea" class="dialog-close" aria-label="关闭茶室">×</button><div class="eyebrow">A LITTLE TIME FOR TEA</div><h2 id="tea-heading">为她泡一杯红茶</h2>
     <canvas id="tea-preview" width="840" height="350" aria-label="茶壶注水与红茶茶具"></canvas>
     <div class="tea-recipe"><label for="tea-leaf">茶叶品质</label><select id="tea-leaf"></select><p id="tea-leaf-note"></p>
@@ -124,6 +124,8 @@
     <section id="tea-last" class="tea-last" hidden><span class="eyebrow">品茗之后</span><h3 id="tea-feeling-name"></h3><p id="tea-feeling-copy"></p><button id="tea-read" type="button">日语朗读这句感想</button></section>
     <details class="tea-history"><summary>最近的品茗记录</summary><ul id="tea-history"></ul></details><p class="fine">品质由茶叶与火候共同决定。这里的数值用于互动模拟。</p>
   </dialog>
+  <dialog id="book-game-dialog" aria-labelledby="book-game-title"><button id="close-book-game" class="dialog-close" aria-label="关闭书本打Robin小游戏">×</button><div class="book-game-top"><div><div class="eyebrow">A QUIETER LITTLE LIBRARY</div><h2 id="book-game-title">有珠的书本保卫战</h2><p>九宫格挑战。分数决定 Robin 的嘴硬程度，最后一句由有珠说。</p></div></div><div class="book-game-options"><label for="book-game-difficulty">难度<select id="book-game-difficulty" aria-describedby="book-game-difficulty-info"></select></label><span id="book-game-difficulty-info"></span><label><input id="book-game-sound" type="checkbox" checked>音效</label><label><input id="book-game-reduced" type="checkbox">减弱动效</label></div><div class="book-game-hud"><span>得分<strong id="book-game-score">0</strong></span><span>连击<strong id="book-game-combo">0</strong></span><span>剩余<strong id="book-game-time">45s</strong></span><span>本难度最佳<strong id="book-game-best">0</strong></span></div><canvas id="book-game-canvas" width="980" height="560" tabindex="0" aria-label="书本打Robin游戏区，按1到9从左上到右下选择对应洞口，空格暂停"></canvas><div class="book-game-actions"><button id="book-game-start" class="primary" type="button">开始游戏</button><button id="book-game-pause" type="button" disabled>暂停</button><span id="book-game-status" role="status" aria-live="polite">一局45秒。点击洞口，也可按键盘1—9；空格暂停。</span></div></dialog>
+  <link rel="stylesheet" href="book-robin-game.css">
 </body>
 </html>
 

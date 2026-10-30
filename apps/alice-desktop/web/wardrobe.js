@@ -63,7 +63,7 @@ export async function initWardrobe({character,getPet,onChange}){
     get selected(){return desired;},get desired(){return desired;},get displayed(){return selected;},get temporaryOwner(){return temporaryOwner;},set,wearTemporarily,restore,open,faceContour:()=>frame()?.contour,
     setCapOffset:value=>{capOffset=Math.max(-.12,Math.min(.12,Number(value)||0));},
     skip:id=>selected!=='winter'&&(body.test(id)||id.includes('Hair')),
-    headBounds(){if(selected!=='penguin')return c.meshBounds('ArtMeshHeadwear');const f=frame();return f?{left:f.center-f.face.width*1.5,right:f.center+f.face.width*1.5,top:f.hat.top-5,bottom:f.face.bottom+f.face.height*.12,width:f.face.width*3,height:f.face.height*2}:null;},
+    headBounds(){if(c.characterStyle==='chibi'||selected!=='penguin')return c.meshBounds('ArtMeshHeadwear');const f=frame();return f?{left:f.center-f.face.width*1.5,right:f.center+f.face.width*1.5,top:f.hat.top-5,bottom:f.face.bottom+f.face.height*.12,width:f.face.width*3,height:f.face.height*2}:null;},
     drawBack(){if(selected==='winter')return;const f=frame();if(!f)return;if(selected==='penguin'){place(meshes.lining,c,(x,y)=>({x:f.center+(x-1)*f.face.width*.8,y:f.face.top-f.face.height*.6+y/2*f.face.height*1.85}));c.drawTextureMesh(textures.lining,meshes.lining);}else{
       // Hair behind the cheeks closes the aperture while the coat's own neck
       // covers its lower edge. No foreground scarf or collar patch is added.

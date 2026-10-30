@@ -1,0 +1,22 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>有珠 · 键盘模式</title><link rel="icon" href="data:,"><link rel="stylesheet" href="keyboard.css"><script type="module" src="keyboard.js"></script></head>
+<body><main id="companion">
+  <header id="heading"><span class="lamp"></span><span>有珠的键盘时光</span><button id="settings-open" aria-label="键盘模式设置" aria-expanded="false" aria-controls="settings">···</button></header>
+  <canvas id="pixel" width="192" height="224" tabindex="0" aria-label="像素有珠，按住人物可以拖动"></canvas>
+  <div id="beat" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+  <p id="line" role="status">……我陪你。</p>
+  <footer><button id="pause" aria-pressed="false">暂停</button><button id="return-pet">普通桌宠</button><button id="return-room">小室 ↗</button></footer>
+  <p id="status">正在准备键盘模式</p>
+  <section id="settings" aria-label="键盘模式设置" hidden>
+    <div class="panel-title"><strong>键盘模式</strong><button id="settings-close" aria-label="关闭设置">×</button></div>
+    <label>响应范围<select id="scope"><option value="global">在其他软件打字时也响应</option><option value="local">仅此窗口内响应</option></select></label>
+    <label>像素衣装<select id="outfit"><option value="winter">冬日披肩</option><option value="white">白色冬装</option><option value="penguin">企鹅服</option></select></label>
+    <label>大小 <output id="scale-value">100%</output><input id="scale" type="range" min="70" max="150" value="100"></label>
+    <label>轻动幅度 <output id="intensity-value">60%</output><input id="intensity" type="range" min="0" max="100" value="60"></label>
+    <label class="check"><input id="mouse" type="checkbox"> 也跟随鼠标点击</label><label class="check"><input id="pinned" type="checkbox" checked> 保持置顶</label>
+    <label class="check"><input id="shortcuts" type="checkbox" checked> 快捷键专属动作</label>
+    <p class="privacy">响应敲击节奏和常用快捷键，不读取剪贴板、不记录输入内容。切回普通模式后停止监听。</p>
+    <button id="preview" class="preview">预览一次敲击</button>
+    <label>看看她的反应<select id="reaction-preview" aria-label="选择快捷键动作"></select></label>
+    <button id="preview-reaction" class="preview">预览专属动作</button>
+  </section>
+</main></body></html>

@@ -1,14 +1,14 @@
 # 有珠 · 冬日小室
 
-Windows x64 小室与透明桌宠，同人应用 **1.0**（程序版本 **1.0.0**）。基于 Electron 与现有 Live2D 模型。
+Windows x64 小室与透明桌宠，同人应用 **1.1**（程序版本 **1.1.0**）。基于 Electron 与现有 Live2D 模型。
 
-![冬日小室](docs/room.png)
+![冬日小室](docs/room-v1.1.jpg)
 
 面向 Windows 10/11 的 Intel/AMD 64 位电脑，需显卡驱动支持 WebGL2。Windows 7/8/8.1、32 位系统不在本包支持范围；ARM 的模拟运行尚未验证。无需为显示角色额外安装 Node.js 或 Python，内置语音可离线使用。
 
 ## 使用发布版
 
-在 [1.0 发布页](https://github.com/futabaovo/alice-winter-room/releases/tag/v1.0.0) 下载单文件 EXE，或下载便携 ZIP 并解压后运行其中的 AliceKuonji.exe。仓库与下载公开访问，无需成为协作者。无需 Node.js、Python 或 Live2D 编辑器。详情见 [使用说明](apps/alice-desktop/release-docs/使用说明.txt)。
+在 [1.1 发布页](https://github.com/futabaovo/alice-winter-room/releases/tag/v1.1.0) 下载单文件 EXE，或下载便携 ZIP 并解压后运行其中的 AliceKuonji.exe。仓库与下载公开访问，无需成为协作者。无需 Node.js、Python 或 Live2D 编辑器。详情见 [使用说明](apps/alice-desktop/release-docs/使用说明.txt)。
 
 ## 功能
 
@@ -34,7 +34,7 @@ npm test
 
 ## 打包
 
-在 Windows x64 安装 7-Zip 和系统 .NET Framework C# 编译器后运行 `npm run package`。默认寻找标准安装位置，可用 SEVEN_ZIP 和 CSC_PATH 指定工具。输出在 release/v1.0.0/；已有目录时拒绝覆盖。包内含 Electron/Chromium 许可、第三方说明、单文件 EXE、便携 ZIP 和 SHA-256。
+在 Windows x64 安装 7-Zip 和系统 .NET Framework C# 编译器后运行 `npm run package`。默认寻找标准安装位置，可用 SEVEN_ZIP 和 CSC_PATH 指定工具。输出在 release/v1.1.0/；已有目录时拒绝覆盖。包内含 Electron/Chromium 许可、第三方说明、单文件 EXE、便携 ZIP 和 SHA-256。
 
 正式用户配置独立于仓库，继续保存在应用数据目录 AliceKuonjiWinter/2.4。源码预览配置不自动导入。
 

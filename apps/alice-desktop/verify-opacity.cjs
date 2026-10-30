@@ -28,8 +28,10 @@ exports.verifyOpacity=async(room,output,{desktopPet})=>{
     await change(pet,n);await until(()=>js(room,`aliceApp.petOptions.value.dialogueOpacity===${n}`),'room/pet sync');
     const data=await js(pet,"(()=>{const c=document.getElementById('chat-panel'),b=document.getElementById('pet-speech'),s=getComputedStyle(c),t=getComputedStyle(b);return {dock:c.getBoundingClientRect().toJSON(),background:s.backgroundImage,blur:s.backdropFilter,caption:t.backgroundImage,ink:getComputedStyle(document.getElementById('chat-input')).opacity,captionInk:getComputedStyle(document.getElementById('pet-speech-zh')).opacity,text:document.getElementById('pet-speech-zh').textContent,finite:aliceApp.diagnostic().finite};})()");
     assert.equal(data.ink,'1');assert.equal(data.captionInk,'1');assert(data.finite&&data.text.length>0);if(n===0)assert.equal(data.blur,'blur(0px)');
-    const capture=await shot(pet,'pet-'+n),bitmap=capture.toBitmap(),{width,height}=capture.getSize();let alpha=255;
-    for(let x=Math.ceil(data.dock.left+3);x<data.dock.left+8;x++)for(let y=Math.ceil(data.dock.top+25);y<data.dock.bottom-25;y++)alpha=Math.min(alpha,bitmap[(y*width+x)*4+3]);
+    const capture=await shot(pet,'pet-'+n),bitmap=capture.toBitmap(),{width,height}=capture.getSize(),viewport=await js(pet,'({width:innerWidth,height:innerHeight})');let alpha=255;
+    // Native screenshots use physical pixels; DOM bounds use CSS pixels.
+    const sx=width/viewport.width,sy=height/viewport.height;
+    for(let x=Math.ceil((data.dock.left+3)*sx);x<(data.dock.left+8)*sx;x++)for(let y=Math.ceil((data.dock.top+25)*sy);y<(data.dock.bottom-25)*sy;y++)alpha=Math.min(alpha,bitmap[(y*width+x)*4+3]);
     if(n===0)assert.equal(alpha,0,'Transparent setting left a visible background');if(n===100)assert.equal(alpha,255,'Opaque setting did not cover desktop');
     report.levels.push({percent:n,minimumBackgroundAlpha:alpha,...data,width,height});
   }

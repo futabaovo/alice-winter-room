@@ -2,6 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
 const {execFileSync}=require('node:child_process');
 const {copyApplication}=require('./release-files.cjs');
+require('./build-keyboard.cjs').buildKeyboard();
 const root=path.resolve(__dirname,'../..'),version=require('./package.json').version;
 const outputArg=process.argv.find(a=>a.startsWith('--output='));
 const output=outputArg?path.resolve(outputArg.slice(9)):path.join(root,'release','v'+version);

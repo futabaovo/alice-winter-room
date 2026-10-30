@@ -76,6 +76,7 @@ export class Character {
   textureFromImage(image){const g=this.gl,t=g.createTexture();g.activeTexture(g.TEXTURE0);g.bindTexture(g.TEXTURE_2D,t);g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MIN_FILTER,g.LINEAR);g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MAG_FILTER,g.LINEAR);g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_S,g.CLAMP_TO_EDGE);g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_T,g.CLAMP_TO_EDGE);g.texImage2D(g.TEXTURE_2D,0,g.RGBA,g.RGBA,g.UNSIGNED_BYTE,image);return t;}
   drawTextureMesh(texture,mesh,{eraseTexture=null}={}){const g=this.gl,l=this.locations;g.uniform1f(l.spiralEyes,0);g.uniform1i(l.cutLayer,eraseTexture?1:0);if(eraseTexture){g.activeTexture(g.TEXTURE3);g.bindTexture(g.TEXTURE_2D,eraseTexture);}g.uniform1i(l.useMask,0);g.uniform1f(l.faceShade,0);g.uniform1f(l.eraseHands,0);g.uniform1i(l.cutGarment,0);g.activeTexture(g.TEXTURE0);g.bindTexture(g.TEXTURE_2D,texture);for(const [buffer,data,attribute]of [[this.pBuffer,mesh.positions,l.position],[this.uBuffer,mesh.uvs,l.uv]]){g.bindBuffer(g.ARRAY_BUFFER,buffer);g.bufferData(g.ARRAY_BUFFER,data,g.DYNAMIC_DRAW);g.enableVertexAttribArray(attribute);g.vertexAttribPointer(attribute,2,g.FLOAT,false,0,0);}g.bindBuffer(g.ELEMENT_ARRAY_BUFFER,this.iBuffer);g.bufferData(g.ELEMENT_ARRAY_BUFFER,mesh.indices,g.STATIC_DRAW);g.uniform1f(l.opacity,1);g.drawElements(g.TRIANGLES,mesh.indices.length,g.UNSIGNED_SHORT,0);g.uniform1i(l.cutLayer,0);}
   render(){
+    if(this.characterStyle==='chibi'&&this.chibi?.ready){this.chibi.render();return;}
     this.model.update();
     prepareExpressionGeometry(this);
     const gl=this.gl,c=this.canvas,l=this.locations,b=this.bounds;
@@ -126,7 +127,7 @@ export class Character {
     }
     this.wardrobe?.drawFront();gl.uniform1i(l.useMask,0);this.frames++;this.drawn=drawn;
   }
-  meshBounds(id){const index=this.model.drawables.ids.indexOf(id),p=this.placement;if(index<0||!p)return null;const vertices=this.model.drawables.vertexPositions[index];let left=Infinity,right=-Infinity,top=Infinity,bottom=-Infinity;for(let i=0;i<vertices.length;i+=2){const x=((vertices[i]-p.centerX)*p.scaleX+1)*this.canvas.clientWidth/2,y=(1-(vertices[i+1]-p.centerY)*p.scaleY)*this.canvas.clientHeight/2;left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);}return {left,right,top,bottom,width:right-left,height:bottom-top};}
+  meshBounds(id){if(this.characterStyle==='chibi'&&this.chibi?.last)return this.chibi.meshBounds(id);const index=this.model.drawables.ids.indexOf(id),p=this.placement;if(index<0||!p)return null;const vertices=this.model.drawables.vertexPositions[index];let left=Infinity,right=-Infinity,top=Infinity,bottom=-Infinity;for(let i=0;i<vertices.length;i+=2){const x=((vertices[i]-p.centerX)*p.scaleX+1)*this.canvas.clientWidth/2,y=(1-(vertices[i+1]-p.centerY)*p.scaleY)*this.canvas.clientHeight/2;left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);}return {left,right,top,bottom,width:right-left,height:bottom-top};}
   alphaAt(x,y){const c=this.canvas;if(x<0||y<0||x>=c.clientWidth||y>=c.clientHeight)return 0;const pixel=new Uint8Array(4);this.gl.readPixels(Math.floor(x*c.width/c.clientWidth),c.height-1-Math.floor(y*c.height/c.clientHeight),1,1,this.gl.RGBA,this.gl.UNSIGNED_BYTE,pixel);return pixel[3];}
   diagnostic(){
     const gl=this.gl,p=this.model.parameters;

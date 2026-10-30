@@ -6,6 +6,7 @@ const { VoiceHost } = require('./voice-host.cjs');
 const { ChatHost, persona } = require('./chat-host.cjs');
 const { ProactiveHost } = require('./proactive-host.cjs');
 const {DesktopPet}=require('./desktop-pet.cjs');
+const {KeyboardMode}=require('./keyboard-mode.cjs');
 const {TeaHost}=require('./tea-host.cjs');
 const {FarewellHost}=require('./farewell-host.cjs');
 
@@ -24,8 +25,8 @@ const validPetOptions=value=>Object.fromEntries(Object.entries(petOptionDefaults
   return typeof next==='number'&&Number.isFinite(next)?[[key,Math.round(Math.max(0,Math.min(100,next)))]]:[];
 }));
 let petOptions={...petOptionDefaults};try{petOptions={...petOptions,...validPetOptions(JSON.parse(fs.readFileSync(petOptionsFile,'utf8')))};}catch{}
-const appearanceFile=path.join(profile,'appearance.json');let appearance={outfit:'winter',sushi:'salmon'};
-const validAppearance=value=>Object.fromEntries(Object.entries(value||{}).filter(([key,id])=>key==='outfit'?['winter','white','penguin'].includes(id):key==='sushi'&&['salmon','tuna','shrimp','egg','roe','maki'].includes(id)));
+const appearanceFile=path.join(profile,'appearance.json');let appearance={outfit:'winter',sushi:'salmon',characterStyle:'illustration'};
+const validAppearance=value=>Object.fromEntries(Object.entries(value||{}).filter(([key,id])=>key==='outfit'?['winter','white','penguin'].includes(id):key==='characterStyle'?['illustration','chibi'].includes(id):key==='sushi'&&['salmon','tuna','shrimp','egg','roe','maki'].includes(id)));
 try{appearance={...appearance,...validAppearance(JSON.parse(fs.readFileSync(appearanceFile,'utf8')))};}catch{}
 app.setPath('userData', profile);
 app.setPath('sessionData', profile);
@@ -37,12 +38,13 @@ let proactive;
 let companionTimer;
 let memoryRetryAt=0;
 let desktopPet;
+let keyboardMode;
 let tea;
 let farewell,allowQuit=false;
 let roomReady=false;
 function requestQuit(){
   if(allowQuit)return;
-  const target=desktopPet?.roomActive===false?desktopPet.window:window;
+  const target=keyboardMode?.active?keyboardMode.window:desktopPet?.roomActive===false?desktopPet.window:window;
   if(target===window&&!roomReady){allowQuit=true;app.quit();return;}
   if(farewell&&target&&!target.isDestroyed())farewell.request(target.webContents);
   else{allowQuit=true;app.quit();}
@@ -50,7 +52,7 @@ function requestQuit(){
 const lock = verify || Boolean(previewArgument) || app.requestSingleInstanceLock();
 if (!lock) app.quit();
 else {
-  app.on('second-instance', () => { if(desktopPet&&!desktopPet.roomActive)desktopPet.restore();else if (window) { window.restore(); window.focus(); } });
+  app.on('second-instance', () => { if(keyboardMode?.active){keyboardMode.window.show();keyboardMode.window.focus();}else if(desktopPet&&!desktopPet.roomActive)desktopPet.restore();else if (window) { window.restore(); window.focus(); } });
   app.whenReady().then(async () => {
     const hosted = await startServer(path.join(__dirname, 'web'));
     server = hosted.server;
@@ -87,6 +89,7 @@ else {
       const owner=BrowserWindow.fromWebContents(event.sender);owner.setAlwaysOnTop(pinned);return owner.isAlwaysOnTop();
     });
     const reply=handler=>async(event,...args)=>{if(!trusted(event))return {ok:false,message:'窗口来源无效。'};try{return {ok:true,...await handler(...args)};}catch(error){return {ok:false,message:error.message};}};
+    ipcMain.handle('alice:app-version',reply(()=>({version:require('./package.json').version})));
     ipcMain.handle('alice:pet-options',reply(()=>petOptions));
     ipcMain.handle('alice:pet-options-save',reply(patch=>{const next={...petOptions,...validPetOptions(patch)};fs.mkdirSync(profile,{recursive:true});fs.writeFileSync(petOptionsFile+'.tmp',JSON.stringify(next));fs.renameSync(petOptionsFile+'.tmp',petOptionsFile);petOptions=next;for(const target of [window,desktopPet?.window])if(target&&!target.isDestroyed())target.webContents.send('alice:pet-options',petOptions);return petOptions;}));
     tea=new TeaHost({profile,onChange:value=>{for(const target of [window,desktopPet?.window])if(target&&!target.isDestroyed())target.webContents.send('alice:tea',value);}});
@@ -100,8 +103,19 @@ else {
     ipcMain.handle('alice:appearance-info',reply(()=>appearance));
     ipcMain.handle('alice:appearance-save',reply(value=>{appearance={...appearance,...validAppearance(value)};fs.mkdirSync(profile,{recursive:true});const staged=appearanceFile+'.tmp';fs.writeFileSync(staged,JSON.stringify(appearance));fs.renameSync(staged,appearanceFile);for(const target of [window,desktopPet?.window])if(target&&!target.isDestroyed())target.webContents.send('alice:appearance',appearance);return appearance;}));
     const secure=target=>{target.webContents.setWindowOpenHandler(()=>({action:'deny'}));target.webContents.on('will-navigate',(event,url)=>{if(new URL(url).origin!==origin)event.preventDefault();});target.webContents.session.setPermissionRequestHandler((_contents,_permission,callback)=>callback(false));target.webContents.session.webRequest.onBeforeRequest((details,callback)=>callback({cancel:!details.url.startsWith(origin+'/')&&!details.url.startsWith('data:')&&!details.url.startsWith('blob:'+origin+'/')&&!details.url.startsWith('devtools:')}));};
-    desktopPet=new DesktopPet({room:window,profile,url:hosted.url,webPreferences:{preload:path.join(__dirname,'preload.cjs'),sandbox:true,contextIsolation:true,nodeIntegration:false,backgroundThrottling:false,offscreen:verify},verify,secure,beforeSwitch:()=>{chat.cancel();proactive?.dismiss();tea.release();}});
-    const activeWindow=()=>desktopPet.roomActive?window:desktopPet.window;
+    desktopPet=new DesktopPet({room:window,profile,url:hosted.url,webPreferences:{preload:path.join(__dirname,'preload.cjs'),sandbox:true,contextIsolation:true,nodeIntegration:false,backgroundThrottling:false,offscreen:verify},verify,secure,beforeSwitch:()=>{keyboardMode?.suspend();chat.cancel();proactive?.dismiss();tea.release();}});
+    keyboardMode=new KeyboardMode({room:window,pet:desktopPet,profile,url:hosted.url,verify,secure,appearance,beforeEnter:()=>{chat.cancel();proactive?.dismiss();tea.release();}});
+    desktopPet.keyboardMode=keyboardMode;
+    const activeWindow=()=>keyboardMode.active?keyboardMode.window:desktopPet.roomActive?window:desktopPet.window;
+    const keyboardTrusted=event=>event.sender===keyboardMode.window?.webContents&&event.senderFrame===event.sender.mainFrame&&new URL(event.senderFrame.url).origin===origin;
+    const keyboardReply=handler=>async(event,...args)=>{if(!keyboardTrusted(event))return {ok:false,message:'键盘窗口来源无效。'};try{return {ok:true,...await handler(...args)};}catch(error){return {ok:false,message:error.message};}};
+    ipcMain.handle('alice:keyboard-enter',reply(()=>keyboardMode.open()));
+    ipcMain.handle('alice:keyboard-info',keyboardReply(()=>keyboardMode.info()));
+    ipcMain.handle('alice:keyboard-save',keyboardReply(patch=>keyboardMode.save(patch)));
+    ipcMain.handle('alice:keyboard-exit',keyboardReply(mode=>keyboardMode.exit(mode==='pet'?'pet':'room')));
+    ipcMain.handle('alice:keyboard-menu',keyboardReply(()=>{keyboardMode.menu();return {};}));
+    ipcMain.on('alice:keyboard-hit',(event,value)=>{if(keyboardTrusted(event))keyboardMode.hit(value===true);});
+    ipcMain.on('alice:keyboard-drag',(event,value)=>{if(keyboardTrusted(event))keyboardMode.drag(value===true);});
     farewell=new FarewellHost({present:async({owner,token})=>{
       chat.cancel();proactive?.dismiss();clearInterval(companionTimer);
       if(owner===desktopPet.window?.webContents)await desktopPet.recall();
@@ -109,9 +123,9 @@ else {
       if(!verify){target.show();target.restore();target.focus();}
       owner.send('alice:farewell',{token});
     },finish:()=>{allowQuit=true;desktopPet.quitting=true;void voice.stop().finally(()=>app.quit());}});
-    ipcMain.handle('alice:farewell-done',(event,token)=>({ok:trusted(event)&&farewell.done(event.sender,token)}));
+    ipcMain.handle('alice:farewell-done',(event,token)=>({ok:(trusted(event)||keyboardTrusted(event))&&farewell.done(event.sender,token)}));
     ipcMain.handle('alice:sticker-record',async(event,value)=>{if(!trusted(event)||event.sender!==activeWindow()?.webContents)return {ok:false,message:'请在当前窗口发送表情包。'};try{return {ok:true,...chat.recordSticker(value)};}catch(error){return {ok:false,message:error.message};}});
-    proactive=new ProactiveHost({chat,available:()=>{const active=activeWindow();return Boolean((desktopPet.roomActive||!desktopPet.edge.side)&&active&&!active.isDestroyed()&&active.isVisible()&&!active.isMinimized()&&active.isFocused());},deliver:candidate=>activeWindow()?.webContents.send('alice:proactive-candidate',candidate)});
+    proactive=new ProactiveHost({chat,available:()=>{const active=activeWindow();return Boolean(!keyboardMode.active&&(desktopPet.roomActive||!desktopPet.edge.side)&&active&&!active.isDestroyed()&&active.isVisible()&&!active.isMinimized()&&active.isFocused());},deliver:candidate=>activeWindow()?.webContents.send('alice:proactive-candidate',candidate)});
     companionTimer=setInterval(async()=>{
       if(proactive.pending&&Date.now()>proactive.pending.expires)proactive.dismiss();
       const started=await proactive.tick();
@@ -166,7 +180,7 @@ else {
       const output = path.resolve(reportArgument.slice('--verify-output='.length));
       fs.mkdirSync(output, { recursive: true });
       window.webContents.setAudioMuted(true);
-      await require('./verify.cjs').verify(window, hosted.url, output,{voice,chat,proactive,desktopPet,tea,farewell,startupOnly:process.argv.includes('--verify-startup-only'),expressionAuditRound:Number(process.argv.find(a=>a.startsWith('--expression-audit-round='))?.split('=')[1]||0),expressionsOnly:process.argv.includes('--verify-expressions-only'),penguinPeekOnly:process.argv.includes('--verify-penguin-peek-only'),stickersOnly:process.argv.includes('--verify-stickers-only'),opacityOnly:process.argv.includes('--verify-opacity-only'),petUIOnly:process.argv.includes('--verify-pet-ui-only'),petCompanionsOnly:process.argv.includes('--verify-pet-companions-only'),voiceOnly:process.argv.includes('--verify-voice-only'),teaOnly:process.argv.includes('--verify-tea-only'),edgeOnly:process.argv.includes('--verify-edge-only'),wardrobeOnly:process.argv.includes('--verify-wardrobe-only'),feedingOnly:process.argv.includes('--verify-feeding-only'),petOnly:process.argv.includes('--verify-pet-only'),visionOnly:process.argv.includes('--verify-vision-only'),companionOnly:process.argv.includes('--verify-companion-only'),layoutOnly:process.argv.includes('--verify-layout-only'),checkSynthesis:Boolean(voiceArgument)||process.argv.includes('--verify-local-voice'),checkCodex:process.argv.includes('--verify-codex')});
+      await require('./verify.cjs').verify(window, hosted.url, output,{voice,chat,proactive,desktopPet,keyboardMode,tea,farewell,startupOnly:process.argv.includes('--verify-startup-only'),expressionAuditRound:Number(process.argv.find(a=>a.startsWith('--expression-audit-round='))?.split('=')[1]||0),expressionsOnly:process.argv.includes('--verify-expressions-only'),penguinPeekOnly:process.argv.includes('--verify-penguin-peek-only'),stickersOnly:process.argv.includes('--verify-stickers-only'),opacityOnly:process.argv.includes('--verify-opacity-only'),petUIOnly:process.argv.includes('--verify-pet-ui-only'),petCompanionsOnly:process.argv.includes('--verify-pet-companions-only'),voiceOnly:process.argv.includes('--verify-voice-only'),teaOnly:process.argv.includes('--verify-tea-only'),edgeOnly:process.argv.includes('--verify-edge-only'),wardrobeOnly:process.argv.includes('--verify-wardrobe-only'),feedingOnly:process.argv.includes('--verify-feeding-only'),petOnly:process.argv.includes('--verify-pet-only'),visionOnly:process.argv.includes('--verify-vision-only'),companionOnly:process.argv.includes('--verify-companion-only'),layoutOnly:process.argv.includes('--verify-layout-only'),checkSynthesis:Boolean(voiceArgument)||process.argv.includes('--verify-local-voice'),checkCodex:process.argv.includes('--verify-codex')});
       await voice.stop();
       app.exit(0);
     } else {await window.loadURL(hosted.url);}
@@ -182,4 +196,4 @@ else {
 }
 app.on('window-all-closed', () => app.quit());
 app.on('before-quit',event=>{if(!allowQuit){event.preventDefault();requestQuit();return;}if(desktopPet)desktopPet.quitting=true;if(voice?.child){event.preventDefault();voice.stop().finally(()=>app.quit());}});
-app.on('will-quit', () => { desktopPet?.close();tea?.close();clearInterval(companionTimer);chat?.close();if (server) server.close(); });
+app.on('will-quit', () => { keyboardMode?.close();desktopPet?.close();tea?.close();clearInterval(companionTimer);chat?.close();if (server) server.close(); });

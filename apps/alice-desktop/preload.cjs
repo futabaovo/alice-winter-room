@@ -1,5 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('aliceDesktop', {
+  appVersion:()=>ipcRenderer.invoke('alice:app-version'),
   startupReady:()=>ipcRenderer.invoke('alice:startup-ready'),
   startupFailed:()=>ipcRenderer.invoke('alice:startup-failed'),
   petOptions:()=>ipcRenderer.invoke('alice:pet-options'),
@@ -45,6 +46,7 @@ contextBridge.exposeInMainWorld('aliceDesktop', {
   companionReport:report=>ipcRenderer.invoke('alice:companion-report',report),
   proactiveAccept:id=>ipcRenderer.invoke('alice:proactive-accept',id),
   petEnter:()=>ipcRenderer.invoke('alice:pet-enter'),
+  keyboardEnter:()=>ipcRenderer.invoke('alice:keyboard-enter'),
   petReturn:()=>ipcRenderer.invoke('alice:pet-return'),
   petReady:()=>ipcRenderer.invoke('alice:pet-ready'),
   petHit:interactive=>ipcRenderer.invoke('alice:pet-hit',interactive),

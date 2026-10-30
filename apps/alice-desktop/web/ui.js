@@ -1,7 +1,13 @@
 import {initRail} from './tool-rail.js';
 export function installUI(){
+  const keyboardButton=document.createElement('button');keyboardButton.id='keyboard-enter';keyboardButton.setAttribute('aria-label','切换像素键盘模式');document.querySelector('.tool-rail').insertBefore(keyboardButton,document.getElementById('feed-sushi'));
+  const petKeyboard=document.createElement('button');petKeyboard.id='pet-keyboard';document.querySelector('.pet-controls').insertBefore(petKeyboard,document.getElementById('pet-menu'));
+  const gameButton=document.createElement('button');gameButton.id='book-game-open';gameButton.setAttribute('aria-label','有珠的书本打Robin小游戏');document.querySelector('.tool-rail').insertBefore(gameButton,document.getElementById('pin'));
+  const petGame=document.createElement('button');petGame.id='pet-book-game';document.querySelector('.pet-controls').insertBefore(petGame,document.getElementById('pet-menu'));
+  const petTools=document.createElement('button');petTools.id='pet-tools-toggle';petTools.setAttribute('aria-expanded','false');petTools.setAttribute('aria-label','展开或收起互动工具');document.querySelector('.pet-controls').insertBefore(petTools,document.getElementById('pet-menu'));
   const ns='http://www.w3.org/2000/svg',sheet=document.createElementNS(ns,'svg');sheet.setAttribute('aria-hidden','true');sheet.classList.add('ui-symbols');
   const paths={
+    keyboard:'M2 6h20v13H2Z M5 9h1 M9 9h1 M13 9h1 M17 9h2 M5 12h1 M9 12h1 M13 12h1 M17 12h2 M6 16h12',
     chat:'M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 3v-3H3V6a2 2 0 0 1 2-2Z M7 9h10 M7 13h7',
     image:'M4 4h16v16H4Z M4 16l5-5 4 4 3-3 4 4 M15 8h.01',
     tea:'M4 9h13v5a6.5 6.5 0 0 1-13 0Z M17 10h1a3 3 0 0 1 0 6h-1 M3 22h16 M8 3v2 M12 2v3',
@@ -12,6 +18,7 @@ export function installUI(){
     home:'m3 11 9-8 9 8 M5 10v11h5v-6h4v6h5V10',
     move:'M12 2v20 M2 12h20 M8 6l4-4 4 4 M8 18l4 4 4-4 M6 8l-4 4 4 4 M18 8l4 4-4 4',
     menu:'M5 12h.01 M12 12h.01 M19 12h.01',
+    tools:'M3 3h7v7H3Z M14 3h7v7h-7Z M3 14h7v7H3Z M14 14h7v7h-7Z',
     send:'m3 3 19 9-19 9 4-9-4-9Z M7 12h15',
     attach:'m9 14 6-6a3 3 0 0 1 4 4l-8 8a5 5 0 0 1-7-7l9-9',
     stop:'M6 6h12v12H6Z',
@@ -30,8 +37,13 @@ export function installUI(){
   });
   for(const [id,d]of Object.entries(paths)){const symbol=document.createElementNS(ns,'symbol');symbol.id='icon-'+id;symbol.setAttribute('viewBox','0 0 24 24');const p=document.createElementNS(ns,'path');p.setAttribute('d',d);symbol.append(p);sheet.append(symbol);}document.body.prepend(sheet);
   const buttons={'pet-drag':['move','移动'],'pet-chat':['chat','对话'],'pet-image':['image','看图'],'pet-feed':['sushi','寿司'],'pet-tea':['tea','红茶'],'pet-robin':['robin','Robin'],'pet-wardrobe':['wardrobe','衣装'],'pet-size':['size','大小'],'pet-return':['home','返回小室'],'pet-menu':['menu','更多'],'chat-attach':['attach','附图'],'chat-cancel':['stop','停止'],'chat-send':['send','发送']};
+  buttons['pet-book-game']=['memory','游玩'];
+  buttons['pet-keyboard']=['keyboard','键盘'];
+  buttons['pet-tools-toggle']=['tools','工具'];
   for(const [id,[name,label]]of Object.entries(buttons)){const button=document.getElementById(id);if(!button)continue;const svg=document.createElementNS(ns,'svg');svg.classList.add('ui-icon');svg.setAttribute('aria-hidden','true');const use=document.createElementNS(ns,'use');use.setAttribute('href','#icon-'+name);svg.append(use);const text=document.createElement('span');text.className='button-label';text.textContent=label;button.replaceChildren(svg,text);button.setAttribute('title',button.getAttribute('title')||label);if(!button.hasAttribute('aria-label'))button.setAttribute('aria-label',label);}
   const railButtons={'tools-toggle':['mood','情态','表情与待机动作'],'voice-tools':['voice','语音','本地台词与日语朗读'],'companion-tools':['memory','记忆','记忆、存档与主动交流'],'pet-enter':['desktop','桌宠','让有珠来到桌面'],'feed-sushi':['sushi','寿司','投喂寿司，按住可拖到嘴边'],'tea-open':['tea','红茶','泡一杯红茶，请她品尝'],'wardrobe-tools':['wardrobe','衣装','选择衣装与寿司种类'],'pin':['pin','置顶','让小室保持在其他窗口上方'],'help':['help','说明','查看操作与互动说明']};
+  railButtons['book-game-open']=['memory','游玩','举起书，敲回冒头的 Robin'];
+  railButtons['keyboard-enter']=['keyboard','键盘','像素有珠，跟着你的打字节奏动起来'];
   for(const [id,[name,label,hint]]of Object.entries(railButtons)){
     const button=document.getElementById(id),svg=document.createElementNS(ns,'svg'),use=document.createElementNS(ns,'use');svg.classList.add('ui-icon');svg.setAttribute('aria-hidden','true');use.setAttribute('href','#icon-'+name);svg.append(use);
     const text=document.createElement('small');text.textContent=label;button.replaceChildren(svg,text);button.dataset.railLabel=label;button.dataset.railHint=hint;button.removeAttribute('title');

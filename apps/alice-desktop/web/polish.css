@@ -29,6 +29,16 @@ dialog{border-radius:20px;border-color:var(--surface-line);box-shadow:0 22px 75p
 @media(max-width:340px){.pet-mode .pet-controls button{min-height:28px;padding:4px 2px;flex-direction:row}.pet-mode .pet-controls .button-label{display:none}.pet-mode .pet-controls .ui-icon{width:17px;height:17px}.pet-mode .pet-controls{gap:3px;padding:6px}.pet-mode .speaker>span{font-size:12px}.pet-mode .dialogue-actions{gap:7px}.pet-mode .pet-conversation-options small{display:none}.pet-mode .pet-speech{padding:9px 12px 11px}.pet-speech #pet-speech-zh{font-size:12px}.pet-speech #pet-speech-ja{font-size:9px}}
 @media(max-width:300px){.pet-mode #chat-attach{display:none}.pet-mode .dialogue-dock{padding-left:11px;padding-right:11px}.pet-mode .chat-actions button{width:28px}.pet-mode .dialogue-dock textarea{font-size:10px}.pet-mode .dialogue-actions .text-button,.pet-mode #chat-history summary{font-size:8px}}
 @keyframes caption-breathe{0%,100%{opacity:.6;box-shadow:0 0 0 0 #b99a7022}50%{opacity:1;box-shadow:0 0 0 3px #b99a7014}}
+/* Conversation keeps one row of essentials; interactions stay one click away. */
+.pet-mode .pet-controls #pet-tools-toggle{display:none}
+.pet-mode.pet-chat-open .pet-controls #pet-tools-toggle{display:flex}
+.pet-mode.pet-chat-open .pet-controls{grid-template-columns:repeat(6,minmax(0,1fr))}
+.pet-mode.pet-chat-open .pet-controls button{grid-column:auto;min-height:32px;flex-direction:row}
+.pet-mode.pet-chat-open .pet-controls .button-label{display:none}
+.pet-mode.pet-chat-open:not(.pet-tools-expanded) .pet-controls button:not(:is(#pet-drag,#pet-chat,#pet-image,#pet-return,#pet-tools-toggle,#pet-menu)){display:none}
+.pet-mode.pet-chat-open .pet-controls :is(#pet-drag,#pet-chat,#pet-image,#pet-return,#pet-tools-toggle,#pet-menu){order:-1}
+.pet-mode.pet-chat-open #pet-return,.pet-mode.pet-chat-open #pet-menu{grid-column:auto}
+@media(max-width:340px){.pet-mode.pet-chat-open .dialogue-dock{padding:9px 10px 8px}.pet-mode.pet-chat-open .dialogue-heading{margin-bottom:6px}.pet-mode.pet-chat-open .pet-voice-option{margin-bottom:6px}.pet-mode.pet-chat-open .dialogue-foot{margin-top:4px}}
 @media(prefers-reduced-motion:reduce){.pet-speech[data-state=playing] .caption-dot{animation:none}.pet-voice-option input[type=checkbox],.pet-voice-option input[type=checkbox]::before{transition:none}}
 /* Fade only the surfaces; never fade the text or interactive controls. */
 :root{--dialogue-alpha:.96}

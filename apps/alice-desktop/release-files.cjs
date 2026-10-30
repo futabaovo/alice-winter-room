@@ -1,8 +1,8 @@
 // Application-only boundary: never traverse profiles or training data.
 const fs=require('node:fs'),path=require('node:path');
-const runtimeFiles=['package.json','main.cjs','preload.cjs','desktop-pet.cjs','desktop-pet-window.cjs','pet-edge-state.cjs','server.cjs','voice-host.cjs','voice_service.py','chat-host.cjs','image-input.cjs','companion-store.cjs','proactive-host.cjs','reply-plan.cjs','codex-host.cjs','tea-host.cjs','farewell-host.cjs','character-persona.zh-CN.txt','icon.ico'];
+const runtimeFiles=['package.json','main.cjs','preload.cjs','keyboard-mode.cjs','keyboard-input.cjs','keyboard-preload.cjs','desktop-pet.cjs','desktop-pet-window.cjs','pet-edge-state.cjs','server.cjs','voice-host.cjs','voice_service.py','chat-host.cjs','image-input.cjs','companion-store.cjs','proactive-host.cjs','reply-plan.cjs','codex-host.cjs','tea-host.cjs','farewell-host.cjs','character-persona.zh-CN.txt','icon.ico'];
 const unusedWardrobe=new Set(['clean-bob-neck.png','white-coat.png','white-cap-v7.png','white-cap-v8.png','white-cap-v9-draft.png','white-cap-v11.png','white-hair-v6.png','white-head-v3.png','white-head-v4.png']);
-const allowed=name=>!(/\.(?:cmo3|can3|psd2live\.json)$/i.test(name)||name==='model/expressions/expressions'||/^startup-art\./.test(name)||name.startsWith('wardrobe/')&&unusedWardrobe.has(path.posix.basename(name)));
+const allowed=name=>!(/\.(?:cmo3|can3|psd2live\.json)$/i.test(name)||name==='model/expressions/expressions'||name==='keyboard/alice-pixel-atlas.png'||/^startup-art\./.test(name)||name.startsWith('wardrobe/')&&unusedWardrobe.has(path.posix.basename(name)));
 function scrub(value){
   if(Array.isArray(value))return value.map(scrub);
   if(value&&typeof value==='object')return Object.fromEntries(Object.entries(value).map(([k,v])=>[k,scrub(v)]));
@@ -20,8 +20,8 @@ function copyTree(source,target,prefix=''){
 }
 function copyApplication(destination,{source=false}={}){
   const names=new Set([...runtimeFiles,...fs.readdirSync(__dirname).filter(name=>/^verify.*\.cjs$/.test(name))]);
-  if(source)for(const name of fs.readdirSync(__dirname))if(/^test-.*\.cjs$/.test(name)||['package.cjs','release-files.cjs','Launcher.cs','prepare-expressions.cjs'].includes(name))names.add(name);
+  if(source)for(const name of fs.readdirSync(__dirname))if(/^test-.*\.cjs$/.test(name)||['package.cjs','build-keyboard.cjs','release-files.cjs','Launcher.cs','prepare-expressions.cjs'].includes(name))names.add(name);
   for(const name of names)copyFile(path.join(__dirname,name),path.join(destination,name));
-  for(const name of ['character','web','release-docs'])copyTree(path.join(__dirname,name),path.join(destination,name));
+  for(const name of ['character','web','release-docs','native'])copyTree(path.join(__dirname,name),path.join(destination,name));
 }
 exports.copyApplication=copyApplication;

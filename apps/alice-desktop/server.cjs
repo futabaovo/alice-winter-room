@@ -51,10 +51,10 @@ exports.startServer = async function startServer(root) {
         'X-Content-Type-Options': 'nosniff',
         'Content-Security-Policy': "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self' blob:; connect-src 'self'"
       });
-      if (request.method === 'HEAD') response.end();
+      if (request.method === 'HEAD' || stat.size === 0) response.end();
       else fs.createReadStream(file,{start,end}).on('error', () => response.destroy()).pipe(response);
     } catch {
-      response.writeHead(404).end();
+      if(response.headersSent)response.destroy();else response.writeHead(404).end();
     }
   });
   await new Promise((resolve, reject) => {

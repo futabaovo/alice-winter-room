@@ -42,7 +42,7 @@ export class BookRig{
     targetContext.drawImage(this.arm,0,0,this.front.clientWidth,this.front.clientHeight);return limb;
   }
   draw(){
-    const back=this.resize(this.back),front=this.resize(this.front),p=this.pose;if(!p)return;const {unit:u,alpha,book,elbowL,elbowR,face}=p;
+    const back=this.resize(this.back),front=this.resize(this.front);if(this.character.characterStyle==='chibi'){this.pose=null;return;}const p=this.pose;if(!p)return;const {unit:u,alpha,book,elbowL,elbowR,face}=p;
     this.upperArm(back,p.shoulderL,elbowL,p.openings[0],u,alpha);this.upperArm(back,p.shoulderR,elbowR,p.openings[1],u,alpha);
     const left=this.limb(front,'support',elbowL,u,alpha,p.grips[0]),right=this.limb(front,'thinking',elbowR,u,alpha,p.grips[1]);
     front.save();front.translate(book.x,book.y);front.rotate(book.angle);front.scale(p.grips[0].scale,p.grips[0].scale);front.translate(-650,-485);front.globalAlpha=alpha;

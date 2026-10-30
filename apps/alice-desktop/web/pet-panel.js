@@ -15,7 +15,11 @@ export async function initPet({character,isPet,options,getVoice,getChat,onActive
   if(!api?.petEnter){$('pet-enter').hidden=true;return {reaction,anchor:()=>.5,applyPeek(){},step:dt=>reaction.step(dt),draw(){},isPet:false,head:()=>null,diagnostic:()=>reaction.snapshot()};}
   $('pet-enter').onclick=async()=>{try{await stop();await result(api.petEnter());}catch(error){message(error.message);}};
   $('pet-return').onclick=async()=>{try{await stop();await result(api.petReturn());}catch(error){message(error.message);}};
-  function setChat(value){chatOpen=Boolean(value);document.documentElement.classList.toggle('pet-chat-open',chatOpen);character.petChatOpen=chatOpen;$('pet-chat').setAttribute('aria-expanded',String(chatOpen));if(chatOpen){void api.petHit(true);$('chat-input').focus();}}
+  for(const id of ['keyboard-enter','pet-keyboard'])document.getElementById(id).onclick=async()=>{try{await stop();await result(api.keyboardEnter());}catch(error){message(error.message);}};
+  function setTools(value){document.documentElement.classList.toggle('pet-tools-expanded',value);$('pet-tools-toggle').setAttribute('aria-expanded',String(value));}
+  $('pet-tools-toggle').onclick=()=>setTools($('pet-tools-toggle').getAttribute('aria-expanded')!=='true');
+  document.querySelector('.pet-controls').addEventListener('click',event=>{if(event.target.closest('#pet-feed,#pet-tea,#pet-robin,#pet-wardrobe,#pet-size,#pet-keyboard,#pet-book-game'))setTools(false);});
+  function setChat(value){const next=Boolean(value);if(next!==chatOpen)setTools(false);chatOpen=next;document.documentElement.classList.toggle('pet-chat-open',chatOpen);character.petChatOpen=chatOpen;$('pet-chat').setAttribute('aria-expanded',String(chatOpen));if(chatOpen){void api.petHit(true);$('chat-input').focus();}}
   $('pet-chat').onclick=()=>setChat(!chatOpen);$('pet-menu').onclick=()=>api.petMenu();
   $('pet-image').onclick=()=>{setChat(true);getChat()?.attachments.choose();};
   document.addEventListener('alice:images-ready',()=>{if(isPet)setChat(true);});
@@ -23,7 +27,7 @@ export async function initPet({character,isPet,options,getVoice,getChat,onActive
   if(isPet)robin=await initRobin({character,options,getVoice,getChat,getEdge:()=>edge,getReaction:()=>reaction,speech});
   api.onPetEvent(event=>{if(event==='size')edge?.setSizePanel(true);if(event==='chat')setChat(!chatOpen);if(event==='memory')$('companion-tools').click();if(event==='api')$('chat-settings').click();if(event==='reaction'&&!character.feedingBusy&&!character.teaBusy){reaction.trigger();message('……只是在看书。');}});
   api.onViewActive(value=>{if(edge)edge.setViewActive(value);else onActive(value);lastHit=null;if(!value){speech?.hide();dragging=false;pressed=false;stroke.reset();void getChat()?.cancel();getVoice()?.stop();}});
-  const head=()=>{const face=character.meshBounds('ArtMeshFace');return face?{left:face.left-face.width*.34,right:face.right+face.width*.34,top:face.top-face.height*1.38,bottom:face.top+face.height*.34}:null;};
+  const head=()=>{const face=character.meshBounds('ArtMeshFace');if(character.characterStyle==='chibi'){const hat=character.wardrobe?.headBounds();return face&&hat?{left:hat.left,right:hat.right,top:hat.top,bottom:face.top+face.height*.35}:null;}return face?{left:face.left-face.width*.34,right:face.right+face.width*.34,top:face.top-face.height*1.38,bottom:face.top+face.height*.34}:null;};
   const within=(p,r)=>r&&p.x>=r.left&&p.x<=r.right&&p.y>=r.top&&p.y<=r.bottom;
   const local=point=>edge?.localPoint(point)||point;
   const hit=()=>{if(!isPet)return;const modal=Boolean(document.querySelector('dialog[open]'));let interactive=modal||dragging||pressed||character.feedingInteractive;if(pointer&&!interactive){const element=document.elementFromPoint(pointer.x,pointer.y),p=local(pointer);interactive=Boolean(element?.closest('button,input,textarea,select,summary,.dialogue-dock,.pet-speech,.sticker-bubble,.pet-size-panel,.pet-controls,dialog'))||(!document.documentElement.classList.contains('pet-edge-hidden')&&(character.alphaAt(p.x,p.y)>24||Boolean(rig?.hit(p.x,p.y))));}if(interactive!==lastHit){lastHit=interactive;void api.petHit(interactive);}};
@@ -37,7 +41,19 @@ export async function initPet({character,isPet,options,getVoice,getChat,onActive
   character.canvas.addEventListener('click',event=>{if(isPet){event.preventDefault();event.stopImmediatePropagation();}},true);
   document.addEventListener('contextmenu',event=>{if(!isPet||event.target.closest('textarea,input'))return;event.preventDefault();void api.petMenu();});
   $('pet-drag').onpointerdown=event=>{if(event.button!==0)return;dragging=true;pressed=true;void api.petDrag(true);event.currentTarget.setPointerCapture(event.pointerId);event.preventDefault();};
-  document.addEventListener('keydown',event=>{if(isPet&&event.key==='Escape'&&chatOpen&&!document.querySelector('dialog[open]'))setChat(false);});
+  document.addEventListener('keydown',event=>{if(isPet&&event.key==='Escape'&&chatOpen&&!document.querySelector('dialog[open]')){if($('pet-tools-toggle').getAttribute('aria-expanded')==='true'){setTools(false);$('pet-tools-toggle').focus();}else setChat(false);}});
   if(isPet)await api.petReady();
-  return {isPet,reaction,rig,stroke,head,setChat,speech,edge,robin,anchor:()=>edge?.isDocked()?edge.anchor():(character.stickerAnchor??.5),applyPeek:add=>edge?.applyPeek(add),step(dt){edge?.step(dt);robin?.step(dt);const base=reaction.step(dt),pose={...base,progress:Math.max(base.progress,character.peekCover||0)};character.handsOpacity=1-smooth(pose.progress/.18);character.bookProgress=pose.progress;character.bookTime=reaction.time;speech?.step();const blend=1-Math.exp(-dt*9),toolbar=document.querySelector('.pet-controls').getBoundingClientRect(),freeGround=isPet?Math.min(.945,(innerHeight-toolbar.height-16)/innerHeight):.945,ground=freeGround,reserve=Math.max(speech?.visible?speech.space():0,character.stickerReserve||0,(character.robinBusy||getChat()?.busy)?150:0,innerHeight*.1),height=Math.max(.2,Math.min(.84,ground-reserve/innerHeight));character.petHeight=(character.petHeight??.84)+(height-(character.petHeight??.84))*blend;character.petGround=(character.petGround??.945)+(ground-(character.petGround??.945))*blend;return pose;},draw(){rig?.draw();robin?.draw();speech?.position();if(isPet&&performance.now()-lastPick>80){lastPick=performance.now();hit();}},diagnostic:()=>({...reaction.snapshot(),progress:character.bookProgress??reaction.value,isPet,chatOpen,robin:robin?.diagnostic(),edge:edge?.diagnostic(),head:head(),rig:rig?.pose||null,speech:speech?.diagnostic()||null})};
+  return {isPet,reaction,rig,stroke,head,setChat,speech,edge,robin,anchor:()=>edge?.isDocked()?edge.anchor():(character.stickerAnchor??.5),applyPeek:add=>edge?.applyPeek(add),step(dt){
+    edge?.step(dt);robin?.step(dt);
+    const base=reaction.step(dt),pose={...base,progress:Math.max(base.progress,character.peekCover||0)};
+    character.handsOpacity=1-smooth(pose.progress/.18);character.bookProgress=pose.progress;character.bookTime=reaction.time;speech?.step();
+    const blend=1-Math.exp(-dt*9),toolbar=document.querySelector('.pet-controls').getBoundingClientRect();
+    // Keep the complete character above the composer, including at small scales.
+    const ground=isPet&&!edge?.isDocked()?Math.min(.945,((chatOpen?$('chat-panel').getBoundingClientRect().top:toolbar.top)-9)/innerHeight):.945;
+    const reserve=Math.max(speech?.visible?speech.space():0,character.stickerReserve||0,(character.robinBusy||getChat()?.busy)?150:0,innerHeight*.1);
+    const height=Math.max(.1,Math.min(.84,ground-reserve/innerHeight));
+    character.petHeight=(character.petHeight??.84)+(height-(character.petHeight??.84))*blend;
+    character.petGround=(character.petGround??.945)+(ground-(character.petGround??.945))*blend;
+    return pose;
+  },draw(){rig?.draw();robin?.draw();speech?.position();if(isPet&&performance.now()-lastPick>80){lastPick=performance.now();hit();}},diagnostic:()=>({...reaction.snapshot(),progress:character.bookProgress??reaction.value,isPet,chatOpen,robin:robin?.diagnostic(),edge:edge?.diagnostic(),head:head(),rig:rig?.pose||null,speech:speech?.diagnostic()||null})};
 }
