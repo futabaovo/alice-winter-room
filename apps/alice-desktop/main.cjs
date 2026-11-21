@@ -18,7 +18,7 @@ const verify = Boolean(reportArgument);
 const previewArgument=process.argv.find(argument=>argument.startsWith('--preview-profile='));
 const startupMarker=process.env.ALICE_STARTUP_READY_FILE;
 const profile = verify ? path.resolve(reportArgument.slice('--verify-output='.length), 'profile') : previewArgument?path.resolve(previewArgument.slice('--preview-profile='.length)):path.join(app.getPath('appData'), 'AliceKuonjiWinter', releaseTag);
-const petOptionsFile=path.join(profile,'pet-options.json'),petOptionDefaults={voiceReply:false,robinEnabled:true,robinVoice:true,dialogueOpacity:96};
+const petOptionsFile=path.join(profile,'pet-options.json'),petOptionDefaults={voiceReply:true,robinEnabled:true,robinVoice:true,dialogueOpacity:96};
 const validPetOptions=value=>Object.fromEntries(Object.entries(petOptionDefaults).flatMap(([key,defaultValue])=>{
   const next=value?.[key];
   if(typeof defaultValue==='boolean')return typeof next==='boolean'?[[key,next]]:[];
@@ -134,10 +134,10 @@ else {
       }
     },15000);
     companionTimer.unref();
-    ipcMain.handle('alice:voice-info',reply(()=>voice.info()));
+    ipcMain.handle('alice:voice-info',reply(()=>voice.refreshInfo()));
     ipcMain.handle('alice:voice-start',reply(()=>voice.start()));
     ipcMain.handle('alice:voice-stop',reply(()=>voice.stop()));
-    ipcMain.handle('alice:voice-speak',reply(request=>voice.synthesize(request?.ja,request?.zh)));
+    ipcMain.handle('alice:voice-speak',reply(request=>request?.reply===true?voice.synthesizeReply(request?.ja,request?.zh):voice.synthesize(request?.ja,request?.zh)));
     ipcMain.handle('alice:voice-choose',reply(async()=>{const selected=await dialog.showOpenDialog(activeWindow(),{title:'选择已配置语音环境的 live2d 项目文件夹',properties:['openDirectory']});return selected.canceled?voice.info():voice.configure(selected.filePaths[0]);}));
     ipcMain.handle('alice:chat-info',reply(()=>chat.info()));
     ipcMain.handle('alice:chat-persona',reply(()=>({persona})));

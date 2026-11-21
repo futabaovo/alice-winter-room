@@ -26,9 +26,20 @@ exports.verifyOpacity=async(room,output,{desktopPet})=>{
   assert.equal(await js(pet,'aliceApp.petOptions.value.dialogueOpacity'),52,'New pet did not inherit room opacity');
   for(const n of [100,50,0]){
     await change(pet,n);await until(()=>js(room,`aliceApp.petOptions.value.dialogueOpacity===${n}`),'room/pet sync');
+    await js(pet,'new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))');
     const data=await js(pet,"(()=>{const c=document.getElementById('chat-panel'),b=document.getElementById('pet-speech'),s=getComputedStyle(c),t=getComputedStyle(b);return {dock:c.getBoundingClientRect().toJSON(),background:s.backgroundImage,blur:s.backdropFilter,caption:t.backgroundImage,ink:getComputedStyle(document.getElementById('chat-input')).opacity,captionInk:getComputedStyle(document.getElementById('pet-speech-zh')).opacity,text:document.getElementById('pet-speech-zh').textContent,finite:aliceApp.diagnostic().finite};})()");
     assert.equal(data.ink,'1');assert.equal(data.captionInk,'1');assert(data.finite&&data.text.length>0);if(n===0)assert.equal(data.blur,'blur(0px)');
-    const capture=await shot(pet,'pet-'+n),bitmap=capture.toBitmap(),{width,height}=capture.getSize(),viewport=await js(pet,'({width:innerWidth,height:innerHeight})');let alpha=255;
+    let capture,viewport;
+    // The one-row toolbar is measured by ResizeObserver. Sample the screenshot
+    // only with matching DOM bounds, rather than mixing two layout frames.
+    for(let attempt=0;attempt<5;attempt++){
+      const before=await js(pet,"document.getElementById('chat-panel').getBoundingClientRect().toJSON()");
+      capture=await shot(pet,'pet-'+n);
+      viewport=await js(pet,"({width:innerWidth,height:innerHeight,dock:document.getElementById('chat-panel').getBoundingClientRect().toJSON()})");
+      if(JSON.stringify(before)===JSON.stringify(viewport.dock))break;
+    }
+    data.dock=viewport.dock;
+    const bitmap=capture.toBitmap(),{width,height}=capture.getSize();let alpha=255;
     // Native screenshots use physical pixels; DOM bounds use CSS pixels.
     const sx=width/viewport.width,sy=height/viewport.height;
     for(let x=Math.ceil((data.dock.left+3)*sx);x<(data.dock.left+8)*sx;x++)for(let y=Math.ceil((data.dock.top+25)*sy);y<(data.dock.bottom-25)*sy;y++)alpha=Math.min(alpha,bitmap[(y*width+x)*4+3]);

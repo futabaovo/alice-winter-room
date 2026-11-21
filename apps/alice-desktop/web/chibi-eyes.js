@@ -53,22 +53,22 @@ export class ChibiEyeLayers{
   prepare(source,face,pose){
     const key=[pose.sheet,pose.index,pose.outfit].join(':');
     if(this.cache.has(key)){const saved=this.cache.get(key);this.cache.delete(key);this.cache.set(key,saved);Object.assign(this,saved);this.last=[];this.pose=pose;this.ready=true;return;}
-    this.basePixels=source.getContext('2d').getImageData(0,0,512,640);this.eyes=[];this.last=[];this.pose=pose;this.ready=true;
+    this.basePixels=source.getContext('2d').getImageData(0,0,source.width,source.height);this.eyes=[];this.last=[];this.pose=pose;this.ready=true;
     if(!pose.sheet.startsWith('idle-')||closed.has(pose.index))return;
-    const found=findChibiEyes(this.basePixels.data,512,640,face,pose.outfit,pose.index);if(found.length!==2)return;
+    const found=findChibiEyes(this.basePixels.data,source.width,source.height,face,pose.outfit,pose.index);if(found.length!==2)return;
     for(const eye of found){const left=Math.min(...eye.rows.map(r=>r.left)),right=Math.max(...eye.rows.map(r=>r.right))+1;this.eyes.push({...eye,aperture:{left:left-1,right:right+1,top:eye.top,bottom:eye.bottom}});}
     this.cache.set(key,{basePixels:this.basePixels,eyes:this.eyes});if(this.cache.size>6)this.cache.delete(this.cache.keys().next().value);
   }
   paint(g,look){
-    const frame=new ImageData(new Uint8ClampedArray(this.basePixels.data),512,640),p=frame.data,original=this.basePixels.data;this.last=[];
+    const {width,height}=this.basePixels,frame=new ImageData(new Uint8ClampedArray(this.basePixels.data),width,height),p=frame.data,original=this.basePixels.data;this.last=[];
     const x=clamp(Number.isFinite(look?.x)?look.x:0,-1,1),y=clamp(Number.isFinite(look?.y)?look.y:0,-1,1);
-    const sample=(sx,sy,k)=>{sx=clamp(sx,0,510);sy=clamp(sy,0,638);const ix=Math.floor(sx),iy=Math.floor(sy),fx=sx-ix,fy=sy-iy,a=(iy*512+ix)*4;return (original[a+k]*(1-fx)+original[a+4+k]*fx)*(1-fy)+(original[a+2048+k]*(1-fx)+original[a+2052+k]*fx)*fy;};
+    const sample=(sx,sy,k)=>{sx=clamp(sx,0,width-2);sy=clamp(sy,0,height-2);const ix=Math.floor(sx),iy=Math.floor(sy),fx=sx-ix,fy=sy-iy,a=(iy*width+ix)*4,stride=width*4;return (original[a+k]*(1-fx)+original[a+4+k]*fx)*(1-fy)+(original[a+stride+k]*(1-fx)+original[a+stride+4+k]*fx)*fy;};
     for(const eye of this.eyes){
       const dx=x*eye.width*.16,dy=-y*eye.height*.1,a=eye.aperture;
       // Displace the original iris texture, retaining its highlights and shading.
       if(Math.abs(dx)+Math.abs(dy)>.001)for(let py=Math.ceil(eye.top);py<=eye.bottom;py++)for(let px=Math.ceil(a.left);px<=a.right;px++){
         const u=clamp((px-a.left)/(a.right-a.left),0,1),v=clamp((py-eye.top)/(eye.bottom-eye.top+1),0,1),weight=Math.pow(Math.sin(u*Math.PI),.8)*Math.pow(Math.sin(v*Math.PI),.45);
-        if(weight<.001)continue;const at=(py*512+px)*4;for(let k=0;k<3;k++)p[at+k]=sample(px-dx*weight,py-dy*weight,k);
+        if(weight<.001)continue;const at=(py*width+px)*4;for(let k=0;k<3;k++)p[at+k]=sample(px-dx*weight,py-dy*weight,k);
       }
       this.last.push({side:eye.side,dx,dy,cx:eye.cx+dx,cy:eye.cy+dy});
     }

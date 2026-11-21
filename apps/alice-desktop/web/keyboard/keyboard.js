@@ -15,6 +15,8 @@ function apply(next){
   if(lastSettings!==stamp){motion.reset();reactions.reset();reaction=null;lastSettings=stamp;previewUntil=0;}
   for(const id of ['scope','outfit','scale','intensity'])if(document.activeElement!==$(id))$(id).value=s[id];
   for(const id of ['mouse','pinned','shortcuts'])$(id).checked=s[id];
+  if(document.activeElement!==$('quick-scale'))$('quick-scale').value=s.scale;
+  $('quick-scale-value').textContent=s.scale+'%';
   $('scale-value').textContent=s.scale+'%';$('intensity-value').textContent=s.intensity+'%';$('pause').textContent=s.paused?'继续':'暂停';$('pause').setAttribute('aria-pressed',String(s.paused));
   document.body.dataset.input=info.input;
   $('status').textContent=info.blocked?'暂时休息':s.paused?'响应已暂停':info.input==='unavailable'?'全局响应不可用 · 可在设置中改为仅此窗口':info.input==='starting'?'正在连接键盘':s.scope==='global'?'全局响应 · 不记录输入内容':'仅此窗口 · 点击人物后试着打字';
@@ -60,7 +62,7 @@ function draw(dt){
 }
 function queueFrame(){if(loaded&&info.active&&!farewell&&!frameHandle)frameHandle=requestAnimationFrame(frame);}
 function frame(time){frameHandle=0;if(!info.active||farewell)return;const dt=Math.min(.05,(time-(previous||time))/1000);previous=time;draw(dt);queueFrame();}
-function hit(event){if(!info.active)return;let yes=panel||dragging||Boolean(event.target.closest('button,header,footer,#line,#status'));
+function hit(event){if(!info.active)return;let yes=panel||dragging||Boolean(event.target.closest('button,input,label,header,footer,#quick-size,#line,#status'));
   if(event.target===canvas){const r=canvas.getBoundingClientRect(),x=Math.floor((event.clientX-r.left)*192/r.width),y=Math.floor((event.clientY-r.top)*224/r.height);yes=x>=0&&y>=0&&x<192&&y<224&&g.getImageData(x,y,1,1).data[3]>40||yes;}
   if(yes!==lastHit){lastHit=yes;api?.hit(yes);}
 }
@@ -75,6 +77,8 @@ $('settings-open').onclick=()=>setPanel(!panel);$('settings-close').onclick=()=>
 for(const id of ['scope','outfit'])$(id).onchange=()=>save({[id]:$(id).value});
 for(const id of ['mouse','pinned','shortcuts'])$(id).onchange=()=>save({[id]:$(id).checked});
 for(const id of ['scale','intensity'])$(id).oninput=()=>{const value=Number($(id).value);$(id+'-value').textContent=value+'%';void save({[id]:value});};
+$('quick-scale').oninput=()=>{const value=Number($('quick-scale').value);$('quick-scale-value').textContent=value+'%';void save({scale:value});};
+$('scale-reset').onclick=()=>save({scale:100});
 $('pause').onclick=()=>save({paused:!info.settings.paused});
 for(const mode of ['pet','room'])$('return-'+mode).onclick=async()=>{const result=await api.exit(mode);if(!result.ok)$('status').textContent=result.message;};
 $('preview').onclick=()=>{setPanel(false);previewUntil=performance.now()+700;motion.pulse();};

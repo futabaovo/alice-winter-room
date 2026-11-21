@@ -6,7 +6,7 @@ const $=id=>document.getElementById(id);
 export async function initChat({voice,replyPerformance,showPanel,isPet=false,petOptions,stickers}){
   let sequence=0,busy=false,preparing=false,composing=false,compositionEnd=0;
   let companion,inFlight=null,presentation=null;
-  petOptions?.subscribe((value,old)=>{if(isPet&&old.voiceReply&&!value.voiceReply){voice.stop();if(presentation){replyPerformance.startText(presentation.token);stickers.text(presentation.stickerToken);}$('chat-status').textContent='已切换为文字回复。';}});
+  petOptions?.subscribe((value,old)=>{if(old.voiceReply&&!value.voiceReply){voice.stop();if(presentation){replyPerformance.startText(presentation.token);stickers.text(presentation.stickerToken);}$('chat-status').textContent='已切换为文字回复。';}});
   const input=$('chat-input'),form=$('chat-form');
   const resizeInput=()=>{input.style.height='auto';input.style.height=Math.min(input.scrollHeight+2,84)+'px';};
   input.addEventListener('input',resizeInput);
@@ -48,12 +48,11 @@ export async function initChat({voice,replyPerformance,showPanel,isPet=false,pet
     document.dispatchEvent(new CustomEvent('alice:reply-present',{detail:{ja:reply.ja,zh:reply.zh}}));
     replyPerformance.accept(performanceToken,reply);status(reply.source==='proactive'?'有珠主动说了一句。':'已回答。');
     if($('chat-auto-voice').checked){
-      if(!reply.voiceEligible){text();status('回答较长，本次显示文字。');return reply;}
       const available=await window.aliceDesktop.voiceInfo();if(request!==sequence)return;
       if(!$('chat-auto-voice').checked){text();return reply;}
-      if(!available.available){text();status('已回答；选择本机语音环境后可朗读新回答。');return reply;}
-      status('正在用有珠的声音朗读…');
-      try{const result=await voice.speakText(reply.ja,reply.zh,{preserveMood:true,beforePlay:item=>replyPerformance.attachSpeech(performanceToken,item)});if(request===sequence&&result.played){presentation.speechId=voice.player.snapshot().id;stickers.speech(stickerToken,voice.player.snapshot());status('正在朗读…');}}
+      if(!available.available){text();status('已回答；请配置有珠声线，或安装系统中文/日语语音以朗读新回答。');return reply;}
+      status(available.customAvailable&&reply.voiceEligible?'正在生成有珠声线…':'正在生成系统朗读…');
+      try{const result=await voice.speakText(reply.ja,reply.zh,{reply:true,preserveMood:true,beforePlay:item=>replyPerformance.attachSpeech(performanceToken,item)});if(request===sequence&&result.played){presentation.speechId=voice.player.snapshot().id;stickers.speech(stickerToken,voice.player.snapshot());status('正在朗读 · '+(result.voiceSource||'有珠声线')); }}
       catch(error){if(request===sequence){text();status('文字已保留；'+error.message);}}
     }else text();
     return reply;

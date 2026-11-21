@@ -3,16 +3,28 @@ const path=require('node:path');
 const readline=require('node:readline');
 const {spawn,execFile}=require('node:child_process');
 const {validateSpeechCues}=require('./reply-plan.cjs');
+const {SystemVoice}=require('./system-voice.cjs');
 
 class VoiceHost {
   constructor({profile,developmentRoot,launchDirectory,override}){
     this.profile=profile;this.cache=path.join(profile,'speech-cache');this.child=null;this.pending=new Map();this.counter=0;this.ready=false;this.busy=false;this.starting=null;this.device=null;
     this.config=path.join(profile,'voice-workspace.json');
     let saved;try{saved=JSON.parse(fs.readFileSync(this.config,'utf8')).workspace;}catch{}
-    this.workspace=[override,saved,developmentRoot,launchDirectory&&path.resolve(launchDirectory,'..')].find(root=>this.valid(root))||null;
+    const ancestors=[];if(launchDirectory){let folder=path.resolve(launchDirectory);for(let i=0;i<4;i++){ancestors.push(folder);const parent=path.dirname(folder);if(parent===folder)break;folder=parent;}}
+    this.workspace=[override,saved,developmentRoot,...ancestors].find(root=>this.valid(root))||null;
+    this.system=new SystemVoice({cache:this.cache});this.systemAvailable=false;
   }
   valid(root){return typeof root==='string'&&['.cache/gpt-sovits-env/Scripts/python.exe','training/alice-ja/outputs/voice-pilot-v1/weights/GPT/alice_ja_pilot_v1-e10.ckpt','training/alice-ja/outputs/voice-pilot-v1/weights/SoVITS/alice_ja_pilot_v1_e8_s304.pth','.cache/GPT-SoVITS/GPT_SoVITS/pretrained_models/chinese-hubert-base/config.json'].every(p=>fs.existsSync(path.join(root,p)));}
-  info(){return {available:this.valid(this.workspace),ready:this.ready,busy:this.busy,starting:Boolean(this.starting),device:this.device};}
+  info(){const customAvailable=this.valid(this.workspace);return {available:customAvailable||this.systemAvailable,customAvailable,systemAvailable:this.systemAvailable,voiceSource:customAvailable?'有珠声线 · 日语':this.systemAvailable?'Windows 系统朗读':'未配置语音',ready:this.ready,busy:this.busy,starting:Boolean(this.starting),device:this.device};}
+  async refreshInfo(){this.systemAvailable=await this.system.available();return this.info();}
+  async synthesizeReply(ja,zh){
+    if(typeof ja!=='string'||!ja.trim()||ja.length>1500||typeof zh!=='string'||!zh.trim()||zh.length>2000)throw Error('回答语音文本无效。');
+    if(this.valid(this.workspace)&&zh.length<=240&&ja.trim().length<=120&&ja.trim().split(/(?<=[。！？!?])|[\r\n]+/).every(s=>s.length<=60))return this.synthesize(ja,zh);
+    if(this.busy)throw Error('正在生成上一句，请稍候。');this.busy=true;
+    try{const a=await this.system.synthesize(ja,zh);this.lastGenerated=a.file;this.prune();return {id:'system-'+(++this.counter),title:a.voiceSource,bytes:new Uint8Array(a.bytes),duration:a.duration,engine:a.engine,language:a.language,voiceSource:a.voiceSource,speechCues:[],cues:[{start:0,end:a.duration,ja:ja.trim(),zh:zh.trim()}]};}
+    finally{this.busy=false;}
+  }
+  prune(){const cached=fs.readdirSync(this.cache).filter(name=>/^[a-f0-9]{32}\.wav$/.test(name)).map(name=>({file:path.join(this.cache,name),modified:fs.statSync(path.join(this.cache,name)).mtimeMs})).sort((a,b)=>b.modified-a.modified);for(const entry of cached.slice(20))try{fs.unlinkSync(entry.file);}catch{}}
   async configure(root){if(!this.valid(root))throw Error('所选文件夹里没有完整的语音训练环境，请选择 live2d 项目文件夹。');await this.stop();this.workspace=path.resolve(root);fs.mkdirSync(this.profile,{recursive:true});fs.writeFileSync(this.config,JSON.stringify({workspace:this.workspace}));return this.info();}
   start(){
     if(this.ready)return Promise.resolve(this.info());if(this.starting)return this.starting;
@@ -60,12 +72,12 @@ class VoiceHost {
       const stat=fs.statSync(file);if(stat.size<44||stat.size>8*1024*1024)throw Error('语音输出大小异常。');
       const bytes=fs.readFileSync(file);if(bytes.toString('ascii',0,4)!=='RIFF')throw Error('语音输出格式异常。');
       this.lastGenerated=file;
-      const cached=fs.readdirSync(this.cache).filter(name=>/^[a-f0-9]{32}\.wav$/.test(name)).map(name=>({file:path.join(this.cache,name),modified:fs.statSync(path.join(this.cache,name)).mtimeMs})).sort((a,b)=>b.modified-a.modified);
-      for(const entry of cached.slice(20))try{fs.unlinkSync(entry.file);}catch{}
-      return {id:'generated-'+id,title:'刚刚生成的台词',bytes:new Uint8Array(bytes),duration:result.duration,speechCues:validateSpeechCues(result.cues,ja.trim(),result.duration),cues:[{start:0,end:result.duration,ja:ja.trim(),zh:zh.trim()||'（未填写中文字幕）'}]};
+      this.prune();
+      return {id:'generated-'+id,title:'刚刚生成的台词',engine:'alice',language:'ja-JP',voiceSource:'有珠声线 · 日语',bytes:new Uint8Array(bytes),duration:result.duration,speechCues:validateSpeechCues(result.cues,ja.trim(),result.duration),cues:[{start:0,end:result.duration,ja:ja.trim(),zh:zh.trim()||'（未填写中文字幕）'}]};
     }finally{this.busy=false;}
   }
   async stop(){
+    this.system.stop();
     const child=this.child;if(!child)return this.info();this.child=null;this.ready=false;this.device=null;
     for(const request of this.pending.values()){clearTimeout(request.timer);request.reject(Error('语音模型已关闭。'));}this.pending.clear();
     // The Python venv launcher owns a Python child on Windows. Stop only this

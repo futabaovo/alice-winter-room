@@ -38,24 +38,24 @@ export async function initVoice(setMood,{onManual=()=>{}}={}){
   $('voice-volume').oninput=()=>{player.setVolume(Number($('voice-volume').value)/100);$('voice-volume-value').textContent=$('voice-volume').value+'%';};
   async function showInfo(result){
     if(!result?.ok)throw Error(result?.message||'无法连接本机语音环境。');
-    $('voice-start').disabled=result.ready||generating;
+    $('voice-start').disabled=!(result.customAvailable??result.available)||result.ready||generating;
     $('voice-unload').disabled=!result.ready&&!result.starting;
-    $('voice-engine-status').textContent=result.ready?'本机语音模型已就绪':result.available?'已找到本机语音环境；首次生成时加载模型。':'请选择已配置语音环境的 live2d 项目文件夹。';
+    $('voice-engine-status').textContent=result.ready?'本机语音模型已就绪':result.customAvailable?'已找到有珠声线；聊天时自动朗读，首次使用会加载模型。':result.systemAvailable?'系统朗读已就绪；未配置有珠声线时使用 Windows 中文/日语声音。':'请选择已配置语音环境的 live2d 项目文件夹。';
   }
-  async function speakText(ja,zh,{preserveMood=false,beforePlay=()=>{}}={}){
+  async function speakText(ja,zh,{reply=false,preserveMood=false,beforePlay=()=>{}}={}){
     if(!window.aliceDesktop)throw Error('请在桌面程序中使用本机合成。');
     if(generating)throw Error('上一句正在生成，请稍候。');
-    if(!ja.trim()||ja.trim().length>120)throw Error('请输入 1–120 字的日语台词。');
+    if(!ja.trim()||ja.trim().length>(reply?1500:120))throw Error('请输入 1–120 字的日语台词。');
     const request=++requestSequence;player.stop();generating=true;$('voice-generate').disabled=true;$('voice-stop').disabled=false;
-    $('voice-engine-status').textContent='正在生成日语语音；首次使用会先加载模型…';
+    $('voice-engine-status').textContent=reply?'正在准备语音回复…':'正在生成日语语音；首次使用会先加载模型…';
     try{
-      const result=await window.aliceDesktop.voiceSpeak({ja,zh});
+      const result=await window.aliceDesktop.voiceSpeak({ja,zh,reply});
       if(!result.ok)throw Error(result.message);
       lastGenerated=result;
       for(const option of $('voice-select').querySelectorAll('[data-generated]'))option.remove();
       const option=document.createElement('option');option.value=result.id;option.textContent=result.title;option.dataset.generated='true';$('voice-select').append(option);$('voice-select').value=result.id;
       if(request===requestSequence){if(!preserveMood&&$('voice-expression').checked)setMood(0);beforePlay(result);await player.play(result);}
-      return {duration:result.duration,played:request===requestSequence};
+      return {duration:result.duration,played:request===requestSequence,voiceSource:result.voiceSource,engine:result.engine};
     }finally{generating=false;$('voice-generate').disabled=false;$('voice-stop').disabled=!player.item;await showInfo(await window.aliceDesktop.voiceInfo());}
   }
   $('voice-form').onsubmit=event=>{event.preventDefault();onManual();speakText($('voice-ja').value,$('voice-zh').value).catch(reason=>{$('voice-engine-status').textContent=reason.message;});};

@@ -21,7 +21,8 @@ export async function initPetEdge({api,character,reaction,setChat,onActive,getVo
     const eyeY=y((face.left+face.right)/2,face.top+face.height*.30),headTop=Math.min(y(hat.left,hat.top),y(hat.right,hat.top)),cx=(face.left+face.right)/2,hasBook=!character.outfit||character.outfit==='winter';
     // At the very bottom, lift the complete book/forearms into view. Keeping
     // only the chin inside the viewport would cut off both wrists.
-    const bottom=hasBook?Math.max(y(cx-face.width*1.8,face.bottom+face.width*1.95),y(cx+face.width*1.8,face.bottom+face.width*1.95)):Math.max(y(face.left,face.bottom),y(face.right,face.bottom));
+    const body=character.characterStyle==='chibi'&&character.outfit==='penguin'?character.chibi?.bounds.body:null;
+    const bottom=body?Math.max(...[body.left,body.right].flatMap(x=>[body.top,body.bottom].map(top=>y(x,top)))):hasBook?Math.max(y(cx-face.width*1.8,face.bottom+face.width*1.95),y(cx+face.width*1.8,face.bottom+face.width*1.95)):Math.max(y(face.left,face.bottom),y(face.right,face.bottom));
     motion.setVertical(Math.max(6-headTop,Math.min(innerHeight-6-bottom,state.edge.anchorY-eyeY)),snap||!verticalPrepared);verticalPrepared=true;
   };
   const active=()=>onActive(viewActive&&!state.edge.paused&&state.edge.phase!=='hidden');

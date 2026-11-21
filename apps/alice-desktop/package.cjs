@@ -3,6 +3,7 @@ const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypt
 const {execFileSync}=require('node:child_process');
 const {copyApplication}=require('./release-files.cjs');
 require('./build-keyboard.cjs').buildKeyboard();
+require('./build-system-voice.cjs').buildSystemVoice();
 const root=path.resolve(__dirname,'../..'),version=require('./package.json').version;
 const outputArg=process.argv.find(a=>a.startsWith('--output='));
 const output=outputArg?path.resolve(outputArg.slice(9)):path.join(root,'release','v'+version);
@@ -37,7 +38,7 @@ const single=path.join(output,exeName);
 execFileSync(compiler,['/nologo','/target:winexe','/platform:x64','/optimize+','/win32icon:'+path.join(__dirname,'icon.ico'),'/reference:System.Windows.Forms.dll','/reference:System.Drawing.dll','/reference:System.IO.Compression.dll','/reference:System.IO.Compression.FileSystem.dll','/resource:'+zip+',Alice.Payload','/resource:'+path.join(__dirname,'web/scene/winter-room-restored.png')+',Alice.SplashBackground','/resource:'+path.join(__dirname,'web/startup/robin-flight.png')+',Alice.SplashRobin','/out:'+single,generated,metadata],{stdio:'inherit',windowsHide:true});
 for(const name of ['使用说明.txt','RELEASE-NOTES.md','THIRD-PARTY-NOTICES.md'])fs.copyFileSync(path.join(__dirname,'release-docs',name),path.join(output,name));
 const artifacts=[exeName,zipName].map(file=>({file,bytes:fs.statSync(path.join(output,file)).size,sha256:sha(path.join(output,file))}));
-const report={version,platform:'win32-x64',electron:require(path.join(root,'node_modules/electron/package.json')).version,runtimeCache:key,artifacts,voiceClips:voices.clips.length,modelSHA256:sha(path.join(runtime,'resources/app/web/model/AliceKuonjiWinter.moc3')),includesProfiles:false,includesTrainingData:false,includesNeuralWeights:false,voiceSynthesis:'Requires separately configured local voice workspace',codeSigned:false};
+const report={version,platform:'win32-x64',electron:require(path.join(root,'node_modules/electron/package.json')).version,runtimeCache:key,artifacts,voiceClips:voices.clips.length,modelSHA256:sha(path.join(runtime,'resources/app/web/model/AliceKuonjiWinter.moc3')),includesProfiles:false,includesTrainingData:false,includesNeuralWeights:false,voiceSynthesis:'Chat replies prefer configured Alice Japanese voice; Windows local Chinese/Japanese speech is available without training weights',codeSigned:false};
 fs.writeFileSync(path.join(output,'build-manifest.json'),JSON.stringify(report,null,2)+'\n');
 fs.writeFileSync(path.join(output,'SHA256SUMS.txt'),artifacts.map(a=>a.sha256+'  '+a.file).join('\n')+'\n');
 console.log(JSON.stringify({output,...report},null,2));

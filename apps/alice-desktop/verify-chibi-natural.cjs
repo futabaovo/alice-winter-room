@@ -4,7 +4,7 @@ exports.verifyNatural=async(room,output)=>{
  for(const outfit of ['winter','white','penguin']){
   const shots=[];
   for(let mood=0;mood<20;mood++){
-   const sample=await js(`(()=>{aliceApp.wardrobe.set('${outfit}',{save:false});aliceApp.setMood(${mood});aliceApp.settle();aliceApp.renderNow();const c=aliceApp.character,q=c.chibi;c.chibiState.look={x:0,y:0};c.chibiState.blink=1;q.render();const base=q.ctx.getImageData(0,0,512,640).data;let centerDiff=0;for(let i=0;i<base.length;i++)if(base[i]!==q.eyes.basePixels.data[i])centerDiff++;return {centerDiff,index:q.choose().index,eyes:q.eyes.eyes.length};})()`);
+   const sample=await js(`(()=>{aliceApp.wardrobe.set('${outfit}',{save:false});aliceApp.setMood(${mood});aliceApp.settle();aliceApp.renderNow();const c=aliceApp.character,q=c.chibi;c.chibiState.look={x:0,y:0};c.chibiState.blink=1;q.render();const base=q.ctx.getImageData(0,0,q.surface.width,q.surface.height).data;let centerDiff=0;for(let i=0;i<base.length;i++)if(base[i]!==q.eyes.basePixels.data[i])centerDiff++;return {centerDiff,index:q.choose().index,eyes:q.eyes.eyes.length};})()`);
    assert.equal(sample.centerDiff,0,`${outfit}/${mood}: original eyes at rest`);
    for(const opening of [1,.55,.12,0]){
     const shot=await js(`(()=>{const c=aliceApp.character,q=c.chibi;c.chibiState.blink=${opening};q.render();const f=q.local.face,canvas=document.createElement('canvas');canvas.width=260;canvas.height=240;const g=canvas.getContext('2d');g.fillStyle='#eee5db';g.fillRect(0,0,260,240);const w=f.width*1.6,h=f.height*1.8,k=Math.min(260/w,240/h);g.drawImage(q.surface,f.left-f.width*.3,f.top-f.height*.55,w,h,(260-w*k)/2,(240-h*k)/2,w*k,h*k);return {image:canvas.toDataURL(),index:q.choose().index};})()`);

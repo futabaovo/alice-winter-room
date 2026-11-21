@@ -13,10 +13,10 @@ export function chibiHeadPoint(x,y,face,pose){
   const weight=smooth((pivotY-y)/(face.height*.32)),angle=pose.angle*weight,dx=x-cx,dy=y-pivotY;
   return {x:cx+dx*Math.cos(angle)-dy*Math.sin(angle),y:pivotY+dx*Math.sin(angle)+dy*Math.cos(angle)+pose.nod*weight};
 }
-export function chibiHeadMesh(columns=16,rows=24){
+export function chibiHeadMesh(columns=16,rows=24,width=512,height=640){
   const positions=new Float32Array((columns+1)*(rows+1)*2),uvs=new Float32Array(positions.length),local=new Float32Array(positions.length),indices=[];
   for(let row=0;row<=rows;row++)for(let col=0;col<=columns;col++){
-    const i=(row*(columns+1)+col)*2;local[i]=512*col/columns;local[i+1]=640*row/rows;uvs[i]=col/columns;uvs[i+1]=1-row/rows;
+    const i=(row*(columns+1)+col)*2;local[i]=width*col/columns;local[i+1]=height*row/rows;uvs[i]=col/columns;uvs[i+1]=1-row/rows;
     if(row<rows&&col<columns){const n=row*(columns+1)+col;indices.push(n,n+1,n+columns+1,n+1,n+columns+2,n+columns+1);}
   }
   return {positions,uvs,local,indices:new Uint16Array(indices)};

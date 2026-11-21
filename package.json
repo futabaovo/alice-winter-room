@@ -1,8 +1,8 @@
 {
   "name": "alice-winter-room",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "private": true,
-  "description": "有珠 · 冬日小室 — Windows 桌面陪伴与互动应用",
+  "description": "有珠 · 冬日小室 — Windows desktop pet fan project",
   "engines": {
     "node": ">=22.12.0"
   },

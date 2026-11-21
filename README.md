@@ -1,24 +1,23 @@
 # 有珠 · 冬日小室
 
-Windows x64 小室与透明桌宠，同人应用 **1.1**（程序版本 **1.1.0**）。基于 Electron 与现有 Live2D 模型。
+陪久远寺有珠泡一杯红茶，或者让她把书带到你的桌面。Windows 10/11 x64 Live2D 同人桌宠，当前版本 **1.1.2**。
 
-![冬日小室](docs/room-v1.1.jpg)
+![有珠在冬日小室](docs/room.png)
 
-面向 Windows 10/11 的 Intel/AMD 64 位电脑，需显卡驱动支持 WebGL2。Windows 7/8/8.1、32 位系统不在本包支持范围；ARM 的模拟运行尚未验证。无需为显示角色额外安装 Node.js 或 Python，内置语音可离线使用。
+## 下载安装
 
-## 使用发布版
+在 [GitHub Releases](https://github.com/futabaovo/alice-winter-room/releases) 下载 Windows x64 单文件 EXE，或解压便携 ZIP 后运行其中的 AliceKuonji.exe。运行发行版需要支持 WebGL2 的显卡驱动，无需另装 Node.js、Python 或 Live2D 编辑器。
 
-在 [1.1 发布页](https://github.com/futabaovo/alice-winter-room/releases/tag/v1.1.0) 下载单文件 EXE，或下载便携 ZIP 并解压后运行其中的 AliceKuonji.exe。仓库与下载公开访问，无需成为协作者。无需 Node.js、Python 或 Live2D 编辑器。详情见 [使用说明](apps/alice-desktop/release-docs/使用说明.txt)。
+升级前请关闭正在运行的旧版。正式版沿用应用数据目录 AliceKuonjiWinter/2.4。详情见 [使用说明](apps/alice-desktop/release-docs/使用说明.txt)。
 
 ## 功能
 
-- 小室 / 透明桌宠、三套衣装、20 种差分表情与预览。
-- 抚摸举书、Robin 来访、寿司投喂、红茶品质与泡茶。
-- 侧边隐藏、定时偷看、临时企鹅装、连续大小与透明度。
-- 对话与附图、头顶双语字幕、可选语音、话后表情包。
-- 独立记忆、存档、可选主动交流、Robin 飞行启动画面。
+- 冬日小室与透明桌宠，支持立绘、Q 版、三套衣装和 20 种表情。
+- 抚摸举书、侧边偷看、Robin 来访、寿司投喂与泡茶互动。
+- 书本保卫战与像素键盘模式，提供视线跟随和快捷键动作。
+- 对话与附图、双语字幕、口型同步、记忆和存档。
 
-对话需要用户自己的 API 或已登录的本机 Codex。内置音频可离线播放；自由合成语音需要另行配置的 GPT-SoVITS 本机环境，本仓库不含其权重、训练数据和 Python 环境。
+内置台词可离线播放。对话使用自己的 API 或已登录的本机 Codex。1.1.2 支持使用已配置的本地有珠声线，也能用 Windows 系统语音朗读。训练声线的推理环境和权重需要另行配置。
 
 ## 从源码运行
 
@@ -30,16 +29,12 @@ npm start
 npm test
 ```
 
-已提交运行所需的角色、美术、内置音频和 Core；资源无需从训练目录重新生成。单独重做表情定义可运行 `node apps/alice-desktop/prepare-expressions.cjs`。
+打包使用 Windows x64、7-Zip 和系统 .NET Framework C# 编译器。运行 `npm run package`，文件输出至 `release/v1.1.2/`。可通过 `SEVEN_ZIP` 与 `CSC_PATH` 指定工具路径。
 
-## 打包
+## 验证与素材
 
-在 Windows x64 安装 7-Zip 和系统 .NET Framework C# 编译器后运行 `npm run package`。默认寻找标准安装位置，可用 SEVEN_ZIP 和 CSC_PATH 指定工具。输出在 release/v1.1.0/；已有目录时拒绝覆盖。包内含 Electron/Chromium 许可、第三方说明、单文件 EXE、便携 ZIP 和 SHA-256。
+- [版本更新记录](apps/alice-desktop/release-docs/RELEASE-NOTES.md)
+- [验证记录](docs/VALIDATION.md)
+- [素材与第三方说明](apps/alice-desktop/release-docs/THIRD-PARTY-NOTICES.md)
 
-正式用户配置独立于仓库，继续保存在应用数据目录 AliceKuonjiWinter/2.4。源码预览配置不自动导入。
-
-## 验收与来源
-
-发布检查摘要见 [验证记录](docs/VALIDATION.md)。改动记录见 [RELEASE-NOTES](apps/alice-desktop/release-docs/RELEASE-NOTES.md)。
-
-[素材与第三方说明](apps/alice-desktop/release-docs/THIRD-PARTY-NOTICES.md)：非官方同人项目，第三方素材适用各自条件；人设改写文本另见所附 CC BY-NC-SA 4.0 说明。公开下载不替代各项素材的使用许可，未将所有混合素材声明为统一开源许可。
+本项目为非官方同人应用，相关角色和素材保留各自的使用条件。

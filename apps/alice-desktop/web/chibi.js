@@ -7,12 +7,12 @@ const clamp=(n,a=0,b=1)=>Math.max(a,Math.min(b,n));
 const ids=['neutral','smile','displeased','surprised','reserved','thinking','rest','cold','downcast','aside','bow','softSmile','stern','speechless','skeptical','smug','sigh','startled','puzzled','dizzy'];
 const rect=(left,top,width,height)=>({left,top,right:left+width,bottom:top+height,width,height});
 export class ChibiCharacter{
-  constructor(character){this.character=character;this.surface=document.createElement('canvas');this.surface.width=512;this.surface.height=640;this.ctx=this.surface.getContext('2d');this.images={};this.frames={};this.last=null;this.bounds={};this.cacheKey='';}
+  constructor(character){this.character=character;this.surface=document.createElement('canvas');this.surface.width=640;this.surface.height=768;this.ctx=this.surface.getContext('2d');this.images={};this.frames={};this.last=null;this.bounds={};this.cacheKey='';}
   async load(){
     const manifest=await fetch('chibi/atlas.json').then(r=>{if(!r.ok)throw Error('Q 版动作目录缺失。');return r.json();});
     await Promise.all(Object.entries(manifest.sheets).map(async([id,sheet])=>{const image=new Image();image.src='chibi/'+sheet.image;await image.decode();if(image.width!==sheet.width||image.height!==sheet.height)throw Error('Q 版动作图尺寸不符：'+id);this.images[id]=image;this.frames[id]=sheet.grid?this.readGrid(image,...sheet.grid):sheet.frames.map(f=>f.rect);}));
     this.texture=this.character.textureFromImage(this.surface);
-    this.mesh=chibiHeadMesh();this.eyes=new ChibiEyeLayers();
+    this.mesh=chibiHeadMesh(20,28,this.surface.width,this.surface.height);this.eyes=new ChibiEyeLayers();
     // Texture coordinates follow the renderer's top-left UV convention.
     this.ready=true;const preview=document.getElementById('character-chibi-preview');if(preview)this.preview(preview);
   }
@@ -56,7 +56,7 @@ export class ChibiCharacter{
   }
   paint(pose){
     const g=this.ctx,W=this.surface.width,H=this.surface.height,f=this.frames[pose.sheet][pose.index],unit=pose.sheet.startsWith('idle-')?this.frames[pose.sheet][0][3]:pose.sheet==='outfits'?(pose.outfit==='penguin'?290:354):337;
-    const scale=570/unit,w=f[2]*scale,h=f[3]*scale,x=(W-w)/2,y=H-25-h;
+    const scale=Math.min(570/unit,(W-24)/f[2],(H-50)/f[3]),w=f[2]*scale,h=f[3]*scale,x=(W-w)/2,y=H-25-h;
     g.clearRect(0,0,W,H);g.drawImage(this.images[pose.sheet],...f,x,y,w,h);
     const metrics=pose.outfit==='winter'?{x:.50,y:.42,w:.56,h:.19,mouth:.477,hat:.33}:pose.outfit==='white'?{x:.50,y:.372,w:.53,h:.19,mouth:.427,hat:.28}:{x:.50,y:pose.sheet.startsWith('idle-')?.40:.37,w:.39,h:.24,mouth:pose.sheet.startsWith('idle-')?.48:.445,hat:.23};
     if(pose.sheet==='idle-winter')metrics.mouth=.453;
@@ -81,14 +81,21 @@ export class ChibiCharacter{
     const W=cv.clientWidth,H=cv.clientHeight,mode=c.mode,zoom=c.zoom||1;
     let bodyHeight=(mode==='pet'?(c.petHeight??.78)*.94:mode==='room'?.64:mode==='full'?.83:mode==='face'?2.25:1.16)*H*zoom;
     if(mode!=='face'&&mode!=='portrait')bodyHeight=Math.min(bodyHeight,W*(mode==='pet'?1.32:1.15));
+    // Wide costumes must fit the WebGL canvas BEFORE the complete stage tilts
+    // and slides out of the screen. A clipped canvas becomes a diagonal cut.
+    const breath=1+Math.sin((s.clock||0)*1.5)*.003*(s.idle?1:0),angle=this.value('ParamAngleZ')*.0035;
+    const head=chibiHeadPose({idle:s.idle,action:pose.action,gesture:s.gesture,look:s.headLook||look});
+    if(mode==='pet')for(const x of [this.local.body.left,this.local.body.right])for(const y of [this.local.body.top,this.local.body.bottom]){
+      const p=chibiHeadPoint(x,y,this.local.face,head),rx=((p.x-this.surface.width/2)*breath*Math.cos(angle)-(p.y-this.surface.height+25)*Math.sin(angle))/570+this.value('ParamAngleX')*.0015;
+      if(Math.abs(rx)>1e-6)bodyHeight=Math.min(bodyHeight,((rx<0?(c.anchorX??.5)*W:W-(c.anchorX??.5)*W)-8)/Math.abs(rx));
+    }
     const dock=document.getElementById('chat-panel')?.getBoundingClientRect(),roomBottom=(mode==='room'||mode==='full')&&dock?.top>H*.3?Math.min(H*.89,dock.top-14):H*.89;
     if(mode==='full')bodyHeight=Math.min(bodyHeight,roomBottom-H*.05);
-    const scale=bodyHeight/570,breath=1+Math.sin((s.clock||0)*1.5)*.003*(s.idle?1:0);
-    let angle=this.value('ParamAngleZ')*.0035,dx=this.value('ParamAngleX')*.0015*bodyHeight,dy=this.value('ParamAngleY')*.00065*bodyHeight;
+    const scale=bodyHeight/570;
+    let dx=this.value('ParamAngleX')*.0015*bodyHeight,dy=this.value('ParamAngleY')*.00065*bodyHeight;
     const elapsed=s.gesture?(s.clock-s.gesture.start):2;if(elapsed<1.5&&s.gesture?.type==='nod')dy+=Math.sin(elapsed*7)*bodyHeight*.01*Math.sin(elapsed*Math.PI/1.5);
     const centerX=(c.anchorX??.69)*W+dx,bottom=(mode==='pet'?(c.petGround??.945)*H:mode==='room'||mode==='full'?roomBottom:mode==='face'?1.61*H:1.19*H)+dy;
-    const head=chibiHeadPose({idle:s.idle,action:pose.action,gesture:s.gesture,look:s.headLook||look});
-    const pivot={x:centerX,y:bottom},basePoint=(x,y)=>{const px=(x-256)*scale*breath,py=(y-615)*scale;return {x:pivot.x+px*Math.cos(angle)-py*Math.sin(angle),y:pivot.y+px*Math.sin(angle)+py*Math.cos(angle)};},point=(x,y)=>{const p=chibiHeadPoint(x,y,this.local.face,head);return basePoint(p.x,p.y);};
+    const pivot={x:centerX,y:bottom},basePoint=(x,y)=>{const px=(x-this.surface.width/2)*scale*breath,py=(y-this.surface.height+25)*scale;return {x:pivot.x+px*Math.cos(angle)-py*Math.sin(angle),y:pivot.y+px*Math.sin(angle)+py*Math.cos(angle)};},point=(x,y)=>{const p=chibiHeadPoint(x,y,this.local.face,head);return basePoint(p.x,p.y);};
     for(let i=0;i<this.mesh.local.length;i+=2){const p=point(this.mesh.local[i],this.mesh.local[i+1]);this.mesh.positions[i]=p.x*2/W-1;this.mesh.positions[i+1]=1-p.y*2/H;}
     c.drawTextureMesh(this.texture,this.mesh);g.uniform1i(l.useMask,0);c.frames++;c.drawn=1;
     c.placement={anchorX:c.anchorX,scaleX:1,scaleY:1,centerX:0,centerY:0,ground:bottom/H,chibi:true};

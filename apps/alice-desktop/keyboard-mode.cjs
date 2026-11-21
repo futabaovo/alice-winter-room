@@ -6,7 +6,7 @@ function validSettings(value={}){
   const result={};for(const key of ['mouse','paused','pinned','shortcuts'])if(typeof value[key]==='boolean')result[key]=value[key];
   if(['global','local'].includes(value.scope))result.scope=value.scope;
   if(['winter','white','penguin'].includes(value.outfit))result.outfit=value.outfit;
-  for(const [key,min,max]of [['scale',70,150],['intensity',0,100]])if(typeof value[key]==='number'&&Number.isFinite(value[key]))result[key]=Math.round(Math.max(min,Math.min(max,value[key])));
+  for(const [key,min,max]of [['scale',70,200],['intensity',0,100]])if(typeof value[key]==='number'&&Number.isFinite(value[key]))result[key]=Math.round(Math.max(min,Math.min(max,value[key])));
   return result;
 }
 class KeyboardMode {

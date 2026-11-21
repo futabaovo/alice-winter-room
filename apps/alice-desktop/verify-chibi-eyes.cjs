@@ -27,11 +27,11 @@ exports.verifyChibiEyes=async(room,output,{desktopPet})=>{
  for(const outfit of ['winter','white','penguin'])for(let mood=0;mood<20;mood++){
   const checked=await js(`(()=>{
    const c=aliceApp.character;aliceApp.wardrobe.set('${outfit}',{save:false});aliceApp.setMood(${mood});aliceApp.settle();aliceApp.renderNow();c.chibiState.look={x:0,y:0};c.chibi.render();
-   const rig=c.chibi.eyes,g=c.chibi.ctx,base=g.getImageData(0,0,512,640).data,vertices=JSON.stringify(Array.from(c.chibi.mesh.positions));
-   const sample=()=>{const p=g.getImageData(0,0,512,640).data;return rig.eyes.map(e=>{let mass=0,xs=0,ys=0;const a=e.irisAperture||e.aperture;for(let y=Math.max(0,Math.floor(a.top));y<=a.bottom;y++)for(let x=Math.floor(a.left);x<=a.right;x++){const i=(y*512+x)*4,weight=Math.max(0,180-(p[i]+p[i+1]+p[i+2])/3);mass+=weight;xs+=weight*x;ys+=weight*y;}return {x:xs/mass,y:ys/mass};});};
+   const rig=c.chibi.eyes,g=c.chibi.ctx,base=g.getImageData(0,0,c.chibi.surface.width,c.chibi.surface.height).data,vertices=JSON.stringify(Array.from(c.chibi.mesh.positions));
+   const sample=()=>{const p=g.getImageData(0,0,c.chibi.surface.width,c.chibi.surface.height).data;return rig.eyes.map(e=>{let mass=0,xs=0,ys=0;const a=e.irisAperture||e.aperture;for(let y=Math.max(0,Math.floor(a.top));y<=a.bottom;y++)for(let x=Math.floor(a.left);x<=a.right;x++){const i=(y*c.chibi.surface.width+x)*4,weight=Math.max(0,180-(p[i]+p[i+1]+p[i+2])/3);mass+=weight;xs+=weight*x;ys+=weight*y;}return {x:xs/mass,y:ys/mass};});};
    const center=sample(),samples=[];let outsideChanges=0,headChanged=false;const diffExamples=[];
-   for(const look of [{x:-1,y:0},{x:1,y:0},{x:0,y:-1},{x:0,y:1}]){c.chibiState.look=look;c.chibi.render();const p=g.getImageData(0,0,512,640).data;samples.push({look,centers:sample()});if(JSON.stringify(Array.from(c.chibi.mesh.positions))!==vertices)headChanged=true;
-    for(let y=0;y<640;y++)for(let x=0;x<512;x++){if(rig.eyes.some(e=>x>=e.aperture.left-2&&x<=e.aperture.right+2&&y>=e.aperture.top-2&&y<=e.aperture.bottom+2))continue;const i=(y*512+x)*4;if(p[i]!==base[i]||p[i+1]!==base[i+1]||p[i+2]!==base[i+2]||p[i+3]!==base[i+3]){outsideChanges++;if(diffExamples.length<6)diffExamples.push({x,y,before:[...base.slice(i,i+4)],after:[...p.slice(i,i+4)]});}}
+   for(const look of [{x:-1,y:0},{x:1,y:0},{x:0,y:-1},{x:0,y:1}]){c.chibiState.look=look;c.chibi.render();const p=g.getImageData(0,0,c.chibi.surface.width,c.chibi.surface.height).data;samples.push({look,centers:sample()});if(JSON.stringify(Array.from(c.chibi.mesh.positions))!==vertices)headChanged=true;
+    for(let y=0;y<c.chibi.surface.height;y++)for(let x=0;x<c.chibi.surface.width;x++){if(rig.eyes.some(e=>x>=e.aperture.left-2&&x<=e.aperture.right+2&&y>=e.aperture.top-2&&y<=e.aperture.bottom+2))continue;const i=(y*c.chibi.surface.width+x)*4;if(p[i]!==base[i]||p[i+1]!==base[i+1]||p[i+2]!==base[i+2]||p[i+3]!==base[i+3]){outsideChanges++;if(diffExamples.length<6)diffExamples.push({x,y,before:[...base.slice(i,i+4)],after:[...p.slice(i,i+4)]});}}
    }
    return {count:rig.eyes.length,center,samples,outsideChanges,headChanged,diffExamples,gl:c.gl.getError()};
   })()`);
